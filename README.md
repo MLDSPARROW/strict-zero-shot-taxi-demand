@@ -44,6 +44,7 @@ kaggle-fix/    notebook.ipynb: OpenStreetMap feature builder (build_static_featu
 | Table 3 (level predictor selection), day-level significance tests vs baselines | `improve/paper_extra.py` |
 | Per-run paired tests (10 runs), partition-diversity tests | `improve/confirm10.py`, `improve/ens_test.py` |
 | Table 6 (cost of strictness) | `improve/cost_final.py` |
+| Figures 2–6 (maps, scale matching, week of demand, component bars, cost of strictness) | `improve/figures.py` |
 | Poisson noise floor and true-pattern ceilings (diagnostic) | `improve/ceiling.py` |
 | Simple baselines (uniform, jobs, jobs+residents, gravity, XGBoost) | `improve/baselines.py` (functions reused by `paper_numbers.py`) |
 
