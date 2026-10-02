@@ -1,0 +1,20 @@
+
+===== CHICAGO FULLY STRICT, 10-run ensembles, MAE / RMSE / MAPE =====
+  original helpers  eh   2.40 / 6.02 / 50.8%
+  original helpers  eo   2.00 / 5.53 / 74.2%
+  original helpers  avg  2.05 / 5.23 / 56.5%
+  SCALE-MATCHED     eh   2.02 / 6.00 / 71.4%
+  SCALE-MATCHED     eo   1.91 / 5.38 / 69.2%
+  SCALE-MATCHED     avg  1.91 / 5.53 / 67.8%
+  [internal statistics] eh: scale-matched better in 10/10 runs, change -16.7%, paired t p=0.0001
+  [internal statistics] eo: scale-matched better in 9/10 runs, change -8.1%, paired t p=0.0005
+
+===== NYC FULLY STRICT, 10-run ensembles, MAE / RMSE / MAPE =====
+  original helpers  eh   7.60 / 18.16 / 66.6%
+  original helpers  eo   7.76 / 18.32 / 68.7%
+  original helpers  avg  7.60 / 17.91 / 66.3%
+  SCALE-MATCHED     eh   6.96 / 17.43 / 72.9%
+  SCALE-MATCHED     eo   8.08 / 18.73 / 70.4%
+  SCALE-MATCHED     avg  7.42 / 17.68 / 69.8%
+  [internal statistics] eh: scale-matched better in 9/10 runs, change -6.5%, paired t p=0.0097
+  [internal statistics] eo: scale-matched better in 2/10 runs, change +2.9%, paired t p=0.1074

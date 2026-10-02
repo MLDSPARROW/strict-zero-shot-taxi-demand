@@ -1,0 +1,16 @@
+
+===== CHICAGO =====
+  eh one merging (10 runs)    FULLY STRICT full year 2.02 / 6.00 / 71.4%
+  eh 10 different mergings    FULLY STRICT full year 2.01 / 6.33 / 75.7%
+  eh [internal statistics] 10 mergings better in 2/10 runs, change +5.1%, paired t p=0.1260
+  eo one merging (10 runs)    FULLY STRICT full year 1.91 / 5.38 / 69.2%
+  eo 10 different mergings    FULLY STRICT full year 1.80 / 4.83 / 70.1%
+  eo [internal statistics] 10 mergings better in 3/10 runs, change +5.6%, paired t p=0.0512
+
+===== NYC =====
+  eh one merging (10 runs)    FULLY STRICT full year 6.96 / 17.43 / 72.9%
+  eh 10 different mergings    FULLY STRICT full year 6.96 / 17.28 / 72.0%
+  eh [internal statistics] 10 mergings better in 6/10 runs, change +0.6%, paired t p=0.8502
+  eo one merging (10 runs)    FULLY STRICT full year 8.08 / 18.73 / 70.4%
+  eo 10 different mergings    FULLY STRICT full year 8.17 / 18.72 / 70.7%
+  eo [internal statistics] 10 mergings better in 7/10 runs, change +1.4%, paired t p=0.5079

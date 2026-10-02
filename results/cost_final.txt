@@ -1,0 +1,10 @@
+
+===== CHICAGO — December 2021, MAE / RMSE per area per 30 min =====
+A. OUR METHOD (final), strict                    target taxi data: none                 MAE  2.18  RMSE   6.31 | cost of NOT using history: MAE +0.00 (  +0%)  RMSE  +0.00 (  +0%)
+B. OUR METHOD + long history (3 runs per head)   target taxi data: Jan-Nov of target    MAE  1.68  RMSE   5.22 | cost of NOT using history: MAE +0.50 ( +30%)  RMSE  +1.09 ( +21%)
+C. OUR METHOD + recent history (30 min ahead)    target taxi data: Jan-Oct + last 6 h   MAE  1.05  RMSE   2.60 | cost of NOT using history: MAE +1.13 (+108%)  RMSE  +3.71 (+142%)
+
+===== NYC — December 2021, MAE / RMSE per area per 30 min =====
+A. OUR METHOD (final), strict                    target taxi data: none                 MAE  9.44  RMSE  21.02 | cost of NOT using history: MAE +0.00 (  +0%)  RMSE  +0.00 (  +0%)
+B. OUR METHOD + long history (3 runs per head)   target taxi data: Jan-Nov of target    MAE  2.93  RMSE   9.84 | cost of NOT using history: MAE +6.51 (+222%)  RMSE +11.18 (+114%)
+C. OUR METHOD + recent history (30 min ahead)    target taxi data: Jan-Oct + last 6 h   MAE  1.56  RMSE   4.76 | cost of NOT using history: MAE +7.88 (+505%)  RMSE +16.27 (+342%)

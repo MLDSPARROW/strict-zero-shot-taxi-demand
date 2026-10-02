@@ -1,0 +1,53 @@
+=== TABLE 1: data ===
+chicago: year 2021, regions 77, median area 7.39 km2, trips 3,639,126, jobs 1,329,170, transit commuters 241,532, trips per transit commuter 15.07
+nyc: year 2021, regions 263, median area 2.14 km2, trips 30,533,607, jobs 3,869,524, transit commuters 1,728,114, trips per transit commuter 17.67
+sf: year 2023, regions 243, median area 0.35 km2, trips 1,703,882, jobs 680,310, transit commuters 87,355, trips per transit commuter 19.51
+dc: year 2021, regions 206, median area 0.52 km2, trips 1,195,111, jobs 623,334, transit commuters 75,680, trips per transit commuter 15.79
+
+=== TABLE 2 (CHICAGO): FULLY STRICT  MAE / RMSE / MAPE>=5 (full year) | MAE / RMSE (December) ===
+Uniform split                            4.06 / 10.53 / 61.2% | 5.24 / 13.67
+Share by LODES jobs                      2.52 / 8.71 / 78.6% | 3.02 / 10.27
+Share by jobs + residents                2.59 / 7.41 / 55.8% | 3.27 / 9.41
+Gravity (lambda=1 km)                    2.40 / 8.04 / 88.4% | 2.81 / 9.17
+XGBoost on map + calendar features       2.76 / 7.44 / 67.1% | 3.45 / 9.39
+Joint allocator (18 OSM features)        2.68 / 7.13 / 58.3% | 3.50 / 9.49
++ FAA airport branch (head eh)           2.40 / 6.02 / 50.8% | 3.19 / 8.39
++ area offset instead (head eo)          2.00 / 5.53 / 74.2% | 2.64 / 7.74
+Head eh + scale-matched helpers          2.02 / 6.00 / 71.4% | 2.45 / 7.30
+Head eo + scale-matched helpers          1.91 / 5.38 / 69.2% | 2.34 / 6.75
+Head eh + 10 diverse mergings            2.01 / 6.33 / 75.7% | 2.31 / 7.26
+Head eo + 10 diverse mergings            1.80 / 4.83 / 70.1% | 2.24 / 6.27
+FINAL: average of both heads             1.83 / 5.21 / 70.1% | 2.18 / 6.31
+--- LEVEL / RHYTHM ablation for the FINAL method (chicago) ---
+LEVEL unit jobs                : yearly total error +23% -> 1.91 / 5.50 / 73.0%
+LEVEL unit residents           : yearly total error +64% -> 2.64 / 8.60 / 98.7%
+LEVEL unit taxi commuters      : yearly total error +55% -> 2.45 / 7.80 / 92.4%
+LEVEL unit car-free households : yearly total error +17% -> 1.83 / 5.22 / 70.2%
+LEVEL unit transit commuters   : yearly total error +17% -> 1.83 / 5.21 / 70.1%
+RHYTHM without month factor: 2.03 / 6.20 / 77.3%  (per-slot total error 37.6%)
+RHYTHM with month factor (final): per-slot total error 23.9%, yearly total error +16.7%
+FINAL shares with the TRUE city total (diagnostic, not strict): 1.51 / 4.12 / 58.5% | Dec 1.76 / 4.59
+
+=== TABLE 2 (NYC): FULLY STRICT  MAE / RMSE / MAPE>=5 (full year) | MAE / RMSE (December) ===
+Uniform split                            10.03 / 20.29 / 71.0% | 12.78 / 24.54
+Share by LODES jobs                      7.49 / 17.51 / 73.8% | 9.46 / 21.16
+Share by jobs + residents                8.64 / 18.57 / 68.4% | 10.99 / 22.47
+Gravity (lambda=0.5 km)                  7.69 / 18.06 / 68.3% | 9.76 / 21.95
+XGBoost on map + calendar features       8.06 / 18.48 / 75.9% | 10.31 / 22.37
+Joint allocator (18 OSM features)        7.84 / 17.96 / 67.0% | 9.96 / 21.71
++ FAA airport branch (head eh)           7.60 / 18.16 / 66.6% | 9.52 / 21.43
++ area offset instead (head eo)          7.76 / 18.32 / 68.7% | 9.86 / 22.06
+Head eh + scale-matched helpers          6.96 / 17.43 / 72.9% | 8.65 / 20.56
+Head eo + scale-matched helpers          8.08 / 18.73 / 70.4% | 10.35 / 22.80
+Head eh + 10 diverse mergings            6.96 / 17.28 / 72.0% | 8.69 / 20.40
+Head eo + 10 diverse mergings            8.17 / 18.72 / 70.7% | 10.50 / 22.71
+FINAL: average of both heads             7.45 / 17.59 / 69.4% | 9.44 / 21.02
+--- LEVEL / RHYTHM ablation for the FINAL method (nyc) ---
+LEVEL unit jobs                : yearly total error -70% -> 6.40 / 19.67 / 78.1%
+LEVEL unit residents           : yearly total error -59% -> 6.47 / 19.05 / 72.9%
+LEVEL unit taxi commuters      : yearly total error -40% -> 6.71 / 18.27 / 68.5%
+LEVEL unit car-free households : yearly total error -26% -> 6.98 / 17.84 / 67.6%
+LEVEL unit transit commuters   : yearly total error -6% -> 7.45 / 17.59 / 69.4%
+RHYTHM without month factor: 7.59 / 17.86 / 69.5%  (per-slot total error 30.9%)
+RHYTHM with month factor (final): per-slot total error 26.2%, yearly total error -5.6%
+FINAL shares with the TRUE city total (diagnostic, not strict): 7.45 / 17.27 / 70.2% | Dec 9.16 / 20.41

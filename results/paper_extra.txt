@@ -1,0 +1,18 @@
+=== LEVEL unit selection for target chicago (helpers ['nyc', 'sf', 'dc']): mean |error| of the held-out helper's yearly total
+   jobs                  86.5%   (nyc 72%, sf 55%, dc 132%)
+   residents             51.5%   (nyc 55%, sf 49%, dc 51%)
+   population            41.5%   (nyc 47%, sf 22%, dc 55%)
+   taxi commuters        28.2%   (nyc 34%, sf 2%, dc 48%)
+   transit commuters     10.9%   (nyc 1%, sf 14%, dc 18%)
+   car-free households   32.3%   (nyc 24%, sf 16%, dc 57%)
+=== LEVEL unit selection for target nyc (helpers ['chicago', 'sf', 'dc']): mean |error| of the held-out helper's yearly total
+   jobs                  21.7%   (chicago 20%, sf 9%, dc 37%)
+   residents             15.6%   (chicago 25%, sf 11%, dc 10%)
+   population            24.0%   (chicago 41%, sf 25%, dc 5%)
+   taxi commuters        22.3%   (chicago 35%, sf 28%, dc 4%)
+   transit commuters     15.3%   (chicago 16%, sf 21%, dc 9%)
+   car-free households   22.8%   (chicago 7%, sf 29%, dc 32%)
+chicago  FINAL vs share by jobs          MAE: final better on 99% of days, paired t p=1.7e-103, 7-day block bootstrap 95% CI of daily difference [-0.803, -0.584] | MSE: final better on 100% of days, paired t p=3e-114, 7-day block bootstrap 95% CI of daily difference [-55.734, -42.184]
+chicago  FINAL vs base joint allocator   MAE: final better on 95% of days, paired t p=5.2e-81, 7-day block bootstrap 95% CI of daily difference [-1.018, -0.695] | MSE: final better on 65% of days, paired t p=3.1e-28, 7-day block bootstrap 95% CI of daily difference [-33.434, -15.735]
+nyc      FINAL vs share by jobs          MAE: final better on 49% of days, paired t p=0.00075, 7-day block bootstrap 95% CI of daily difference [-0.076, +0.003] | MSE: final better on 39% of days, paired t p=0.026, 7-day block bootstrap 95% CI of daily difference [+0.331, +5.801]
+nyc      FINAL vs base joint allocator   MAE: final better on 100% of days, paired t p=6.3e-119, 7-day block bootstrap 95% CI of daily difference [-0.446, -0.335] | MSE: final better on 78% of days, paired t p=1.2e-53, 7-day block bootstrap 95% CI of daily difference [-16.554, -10.059]
