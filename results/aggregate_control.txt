@@ -1,0 +1,12 @@
+nyc for chicago: target median 7.39 km2, 263 helper regions, K: M 101, R 101, H 182, D 55
+   R: 101 blocks, median block area over 10 partitions 6.86 km2 (range 6.41 to 7.40), airport blocks in last partition 2
+   H: 182 blocks, median block area over 10 partitions 3.68 km2 (range 3.64 to 3.70), airport blocks in last partition 2
+   D: 55 blocks, median block area over 10 partitions 14.51 km2 (range 13.83 to 14.96), airport blocks in last partition 2
+sf for chicago: target median 7.39 km2, 243 helper regions, K: M 21, R 21, H 39, D 12
+   R: 21 blocks, median block area over 10 partitions 6.13 km2 (range 5.37 to 7.32), airport blocks in last partition 0
+   H: 39 blocks, median block area over 10 partitions 3.66 km2 (range 3.46 to 3.78), airport blocks in last partition 0
+   D: 12 blocks, median block area over 10 partitions 15.25 km2 (range 14.76 to 15.96), airport blocks in last partition 0
+sf for nyc: target median 2.14 km2, 243 helper regions, K: M 60, R 60, H 106, D 34
+   R: 60 blocks, median block area over 10 partitions 1.82 km2 (range 1.70 to 1.96), airport blocks in last partition 0
+   H: 106 blocks, median block area over 10 partitions 1.06 km2 (range 0.96 to 1.12), airport blocks in last partition 0
+   D: 34 blocks, median block area over 10 partitions 4.27 km2 (range 4.13 to 4.33), airport blocks in last partition 0

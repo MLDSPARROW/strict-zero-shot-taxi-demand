@@ -1,0 +1,2 @@
+sf: 30 runs, 17516 old slots, 17518 calendar slots; max abs share difference on old slots 1.34e-07 (runs above 1e-5: 0)
+dc: 30 runs, 17506 old slots, 17520 calendar slots; max abs share difference on old slots 1.04e-07 (runs above 1e-5: 0)

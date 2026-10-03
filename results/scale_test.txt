@@ -1,0 +1,36 @@
+
+===== CHICAGO: trip MAE / RMSE of 10-run ensembles =====
+   eh native          2.40 / 6.02
+   eh one partition   2.02 / 6.00
+   eh ten partitions  2.01 / 6.33
+   eo native          2.00 / 5.53
+   eo one partition   1.91 / 5.38
+   eo ten partitions  1.80 / 4.83
+   average of heads, native          2.05 / 5.23
+   average of heads, one partition   1.91 / 5.53
+   average of heads, ten partitions  1.83 / 5.21
+   step tests (mean daily MAE difference, 95% block-bootstrap interval; paired single runs with lower MAE)
+   eh: native -> one partition: -0.385 [-0.490, -0.299], better on 82% of days; single runs better 10/10, mean run MAE 2.62 -> 2.11
+   eh: one partition -> ten partitions: -0.004 [-0.025, +0.012], better on 51% of days; single runs better 2/10, mean run MAE 2.11 -> 2.25
+   eo: native -> one partition: -0.097 [-0.151, -0.053], better on 58% of days; single runs better 9/10, mean run MAE 2.23 -> 2.00
+   eo: one partition -> ten partitions: -0.108 [-0.122, -0.093], better on 89% of days; single runs better 2/10, mean run MAE 2.00 -> 2.10
+   head eh -> average of heads (ten partitions): -0.183 [-0.203, -0.159]
+   head eo -> average of heads (ten partitions): +0.030 [+0.011, +0.044]
+
+===== NYC: trip MAE / RMSE of 10-run ensembles =====
+   eh native          7.60 / 18.16
+   eh one partition   6.96 / 17.43
+   eh ten partitions  6.96 / 17.28
+   eo native          7.76 / 18.32
+   eo one partition   8.08 / 18.73
+   eo ten partitions  8.17 / 18.72
+   average of heads, native          7.60 / 17.91
+   average of heads, one partition   7.42 / 17.68
+   average of heads, ten partitions  7.45 / 17.59
+   step tests (mean daily MAE difference, 95% block-bootstrap interval; paired single runs with lower MAE)
+   eh: native -> one partition: -0.635 [-0.697, -0.575], better on 100% of days; single runs better 10/10, mean run MAE 7.66 -> 7.05
+   eh: one partition -> ten partitions: -0.004 [-0.013, +0.004], better on 46% of days; single runs better 7/10, mean run MAE 7.05 -> 7.09
+   eo: native -> one partition: +0.327 [+0.287, +0.370], better on 0% of days; single runs better 2/10, mean run MAE 7.88 -> 8.12
+   eo: one partition -> ten partitions: +0.085 [+0.079, +0.090], better on 0% of days; single runs better 6/10, mean run MAE 8.12 -> 8.23
+   head eh -> average of heads (ten partitions): +0.496 [+0.443, +0.551]
+   head eo -> average of heads (ten partitions): -0.714 [-0.786, -0.637]

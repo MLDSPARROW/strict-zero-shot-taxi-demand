@@ -1,0 +1,26 @@
+
+===== CHICAGO (final = average of heads eh and eo; MAE / RMSE) =====
+   N         final 2.05 / 5.23  | heads eh 2.40 / 6.02, eo 2.00 / 5.53 | single runs MAE 2.20 +- 0.19, RMSE 5.86 +- 0.66
+   M laptop  final 1.83 / 5.21  | heads eh 2.01 / 6.33, eo 1.80 / 4.83 | single runs MAE 1.98 +- 0.07, RMSE 5.98 +- 0.52
+   M         final 1.82 / 5.14  | heads eh 1.88 / 5.63, eo 1.81 / 4.91 | single runs MAE 1.95 +- 0.06, RMSE 5.86 +- 0.45
+   R         final 2.77 / 8.24  | heads eh 3.17 / 9.04, eo 2.51 / 7.70 | single runs MAE 2.94 +- 0.26, RMSE 8.58 +- 0.84
+   H         final 1.85 / 4.59  | heads eh 1.96 / 5.21, eo 1.95 / 5.19 | single runs MAE 1.99 +- 0.09, RMSE 5.31 +- 0.54
+   D         final 2.04 / 5.91  | heads eh 2.29 / 7.36, eo 1.90 / 4.99 | single runs MAE 2.19 +- 0.12, RMSE 6.54 +- 0.80
+   N         minus M: mean daily MAE difference +0.232 [+0.154, +0.323], M better on 64% of days
+   R         minus M: mean daily MAE difference +0.949 [+0.781, +1.143], M better on 93% of days
+   H         minus M: mean daily MAE difference +0.030 [-0.006, +0.074], M better on 42% of days
+   D         minus M: mean daily MAE difference +0.222 [+0.185, +0.265], M better on 96% of days
+   M laptop  minus M: mean daily MAE difference +0.008 [+0.005, +0.012], M better on 57% of days
+
+===== NYC (final = average of heads eh and eo; MAE / RMSE) =====
+   N         final 7.60 / 17.91  | heads eh 7.60 / 18.16, eo 7.76 / 18.32 | single runs MAE 7.64 +- 0.18, RMSE 18.07 +- 0.29
+   M laptop  final 7.45 / 17.59  | heads eh 6.96 / 17.28, eo 8.17 / 18.72 | single runs MAE 7.52 +- 0.44, RMSE 17.83 +- 0.58
+   M         final 7.45 / 17.55  | heads eh 6.91 / 17.11, eo 8.19 / 18.77 | single runs MAE 7.52 +- 0.49, RMSE 17.81 +- 0.63
+   R         final 8.84 / 18.97  | heads eh 8.12 / 18.26, eo 9.77 / 20.36 | single runs MAE 8.90 +- 0.46, RMSE 19.20 +- 0.67
+   H         final 7.47 / 17.71  | heads eh 7.33 / 17.91, eo 7.74 / 18.13 | single runs MAE 7.54 +- 0.36, RMSE 17.98 +- 0.64
+   D         final 7.37 / 17.24  | heads eh 6.66 / 16.60, eo 8.35 / 18.82 | single runs MAE 7.43 +- 0.32, RMSE 17.48 +- 0.43
+   N         minus M: mean daily MAE difference +0.149 [+0.131, +0.169], M better on 100% of days
+   R         minus M: mean daily MAE difference +1.391 [+1.270, +1.522], M better on 100% of days
+   H         minus M: mean daily MAE difference +0.016 [+0.004, +0.030], M better on 55% of days
+   D         minus M: mean daily MAE difference -0.078 [-0.092, -0.065], M better on 9% of days
+   M laptop  minus M: mean daily MAE difference +0.004 [+0.003, +0.005], M better on 72% of days

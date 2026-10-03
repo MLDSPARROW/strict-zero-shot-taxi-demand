@@ -7,7 +7,7 @@ V = {  # (MAE, RMSE): uniform, jobs, jobs+res, base, final
  "Chicago\ndevelopment": [(4.06, 10.53), (2.52, 8.71), (2.59, 7.41), (2.68, 7.13), (1.83, 5.21)],
  "New York City\ndevelopment": [(10.03, 20.29), (7.49, 17.51), (8.64, 18.57), (7.84, 17.96), (7.45, 17.59)],
  "San Francisco\nheld-out": [(0.56, 1.14), (0.48, 1.15), (0.49, 1.01), (0.52, 1.18), (0.48, 1.08)],
- "Washington, DC\nheld-out, hourly": [(0.94, 2.69), (0.83, 2.69), (0.80, 2.40), (0.86, 2.57), (0.85, 2.66)]}
+ "Washington, DC\nheld-out, hourly": [(0.94, 2.69), (0.83, 2.69), (0.80, 2.40), (0.86, 2.57), (0.86, 2.66)]}
 lab = ["Jobs-proportional", "Jobs + residents", "Base allocator", "This work"]
 col = ["#8c8c8c", "#e07b39", "#2a9d8f", "#1f5aa6"]
 fig, axs = plt.subplots(1, 2, figsize=(7.4, 3.0), sharey=True)

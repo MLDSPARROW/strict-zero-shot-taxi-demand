@@ -1,0 +1,14 @@
+
+===== DC (hourly): 17520 calendar slots, 14 of them without any recorded trip =====
+   Uniform              MAE 0.94  RMSE 2.69
+   Jobs-proportional    MAE 0.83  RMSE 2.69
+   Jobs + residents     MAE 0.80  RMSE 2.40
+   Base allocator       MAE 0.86  RMSE 2.57
+   Head eh              MAE 0.85  RMSE 2.59
+   Head eo              MAE 0.87  RMSE 2.76
+   Final method         MAE 0.86  RMSE 2.66
+   Final: MAE 95% interval [0.80, 0.91], RMSE 95% interval [2.39, 2.93]
+   Final vs Base allocator     MAE diff -0.002 [-0.006, +0.001], better on 39% of days, d_z -0.15 | MSE diff +0.464 [+0.339, +0.567], better on 11% of days, d_z +0.90
+   Final vs Jobs-proportional  MAE diff +0.021 [+0.016, +0.026], better on 24% of days, d_z +0.85 | MSE diff -0.167 [-0.461, +0.153], better on 68% of days, d_z -0.13
+   Final vs Jobs + residents   MAE diff +0.052 [+0.046, +0.057], better on 3% of days, d_z +1.68 | MSE diff +1.289 [+1.055, +1.519], better on 1% of days, d_z +1.32
+   10 single runs: MAE 0.86 +- 0.01 (range 0.86 to 0.88), RMSE 2.70 +- 0.09 (range 2.60 to 2.86)

@@ -1,0 +1,14 @@
+
+===== CHICAGO (17518 calendar slots) =====
+   (1) final strict 1.83 / 5.21 | final shares + true total 1.51 / 4.12 | perfect allocation + strict total 1.33 / 4.00 | perfect allocation + true total 1.02 / 2.85 | Poisson reference level 0.78 / 1.64
+   (2) Jobs-proportional    share MAE 0.01278 | JS 0.1973 | Spearman 0.464 | top-10 recall 0.6
+   (2) Jobs and residents   share MAE 0.01288 | JS 0.2155 | Spearman 0.516 | top-10 recall 0.6
+   (2) Base allocator       share MAE 0.01317 | JS 0.2300 | Spearman 0.601 | top-10 recall 0.6
+   (2) Final                share MAE 0.00953 | JS 0.1420 | Spearman 0.597 | top-10 recall 0.8
+
+===== NYC (17518 calendar slots) =====
+   (1) final strict 7.45 / 17.59 | final shares + true total 7.45 / 17.27 | perfect allocation + strict total 2.31 / 7.42 | perfect allocation + true total 1.45 / 4.53 | Poisson reference level 1.00 / 2.58
+   (2) Jobs-proportional    share MAE 0.00446 | JS 0.2825 | Spearman 0.651 | top-10 recall 0.4
+   (2) Jobs and residents   share MAE 0.00508 | JS 0.3385 | Spearman 0.596 | top-10 recall 0.4
+   (2) Base allocator       share MAE 0.00466 | JS 0.2937 | Spearman 0.760 | top-10 recall 0.3
+   (2) Final                share MAE 0.00444 | JS 0.2690 | Spearman 0.811 | top-10 recall 0.2

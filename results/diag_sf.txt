@@ -1,0 +1,7 @@
+
+===== SF (17518 calendar slots) =====
+   (1) final strict 0.48 / 1.08 | final shares + true total 0.51 / 1.09 | perfect allocation + strict total 0.38 / 0.82 | perfect allocation + true total 0.39 / 0.75 | Poisson reference level 0.36 / 0.63
+   (2) Jobs-proportional    share MAE 0.00557 | JS 0.3541 | Spearman 0.622 | top-10 recall 0.4
+   (2) Jobs and residents   share MAE 0.00562 | JS 0.3616 | Spearman 0.388 | top-10 recall 0.4
+   (2) Base allocator       share MAE 0.00602 | JS 0.4159 | Spearman 0.548 | top-10 recall 0.1
+   (2) Final                share MAE 0.00558 | JS 0.3771 | Spearman 0.578 | top-10 recall 0.3

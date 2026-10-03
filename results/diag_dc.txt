@@ -1,0 +1,7 @@
+
+===== DC (17520 calendar slots) =====
+   (1) final strict 0.43 / 1.33 | final shares + true total 0.38 / 1.24 | perfect allocation + strict total 0.32 / 0.89 | perfect allocation + true total 0.25 / 0.62 | Poisson reference level 0.28 / 0.57
+   (2) Jobs-proportional    share MAE 0.00619 | JS 0.3242 | Spearman 0.557 | top-10 recall 0.8
+   (2) Jobs and residents   share MAE 0.00612 | JS 0.3204 | Spearman 0.648 | top-10 recall 0.8
+   (2) Base allocator       share MAE 0.00644 | JS 0.3513 | Spearman 0.535 | top-10 recall 0.5
+   (2) Final                share MAE 0.00648 | JS 0.3472 | Spearman 0.555 | top-10 recall 0.6

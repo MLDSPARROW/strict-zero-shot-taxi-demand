@@ -1,0 +1,12 @@
+nyc for chicago, q=0.25: native median 2.14 >= goal 1.85 km2 -> native scale
+nyc for chicago, q=0.75: goal 5.54 km2, K 128, median block area 5.66 (range 5.49 to 5.78)
+nyc for chicago, q=1.5: goal 11.09 km2, K 71, median block area 10.79 (range 10.49 to 11.21)
+nyc for chicago, q=4.0: goal 29.57 km2, K 28, median block area 28.80 (range 27.44 to 29.59)
+sf for chicago, q=0.25: goal 1.85 km2, K 67, median block area 1.85 (range 1.78 to 1.93)
+sf for chicago, q=0.75: goal 5.54 km2, K 27, median block area 5.56 (range 5.19 to 5.85)
+sf for chicago, q=1.5: goal 11.09 km2, K 15, median block area 11.41 (range 10.88 to 12.18)
+sf for chicago, q=4.0: goal 29.57 km2, K 8, median block area 26.31 (range 25.51 to 27.37)
+sf for nyc, q=0.25: goal 0.53 km2, K 177, median block area 0.53 (range 0.52 to 0.54)
+sf for nyc, q=0.75: goal 1.60 km2, K 78, median block area 1.60 (range 1.57 to 1.62)
+sf for nyc, q=1.5: goal 3.21 km2, K 43, median block area 3.16 (range 3.05 to 3.25)
+sf for nyc, q=4.0: goal 8.56 km2, K 20, median block area 8.17 (range 7.39 to 8.79)
