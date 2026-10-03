@@ -31,6 +31,12 @@ models can be retrained without a new OpenStreetMap download (see `features/READ
 number of blocks, blocks of half and of twice the target median area, 10 partitions each). The runs were done on Kaggle
 CPU workers (`kaggle/control_worker.py`); the NYC demand file was not part of the uploaded data.
 
+## Block-size sweep
+
+`improve/PROTOCOL_SCALE_SWEEP.md` (time-stamped before the runs) fixes a sweep of the block size, q = 0.25, 0.5, 0.75, 1,
+1.5, 2 and 4 times the target median region area. Data: `improve/aggregate_sweep.py`; runs: `kaggle/sweep_worker.py`;
+evaluation and figure: `improve/sweep_eval.py`. Outputs of all revision analyses are in `results/`.
+
 ## Directory layout
 
 The scripts use relative paths and expect this layout (the same as the original working directory):
