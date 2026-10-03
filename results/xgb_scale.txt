@@ -1,0 +1,6 @@
+chicago  XGBoost native         MAE 2.78 RMSE 7.52 | single runs MAE 2.80 +- 0.04
+chicago  XGBoost scale-matched  MAE 2.45 RMSE 6.99 | single runs MAE 2.89 +- 0.21
+chicago  scale-matched minus native: mean daily MAE difference -0.3280 [-0.3871, -0.2782], scale-matched better on 93% of days
+nyc      XGBoost native         MAE 7.99 RMSE 18.23 | single runs MAE 8.01 +- 0.09
+nyc      XGBoost scale-matched  MAE 6.29 RMSE 16.95 | single runs MAE 6.41 +- 0.32
+nyc      scale-matched minus native: mean daily MAE difference -1.7014 [-1.8547, -1.5657], scale-matched better on 100% of days

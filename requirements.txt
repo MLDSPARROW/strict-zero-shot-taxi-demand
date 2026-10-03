@@ -1,0 +1,12 @@
+# Python 3.10.11. Versions used for every run on the author's laptop (AMD Ryzen 7 4700U, 15.4 GB, CPU only).
+numpy==1.24.3
+pandas==2.3.3
+scipy==1.15.3
+scikit-learn==1.7.2
+torch==2.1.1
+xgboost==2.1.0
+geopandas==1.1.4
+shapely==2.1.2
+osmnx==2.0.7
+requests==2.34.2
+matplotlib==3.10.9

@@ -1,6 +1,6 @@
-# Scale-matched cross-city transfer for strictly zero-shot taxi demand prediction: code
+# Spatial-scale-aware cross-city transfer for strictly zero-shot taxi demand estimation: code
 
-Code accompanying the paper *"Scale-matched cross-city transfer for strictly zero-shot taxi demand prediction"* (M. Ghalejughi). Every number in the paper's tables is produced by the scripts listed below,
+Code accompanying the paper *"Spatial-scale-aware cross-city transfer for strictly zero-shot taxi demand estimation"* (M. Ghalejughi). Every number in the paper's tables is produced by the scripts listed below,
 from saved model predictions.
 
 **Strictness rule enforced throughout:** no taxi data of the target city is used for training, scaling, early stopping,
@@ -96,7 +96,7 @@ added before any held-out result was inspected). Runs: `improve/aggregate_heldou
 
 ## Requirements
 
-Python 3.10, numpy, pandas, geopandas, shapely, scikit-learn, scipy, torch (CPU), xgboost, osmnx, requests.
+Python 3.10.11; exact package versions in `requirements.txt` (`pip install -r requirements.txt`). All runs used CPU only.
 
 ## Notes
 
