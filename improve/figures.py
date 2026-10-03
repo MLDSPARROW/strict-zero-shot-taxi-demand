@@ -46,7 +46,7 @@ for row, tgt in enumerate(["chicago", "nyc"]):
         ax.set_axis_off()
         if row == 0: ax.set_title(title, fontsize=10)
         if col == 0: ax.text(-0.08, 0.5, "Chicago" if tgt == "chicago" else "New York City", transform=ax.transAxes, rotation=90, va="center", ha="center", fontsize=10)
-    sm = plt.cm.ScalarMappable(cmap="magma_r", norm=LogNorm(vmin, vmax)); cb = fig.colorbar(sm, ax=axs[row, :], shrink=0.8, pad=0.01); cb.set_label("Pickups in 2021 (log scale)")
+    sm = plt.cm.ScalarMappable(cmap="magma_r", norm=LogNorm(vmin, vmax)); cb = fig.colorbar(sm, ax=axs[row, :], shrink=0.8, pad=0.01); cb.set_label("Pickups in 2021, log scale")
 save(fig, "fig_maps")
 
 # ---------------- Fig. 3: scale matching illustration (NYC and SF re-aggregated for the Chicago target) ----------------
@@ -70,7 +70,7 @@ save(fig, "fig_scale")
 d0 = (date(2021, 10, 4) - date(2021, 1, 1)).days                      # Monday 4 Oct 2021 .. Sunday 10 Oct 2021
 fig, axs = plt.subplots(2, 2, figsize=(7.2, 4.4), sharex=True)
 x = np.arange(7 * 48) / 48
-for col, (tgt, rid, rname) in enumerate([("chicago", 32, "Loop (community area 32)"), ("nyc", 161, "Midtown Center (zone 161)")]):
+for col, (tgt, rid, rname) in enumerate([("chicago", 32, "Loop, community area 32"), ("nyc", 161, "Midtown Center, zone 161")]):
     Y, P, _ = strict_pred(tgt); rids = np.load(f"{B}/region_static_{tgt}.npz")["rid"]; k = int(np.where(rids == rid)[0][0])
     city_t, city_p = Y[d0:d0 + 7].sum(2).ravel(), P[d0:d0 + 7].sum(2).ravel()
     reg_t, reg_p = Y[d0:d0 + 7, :, k].ravel(), P[d0:d0 + 7, :, k].ravel()
@@ -80,13 +80,13 @@ for col, (tgt, rid, rname) in enumerate([("chicago", 32, "Loop (community area 3
         ax.set_title(title); ax.set_ylabel("Pickups per 30 min")
         if row == 1: ax.set_xticks(np.arange(7) + 0.5); ax.set_xticklabels(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])
 axs[0, 0].legend(frameon=False, loc="upper left")
-fig.text(0.5, -0.01, "Week of 4–10 October 2021", ha="center")
+fig.text(0.5, -0.01, "Week of 4 to 10 October 2021", ha="center")
 fig.tight_layout(); save(fig, "fig_week")
 
 # ---------------- Fig. 5: step-by-step improvements (full year, strict) ----------------
 vals = {"chicago": [(2.68, 7.13), (2.40, 6.02), (2.02, 6.00), (2.01, 6.33), (1.80, 4.83), (1.83, 5.21)],
         "nyc": [(7.84, 17.96), (7.60, 18.16), (6.96, 17.43), (6.96, 17.28), (8.17, 18.72), (7.45, 17.59)]}
-labels = ["Base\nallocator", "+ airport\nbranch (eh)", "eh + scale\nmatching", "eh + 10\npartitions", "eo + 10\npartitions", "Final\n(average)"]
+labels = ["Base\nallocator", "Airport\nbranch, eh", "eh, scale\nmatching", "eh, 10\npartitions", "eo, 10\npartitions", "Final,\naverage"]
 cols = [C["grey"], C["orange"], C["green"], C["green"], C["purple"], C["blue"]]
 fig, axs = plt.subplots(2, 2, figsize=(7.2, 4.6))
 for col, tgt in enumerate(["chicago", "nyc"]):
@@ -100,7 +100,7 @@ fig.tight_layout(); save(fig, "fig_steps")
 
 # ---------------- Fig. 6: cost of strictness (December 2021) ----------------
 cost = {"chicago": [(2.18, 6.31), (1.68, 5.22), (1.05, 2.60)], "nyc": [(9.44, 21.02), (2.93, 9.84), (1.56, 4.76)]}
-lab = ["A. Strict\n(no target data)", "B. + 11 months\nof target data", "C. + recent target\nobservations"]
+lab = ["A. Strict,\nno target data", "B. With 11 months\nof target data", "C. With recent target\nobservations"]
 fig, axs = plt.subplots(1, 2, figsize=(7.2, 2.7))
 for k, tgt in enumerate(["chicago", "nyc"]):
     ax = axs[k]; w = 0.36; xs = np.arange(3)
@@ -108,7 +108,7 @@ for k, tgt in enumerate(["chicago", "nyc"]):
         v = [a[j] for a in cost[tgt]]; bb = ax.bar(xs + (j - 0.5) * w, v, w, color=c, label=nm)
         for b, y in zip(bb, v): ax.text(b.get_x() + b.get_width() / 2, y, f"{y:.2f}", ha="center", va="bottom", fontsize=7.2)
     ax.set_xticks(xs); ax.set_xticklabels(lab, fontsize=7.4); ax.set_title(f"{'Chicago' if tgt == 'chicago' else 'New York City'}, December 2021")
-    ax.set_ylabel("Error (trips per region per 30 min)")
+    ax.set_ylabel("Error, trips per region per 30 min")
 axs[0].legend(frameon=False)
 fig.tight_layout(); save(fig, "fig_cost")
 print("figures written to", OUT)
