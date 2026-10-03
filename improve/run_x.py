@@ -1,4 +1,4 @@
-"""round 6 variants of the multi-source joint allocator (copy of multicity/run_multi.py + switches).
+"""Round 6 variants of the multi-source joint allocator (copy of multicity/run_multi.py + switches).
   x = extra static covariates (Rank 1): log jobs/km2, log residents/km2, log rail stations/km2, airport flag
       (improve/build_extra.py; LODES 2021, OSM, OurAirports -- no taxi demand)
   o = fixed area offset (Rank 2): logits = f(x) + log(area_km2); the learned log-relative-area feature is removed
@@ -37,11 +37,14 @@ import numpy as np
 import torch, torch.nn as nn, torch.nn.functional as F
 from datetime import date, timedelta
 from pandas.tseries.holiday import USFederalHolidayCalendar
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "improve")); from slots import calendar_slots
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 B77 = os.path.join(HERE, "..", "bench77", "data")
 MC = os.path.join(HERE, "..", "multicity", "data")
 torch.set_num_threads(max(1, os.cpu_count() // 2))
+CAL = "--calendar" in sys.argv                  # PROTOCOL_REVISION.md: predict on calendar slots, never read target demand
+sys.argv = [a for a in sys.argv if a != "--calendar"]
 TGT, SRCS = sys.argv[1], sys.argv[2].split(",")
 SEEDS = [int(s) for s in sys.argv[3].split(",")]
 FL = sys.argv[4]; TAG = "_v" + FL
@@ -89,6 +92,16 @@ CITY = {"nyc": (f"{B77}/nyc_2021_zone_30min.npy", f"{B77}/region_static_nyc.npz"
         "sf_for_nyc_p10": (f"{HERE}/data/agg/sf_for_nyc_p10_Y.npy", f"{HERE}/data/agg/sf_for_nyc_p10_static.npz", date(2023, 1, 1), "US"),
         "chicago_hist": (f"{HERE}/data/agg/chicago_hist_Y.npy", f"{HERE}/data/agg/chicago_hist_static.npz", date(2021, 1, 1), "US"),
         "nyc_hist": (f"{HERE}/data/agg/nyc_hist_Y.npy", f"{HERE}/data/agg/nyc_hist_static.npz", date(2021, 1, 1), "US"),
+        "sf_for_dc_p1": (f"{HERE}/data/agg/sf_for_dc_p1_Y.npy", f"{HERE}/data/agg/sf_for_dc_p1_static.npz", date(2023, 1, 1), "US"),
+        "sf_for_dc_p2": (f"{HERE}/data/agg/sf_for_dc_p2_Y.npy", f"{HERE}/data/agg/sf_for_dc_p2_static.npz", date(2023, 1, 1), "US"),
+        "sf_for_dc_p3": (f"{HERE}/data/agg/sf_for_dc_p3_Y.npy", f"{HERE}/data/agg/sf_for_dc_p3_static.npz", date(2023, 1, 1), "US"),
+        "sf_for_dc_p4": (f"{HERE}/data/agg/sf_for_dc_p4_Y.npy", f"{HERE}/data/agg/sf_for_dc_p4_static.npz", date(2023, 1, 1), "US"),
+        "sf_for_dc_p5": (f"{HERE}/data/agg/sf_for_dc_p5_Y.npy", f"{HERE}/data/agg/sf_for_dc_p5_static.npz", date(2023, 1, 1), "US"),
+        "sf_for_dc_p6": (f"{HERE}/data/agg/sf_for_dc_p6_Y.npy", f"{HERE}/data/agg/sf_for_dc_p6_static.npz", date(2023, 1, 1), "US"),
+        "sf_for_dc_p7": (f"{HERE}/data/agg/sf_for_dc_p7_Y.npy", f"{HERE}/data/agg/sf_for_dc_p7_static.npz", date(2023, 1, 1), "US"),
+        "sf_for_dc_p8": (f"{HERE}/data/agg/sf_for_dc_p8_Y.npy", f"{HERE}/data/agg/sf_for_dc_p8_static.npz", date(2023, 1, 1), "US"),
+        "sf_for_dc_p9": (f"{HERE}/data/agg/sf_for_dc_p9_Y.npy", f"{HERE}/data/agg/sf_for_dc_p9_static.npz", date(2023, 1, 1), "US"),
+        "sf_for_dc_p10": (f"{HERE}/data/agg/sf_for_dc_p10_Y.npy", f"{HERE}/data/agg/sf_for_dc_p10_static.npz", date(2023, 1, 1), "US"),
         "austin": (f"{MC}/austin_2016_cell_30min.npy", f"{MC}/region_static_austin.npz", date(2016, 6, 4), "US"),
         "sf": (f"{MC}/sf_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US"),
         "porto": (f"{MC}/porto_region_30min.npy", f"{MC}/region_static_porto.npz", date(2013, 7, 1), "PT"),
@@ -98,6 +111,9 @@ CITY = {"nyc": (f"{B77}/nyc_2021_zone_30min.npy", f"{B77}/region_static_nyc.npz"
         "sf_time": (f"{MC}/sf_time_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US"),
         "sf_space": (f"{MC}/sf_space_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US"),
         "sf_both": (f"{MC}/sf_both_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US")}
+for _c in SRCS:                                   # any other re-aggregated helper in data/agg (e.g. aggregation controls)
+    if _c not in CITY and os.path.exists(f"{HERE}/data/agg/{_c}_Y.npy"):
+        CITY[_c] = (f"{HERE}/data/agg/{_c}_Y.npy", f"{HERE}/data/agg/{_c}_static.npz", date(2023 if _c.startswith("sf_") else 2021, 1, 1), "US")
 FEAT = list(range(18))
 
 
@@ -117,17 +133,21 @@ def cal_fn(start, country):
 
 def load(city):
     yp, sp, start, country = CITY[city]
-    Y = np.load(yp).astype(np.float64); S = np.load(sp)
-    tot = Y.sum(axis=2); cal = cal_fn(start, country)
-    idx = [(d, s) for d in range(Y.shape[0]) for s in range(48) if tot[d, s] > 0]
+    if CAL and city == TGT:                      # target: calendar slots only, its demand file is not opened
+        Y, S, cal = None, np.load(sp), cal_fn(start, country); idx = calendar_slots(city, start)
+    else:
+        Y = np.load(yp).astype(np.float64); S = np.load(sp)
+        tot = Y.sum(axis=2); cal = cal_fn(start, country)
+        idx = [(d, s) for d in range(Y.shape[0]) for s in range(48) if tot[d, s] > 0]
     raw = S["X"][:, [f for f in FEAT if not (OFFSET and f == 16)]].astype(np.float64)
     if EXTRA: raw = np.concatenate([raw, np.load(f"{HERE}/data/extra_{city}.npz")["E"].astype(np.float64)], 1)
     enpl = np.load(f"{HERE}/data/enpl_{city}.npy").astype(np.float64)
     if JOBS: raw = np.concatenate([raw, np.load(f"{HERE}/data/extra_{city}.npz")["E"][:, :1].astype(np.float64)], 1)
     if ENPLF: raw = np.concatenate([raw, np.log1p(enpl)[:, None]], 1)
     return {"Y": Y, "raw": raw, "hub": np.log1p(enpl).astype(np.float32), "la": np.log(S["area_km2"]).astype(np.float32), "area": S["area_km2"], "idx": idx,
-            "C": np.stack([cal(d, s) for d, s in idx]), "Sh": np.stack([Y[d, s] / tot[d, s] for d, s in idx]).astype(np.float32),
-            "T": np.array([tot[d, s] for d, s in idx])}
+            "C": np.stack([cal(d, s) for d, s in idx]),
+            **({} if Y is None else {"Sh": np.stack([Y[d, s] / tot[d, s] for d, s in idx]).astype(np.float32),
+                                     "T": np.array([tot[d, s] for d, s in idx])})}
 
 
 data = {c: load(c) for c in SRCS + [TGT]}
@@ -172,7 +192,7 @@ class Allocator(nn.Module):                      # same joint allocator as bench
         return lp
 
 
-T_ = {c: {k: torch.tensor(data[c][k]) for k in ("X", "C", "Sh", "la", "hub")} for c in data}
+T_ = {c: {k: torch.tensor(data[c][k]) for k in ("X", "C", "Sh", "la", "hub") if k in data[c]} for c in data}
 NF = data[TGT]["X"].shape[1]
 
 
@@ -234,7 +254,8 @@ def evaluate(p):
 
 
 results, preds = {}, []
-out = f"{HERE}/out/multi_{TGT}_from_{'+'.join(SRCS)}{TAG}"
+if CAL: os.makedirs(f"{HERE}/out_cal", exist_ok=True)
+out = f"{HERE}/{'out_cal' if CAL else 'out'}/multi_{TGT}_from_{'+'.join(SRCS)}{TAG}"
 for seed in SEEDS:
     t0 = time.time()
     if os.path.exists(f"{out}_seed{seed}.npy"):          # resume after an interruption: reuse finished seeds
@@ -242,14 +263,15 @@ for seed in SEEDS:
     else:
         p, v, ep = train(seed)
     preds.append(p)
-    r = evaluate(p); r.update({"src_val": v, "epochs": ep, "seconds": round(time.time() - t0)}); results[f"seed{seed}"] = r
-    print(f"  seed {seed}: MAE={r['MAE']:.3f} RMSE={r['RMSE']:.3f} MAPE>=5={r['MAPE_ge5']:.1f}% MAE_share={r['MAE_share']:.5f} "
+    r = {} if CAL else evaluate(p); r.update({"src_val": v, "epochs": ep, "seconds": round(time.time() - t0)}); results[f"seed{seed}"] = r
+    if CAL: print(f"  seed {seed}: prediction saved, {p.shape[0]} calendar slots ({r['seconds']}s, {ep} ep)", flush=True)
+    else: print(f"  seed {seed}: MAE={r['MAE']:.3f} RMSE={r['RMSE']:.3f} MAPE>=5={r['MAPE_ge5']:.1f}% MAE_share={r['MAE_share']:.5f} "
           f"peak={r['peak_ratio']:.2f} ({r['seconds']}s, {ep} ep)", flush=True)
     np.save(f"{out}_seed{seed}.npy", p)
 ens = np.mean(preds, axis=0); ens /= ens.sum(axis=1, keepdims=True)
-results["ensemble"] = evaluate(ens)
-r = results["ensemble"]
-print(f"  ENSEMBLE of {len(preds)}: MAE={r['MAE']:.3f} RMSE={r['RMSE']:.3f} MAPE>=5={r['MAPE_ge5']:.1f}% "
+if not CAL:
+    results["ensemble"] = evaluate(ens); r = results["ensemble"]
+    print(f"  ENSEMBLE of {len(preds)}: MAE={r['MAE']:.3f} RMSE={r['RMSE']:.3f} MAPE>=5={r['MAPE_ge5']:.1f}% "
       f"MAE_share={r['MAE_share']:.5f} peak={r['peak_ratio']:.2f}", flush=True)
 json.dump(results, open(f"{out}.json", "w"), indent=1)
 print("done", flush=True)

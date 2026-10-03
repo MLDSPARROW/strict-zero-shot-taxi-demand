@@ -5,3 +5,5 @@ data/
 *.npz
 raw/
 out/
+!features/*.npz
+!features/*.npy

@@ -1,12 +1,35 @@
-# Strictly zero-shot taxi demand prediction via scale-matched multi-source transfer — code
+# Scale-matched cross-city transfer for strictly zero-shot taxi demand prediction: code
 
-Code accompanying the paper *"Strictly zero-shot taxi demand prediction for unseen cities via scale-matched
-multi-source transfer"* (M. Ghalejughi). Every number in the paper's tables is produced by the scripts listed below,
+Code accompanying the paper *"Scale-matched cross-city transfer for strictly zero-shot taxi demand prediction"* (M. Ghalejughi). Every number in the paper's tables is produced by the scripts listed below,
 from saved model predictions.
 
-**Strictness rule enforced throughout:** no taxi data of the target city (Chicago or NYC) is used for training,
-scaling, early stopping, model/variant selection, the city-wide total, or as input. Target data is read only by the
-evaluation code.
+**Strictness rule enforced throughout:** no taxi data of the target city is used for training, scaling, early stopping,
+the city-wide total, or as input. Target data is read only by the evaluation code.
+
+**Prediction and evaluation are separate steps** (`improve/PROTOCOL_REVISION.md`):
+
+| Step | Script | Reads target demand? |
+|---|---|---|
+| Target time slots from the calendar | `improve/slots.py` | no |
+| Allocator runs (`--calendar` flag) | `improve/run_x.py`, `multicity/run_multi.py` | no, the target demand file is not opened |
+| Level, rhythm, shares, trip predictions of every method | `improve/predict_final.py` -> `improve/out_cal/pred_<city>.npz` | no |
+| Metrics, 95% block-bootstrap intervals, paired daily differences, single-run mean and SD | `improve/evaluate_strict.py` | yes, only here |
+| Step-by-step tests (native, scale-matched, ten partitions, average of heads), trip errors | `improve/scale_test.py` | yes (evaluation) |
+
+For Chicago and NYC the calendar slots are identical to the slots of the earlier runs, and a rerun with `--calendar`
+reproduces an earlier prediction exactly (maximum absolute difference 0.0). San Francisco and Washington, DC were
+retrained with `--calendar` (`improve/runner_revision.py`).
+
+## Derived features
+
+`features/` archives the derived OpenStreetMap, LODES, FAA and ACS feature arrays with SHA-256 digests, so that the
+models can be retrained without a new OpenStreetMap download (see `features/README.md`).
+
+## Aggregation control
+
+`improve/aggregate_control.py` builds the control helpers of `PROTOCOL_REVISION.md` part B (random grouping with the same
+number of blocks, blocks of half and of twice the target median area, 10 partitions each). The runs were done on Kaggle
+CPU workers (`kaggle/control_worker.py`); the NYC demand file was not part of the uploaded data.
 
 ## Directory layout
 
@@ -45,7 +68,7 @@ kaggle-fix/    notebook.ipynb: OpenStreetMap feature builder (build_static_featu
 | Per-run paired tests (10 runs), partition-diversity tests | `improve/confirm10.py`, `improve/ens_test.py` |
 | Table 6 (cost of strictness) | `improve/cost_final.py` |
 | Figures 2–6 (maps, scale matching, week of demand, component bars, cost of strictness) | `improve/figures.py` |
-| Poisson noise floor and true-pattern ceilings (diagnostic) | `improve/ceiling.py` |
+| Poisson reference level and true-pattern ceilings (diagnostic) | `improve/ceiling.py` |
 | Simple baselines (uniform, jobs, jobs+residents, gravity, XGBoost) | `improve/baselines.py` (functions reused by `paper_numbers.py`) |
 
 ## Held-out evaluation (San Francisco and Washington, DC)

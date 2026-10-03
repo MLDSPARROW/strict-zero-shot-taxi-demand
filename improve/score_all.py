@@ -52,7 +52,6 @@ def run(T):
     def add(name, fs):
         if all(os.path.exists(f) for f in fs): rows.append((name, ens(fs)))
         else: print(f"   (missing: {name})")
-    add("POI-activity allocation (Chi et al.-style)", [f"{HERE}/out/chi_{T}_from_{'+'.join(SHARE[T])}_seed{s}.npy" for s in range(10)])
     add("Base joint allocator", [f"{HERE}/../multicity/multi_{T}_from_{'+'.join(SHARE[T])}_seed{s}.npy" for s in range(10)])
     heads = {}
     for h in ("eh", "eo"):

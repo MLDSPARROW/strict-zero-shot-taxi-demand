@@ -11,11 +11,14 @@ import numpy as np
 import torch, torch.nn as nn, torch.nn.functional as F
 from datetime import date, timedelta
 from pandas.tseries.holiday import USFederalHolidayCalendar
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "improve")); from slots import calendar_slots
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 B77 = os.path.join(HERE, "..", "bench77", "data")
 MC = os.path.join(HERE, "data")
 torch.set_num_threads(os.cpu_count())
+CAL = "--calendar" in sys.argv                  # PROTOCOL_REVISION.md: predict on calendar slots, never read target demand
+sys.argv = [a for a in sys.argv if a != "--calendar"]
 TGT, SRCS = sys.argv[1], sys.argv[2].split(",")
 SEEDS = [int(s) for s in sys.argv[3].split(",")]
 TAG = sys.argv[4]
@@ -49,12 +52,16 @@ def cal_fn(start, country):
 
 def load(city):
     yp, sp, start, country = CITY[city]
-    Y = np.load(yp).astype(np.float64); S = np.load(sp)
-    tot = Y.sum(axis=2); cal = cal_fn(start, country)
-    idx = [(d, s) for d in range(Y.shape[0]) for s in range(48) if tot[d, s] > 0]
+    if CAL and city == TGT:                      # target: calendar slots only, its demand file is not opened
+        Y, S, cal = None, np.load(sp), cal_fn(start, country); idx = calendar_slots(city, start)
+    else:
+        Y = np.load(yp).astype(np.float64); S = np.load(sp)
+        tot = Y.sum(axis=2); cal = cal_fn(start, country)
+        idx = [(d, s) for d in range(Y.shape[0]) for s in range(48) if tot[d, s] > 0]
     return {"Y": Y, "raw": S["X"][:, FEAT].astype(np.float64), "area": S["area_km2"], "idx": idx,
-            "C": np.stack([cal(d, s) for d, s in idx]), "Sh": np.stack([Y[d, s] / tot[d, s] for d, s in idx]).astype(np.float32),
-            "T": np.array([tot[d, s] for d, s in idx])}
+            "C": np.stack([cal(d, s) for d, s in idx]),
+            **({} if Y is None else {"Sh": np.stack([Y[d, s] / tot[d, s] for d, s in idx]).astype(np.float32),
+                                     "T": np.array([tot[d, s] for d, s in idx])})}
 
 
 data = {c: load(c) for c in SRCS + [TGT]}
@@ -87,7 +94,7 @@ class Allocator(nn.Module):                      # same joint allocator as bench
         return F.log_softmax(self.out(h).squeeze(-1), dim=1)
 
 
-T_ = {c: {k: torch.tensor(data[c][k]) for k in ("X", "C", "Sh")} for c in data}
+T_ = {c: {k: torch.tensor(data[c][k]) for k in ("X", "C", "Sh") if k in data[c]} for c in data}
 
 
 def predict(mdl, c, sel):
@@ -127,7 +134,8 @@ def evaluate(p):
 
 
 results, preds = {}, []
-out = f"{HERE}/multi_{TGT}_from_{'+'.join(SRCS)}{TAG}"
+if CAL: os.makedirs(f"{HERE}/out_cal", exist_ok=True)
+out = f"{HERE}/{'out_cal/' if CAL else ''}multi_{TGT}_from_{'+'.join(SRCS)}{TAG}"
 for seed in SEEDS:
     t0 = time.time()
     if os.path.exists(f"{out}_seed{seed}.npy"):          # resume after an interruption: reuse finished seeds
@@ -135,14 +143,15 @@ for seed in SEEDS:
     else:
         p, v, ep = train(seed)
     preds.append(p)
-    r = evaluate(p); r.update({"src_val": v, "epochs": ep, "seconds": round(time.time() - t0)}); results[f"seed{seed}"] = r
-    print(f"  seed {seed}: MAE={r['MAE']:.3f} RMSE={r['RMSE']:.3f} MAPE>=5={r['MAPE_ge5']:.1f}% MAE_share={r['MAE_share']:.5f} "
+    r = {} if CAL else evaluate(p); r.update({"src_val": v, "epochs": ep, "seconds": round(time.time() - t0)}); results[f"seed{seed}"] = r
+    if CAL: print(f"  seed {seed}: prediction saved, {p.shape[0]} calendar slots ({r['seconds']}s, {ep} ep)", flush=True)
+    else: print(f"  seed {seed}: MAE={r['MAE']:.3f} RMSE={r['RMSE']:.3f} MAPE>=5={r['MAPE_ge5']:.1f}% MAE_share={r['MAE_share']:.5f} "
           f"peak={r['peak_ratio']:.2f} ({r['seconds']}s, {ep} ep)", flush=True)
     np.save(f"{out}_seed{seed}.npy", p)
 ens = np.mean(preds, axis=0); ens /= ens.sum(axis=1, keepdims=True)
-results["ensemble"] = evaluate(ens)
-r = results["ensemble"]
-print(f"  ENSEMBLE of {len(preds)}: MAE={r['MAE']:.3f} RMSE={r['RMSE']:.3f} MAPE>=5={r['MAPE_ge5']:.1f}% "
+if not CAL:
+    results["ensemble"] = evaluate(ens); r = results["ensemble"]
+    print(f"  ENSEMBLE of {len(preds)}: MAE={r['MAE']:.3f} RMSE={r['RMSE']:.3f} MAPE>=5={r['MAPE_ge5']:.1f}% "
       f"MAE_share={r['MAE_share']:.5f} peak={r['peak_ratio']:.2f}", flush=True)
 json.dump(results, open(f"{out}.json", "w"), indent=1)
 print("done", flush=True)
