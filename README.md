@@ -48,6 +48,14 @@ kaggle-fix/    notebook.ipynb: OpenStreetMap feature builder (build_static_featu
 | Poisson noise floor and true-pattern ceilings (diagnostic) | `improve/ceiling.py` |
 | Simple baselines (uniform, jobs, jobs+residents, gravity, XGBoost) | `improve/baselines.py` (functions reused by `paper_numbers.py`) |
 
+## Held-out evaluation (San Francisco and Washington, DC)
+
+`improve/PROTOCOL_HELDOUT.md` fixes the frozen method, helper rules and evaluation plan; it was written before any held-out run.
+`improve/PROTOCOL_HELDOUT.timestamp` records the date and SHA-256 digest of each version of the protocol (the last addendum was
+added before any held-out result was inspected). Runs: `improve/aggregate_heldout.py` (San Francisco re-aggregated to DC scale),
+`improve/runner_heldout.py`; scoring for all four targets: `improve/score_all.py`, `improve/v4_numbers.py`,
+`improve/heldout_ceiling.py`; four-city figure: `improve/fig_four.py`; sensitivity analyses: `improve/revision_extras.py`.
+
 ## Data sources (all public)
 
 - Chicago Taxi Trips (City of Chicago Data Portal, dataset `wrvz-psew`), 2021.

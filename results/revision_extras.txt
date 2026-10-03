@@ -1,0 +1,32 @@
+
+===== CHICAGO =====
+(1) FINAL MAE 1.83 [95% CI 1.74, 1.91] | RMSE 5.21 [4.90, 5.46] (n = 365 days)
+(2) allocation-only: mean abs share error | mean JS divergence | Spearman of annual totals | top-10 recall
+    jobs-proportional      0.01278 | 0.1973 | 0.464 | 0.6
+    base joint allocator   0.01317 | 0.2300 | 0.601 | 0.6
+    final                  0.00953 | 0.1420 | 0.597 | 0.8
+(3) partitions k: MAE / RMSE (strict, final = average of heads)
+    k= 1: 1.98 / 5.99
+    k= 2: 1.81 / 5.02
+    k= 5: 1.80 / 5.03
+    k=10: 1.83 / 5.21
+(4) rhythm month factor: per-slot city-total error | final MAE / RMSE
+    same-year helper (final)       23.9% | 1.83 / 5.21
+    none                           37.6% | 2.03 / 6.20
+    pooled over all share helpers  29.3% | 1.90 / 5.53
+
+===== NYC =====
+(1) FINAL MAE 7.45 [95% CI 6.94, 8.04] | RMSE 17.59 [16.64, 18.74] (n = 365 days)
+(2) allocation-only: mean abs share error | mean JS divergence | Spearman of annual totals | top-10 recall
+    jobs-proportional      0.00446 | 0.2825 | 0.651 | 0.4
+    base joint allocator   0.00466 | 0.2937 | 0.760 | 0.3
+    final                  0.00444 | 0.2690 | 0.811 | 0.2
+(3) partitions k: MAE / RMSE (strict, final = average of heads)
+    k= 1: 7.93 / 18.39
+    k= 2: 7.89 / 18.12
+    k= 5: 7.49 / 17.60
+    k=10: 7.45 / 17.59
+(4) rhythm month factor: per-slot city-total error | final MAE / RMSE
+    same-year helper (final)       26.2% | 7.45 / 17.59
+    none                           30.9% | 7.59 / 17.86
+    pooled over all share helpers  24.0% | 7.49 / 17.63

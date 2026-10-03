@@ -1,0 +1,4 @@
+chicago  final strict 1.83 / 5.21 | final + TRUE total 1.51 / 4.12 | PERFECT allocation + strict total 1.33 / 4.00 | PERFECT allocation + TRUE total 1.02 / 2.85 | Poisson floor 0.78 / 1.64
+nyc      final strict 7.45 / 17.59 | final + TRUE total 7.45 / 17.27 | PERFECT allocation + strict total 2.31 / 7.42 | PERFECT allocation + TRUE total 1.45 / 4.53 | Poisson floor 1.00 / 2.57
+sf       final strict 0.48 / 1.08 | final + TRUE total 0.51 / 1.09 | PERFECT allocation + strict total 0.38 / 0.82 | PERFECT allocation + TRUE total 0.39 / 0.75 | Poisson floor 0.36 / 0.63
+dc       final strict 0.43 / 1.33 | final + TRUE total 0.38 / 1.24 | PERFECT allocation + strict total 0.32 / 0.88 | PERFECT allocation + TRUE total 0.25 / 0.62 | Poisson floor 0.28 / 0.58
