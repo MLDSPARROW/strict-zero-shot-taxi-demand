@@ -73,3 +73,10 @@ on average over the dataset's active span (2016-06-04 to 2017-02-07, 35.4 weeks,
 This rule is motivated independently of the target count, by wanting enough data per cell for a meaningful
 weekly rhythm. Applied to the downloaded data, it gives 684 cells, close to but not identical to the earlier
 687; the small difference is reported as is, not adjusted to match.
+
+The same question applies to Porto, whose earlier 485 small areas also has no surviving build script. Porto's
+raw coordinates are full-precision GPS, not pre-rounded like Austin's, so there is no equivalent natural grid
+to reuse; a 1 km square grid in a local UTM projection is used instead, which is the same real-world scale as
+Austin's squares. The same "at least one trip per week on average" rule is applied for consistency across both
+new cities (Porto's active span is 2013-07-01 to 2014-06-30, 52.0 weeks, so a threshold of 52 trips), not a
+threshold chosen to reproduce 485. Whatever cell count this yields is reported as is in the write-up.
