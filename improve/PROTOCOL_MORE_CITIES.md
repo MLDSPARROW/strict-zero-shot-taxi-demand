@@ -60,3 +60,16 @@ will be saved to the repo, so this gap does not recur.
 Both cities' demand data were previously used only as rejected helper candidates during development (see
 `UrbanMind_PROGRESS.md` section 6h for Austin, section 4 for Porto); no component of the frozen method above
 was chosen using them as targets, since they have never been used in that role before.
+
+## Addendum (added 2026-10-17, before building the Austin region grid)
+
+The RideAustin CSV's own coordinates are already rounded to 0.01 degrees (confirmed: every value has exactly
+two decimal places), so each distinct (lat, lon) pair is a natural cell, matching the earlier note that the
+687 one-km squares came from this same rounding. The script that chose which of these cells counted as a
+region, and the exact threshold it used, was not saved, only the resulting count (687) was recorded. Rather
+than search for a threshold that reproduces 687 exactly, which would be tuning a design choice to a known
+answer after the fact, the rule declared here is: keep a cell only if it received at least one trip per week
+on average over the dataset's active span (2016-06-04 to 2017-02-07, 35.4 weeks, so a threshold of 36 trips).
+This rule is motivated independently of the target count, by wanting enough data per cell for a meaningful
+weekly rhythm. Applied to the downloaded data, it gives 684 cells, close to but not identical to the earlier
+687; the small difference is reported as is, not adjusted to match.
