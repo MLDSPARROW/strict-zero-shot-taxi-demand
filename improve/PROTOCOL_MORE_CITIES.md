@@ -74,6 +74,25 @@ This rule is motivated independently of the target count, by wanting enough data
 weekly rhythm. Applied to the downloaded data, it gives 684 cells, close to but not identical to the earlier
 687; the small difference is reported as is, not adjusted to match.
 
+## Addendum: Austin run plan (2026-10-18, after the region grid and map features were built, before any Austin model run)
+
+- Mode: RideAustin is ride-hailing, not taxi; this is stated wherever Austin results are reported.
+- Evaluation span: full days 2016-06-04 to 2017-02-06 (248 days). 2017-02-07 is excluded because the data end at
+  10:09 that day. 30-minute slots; Texas local clock, and no spring-forward gap falls inside the span.
+- Level: unit chosen by leave-one-out among the level helpers (Chicago, NYC, SF, DC) exactly as for every target, using
+  the same ACS 2020-2024 release (Census Reporter, raw/acs_austin.json); the yearly level is prorated to the span
+  (x 248/365). RideAustin started service days before the span and ramped up (earlier note: 59 very quiet days), so the
+  level is expected to be off; it is reported as obtained, and allocation-only errors are reported alongside.
+- Rhythm: mean day-of-week x slot profile of the share helpers; no month factor (no helper from 2016).
+- Share helpers: Chicago, NYC, SF. Austin's median region area is 1.07 km2, so SF (0.35) is re-aggregated (partitions
+  p1..p10, sf_for_austin_p{r}); Chicago and NYC are coarser and stay native.
+- Covariates: LODES 2021 jobs and resident workers (Texas files) and OSM rail stations via build_extra.py; the airport
+  flag and FAA CY2021 enplanements of Austin-Bergstrom (6,666,215, raw/cy21.xlsx, the same file whose ORD, MDW, JFK and
+  LGA values match the existing ones exactly) assigned to the region containing its reference point.
+- Conditions and scoring: N (native helpers, seeds 0-9) vs M (scale-matched, run r = partition r, seed r-1), heads eh
+  and eo, final = equal average; baselines uniform, jobs, jobs + residents, base joint allocator (10 seeds) and the Chi
+  et al. allocation (PROTOCOL_CHI_BASELINE.md). Fully strict trip MAE and RMSE plus N minus M with a 7-day block bootstrap.
+
 The same question applies to Porto, whose earlier 485 small areas also has no surviving build script. Porto's
 raw coordinates are full-precision GPS, not pre-rounded like Austin's, so there is no equivalent natural grid
 to reuse; a 1 km square grid in a local UTM projection is used instead, which is the same real-world scale as
