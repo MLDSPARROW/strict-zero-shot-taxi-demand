@@ -55,10 +55,13 @@ norm = lambda p: p / p.sum(1, keepdims=True)
 summary = {}
 for tag, (city, yfile, nat, mat) in TARGETS.items():
     di, si, Tt, unit, lev = totals(city, tag)
-    Yc = np.load(yfile).astype(np.float64)[di, si]                # evaluation only
+    Yfull = np.load(yfile).astype(np.float64); nd = Yfull.shape[0]          # evaluation only
+    hourly = city == "dc"                         # DC raw data are hourly (30-min values are equal splits): scored hourly, as in evaluate_strict.py
     def err(p):
-        E = norm(p) * Tt[:, None] - Yc; A = np.abs(E)
-        return A.mean(), np.sqrt((E ** 2).mean()), np.bincount(di, A.mean(1)) / np.bincount(di)
+        F = np.full(Yfull.shape, np.nan); F[di, si] = norm(p) * Tt[:, None]; E = F - Yfull
+        if hourly: E = E.reshape(nd, 24, 2, -1).sum(2)
+        E = E.reshape(nd, -1); ok = ~np.isnan(E)
+        return np.abs(E[ok]).mean(), np.sqrt((E[ok] ** 2).mean()), np.nanmean(np.abs(E), 1)
     def load(srcs, h, runs):
         return [np.load(f"{HERE}/out_cal/multi_{tag}_from_{s}_v{h}_seed{sd}.npy") for s, sd in runs]
     cond = {"N": lambda h: load(None, h, [(nat, s) for s in range(10)]),
