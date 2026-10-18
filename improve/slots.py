@@ -2,7 +2,7 @@
 Chicago, New York City and San Francisco record local clock time, so 02:00 and 02:30 on the spring daylight-saving day
 (second Sunday of March) do not exist. The Washington, DC data are hourly counts without that gap, so all slots are kept."""
 from datetime import date, timedelta
-LOCAL_CLOCK = {"chicago": True, "nyc": True, "sf": True, "dc": False}
+LOCAL_CLOCK = {"chicago": True, "nyc": True, "sf": True, "dc": False, "sf_zcta": True, "dc_cluster": False}
 
 
 def spring_forward(year):

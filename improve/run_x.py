@@ -106,6 +106,8 @@ CITY = {"nyc": (f"{B77}/nyc_2021_zone_30min.npy", f"{B77}/region_static_nyc.npz"
         "sf": (f"{MC}/sf_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US"),
         "porto": (f"{MC}/porto_region_30min.npy", f"{MC}/region_static_porto.npz", date(2013, 7, 1), "PT"),
         "dc": (f"{MC}/dc_2021_tract_30min.npy", f"{MC}/region_static_dc.npz", date(2021, 1, 1), "US"),
+        "sf_zcta": (f"{MC}/sf_zcta_30min.npy", f"{MC}/region_static_sf_zcta.npz", date(2023, 1, 1), "US"),        # PROTOCOL_COARSE_TARGETS.md
+        "dc_cluster": (f"{MC}/dc_cluster_30min.npy", f"{MC}/region_static_dc_cluster.npz", date(2021, 1, 1), "US"),
         "porto30": (f"{MC}/porto30_region_30min.npy", f"{MC}/region_static_porto.npz", date(2013, 7, 1), "PT"),
         # controlled degradations of SF (same regions/features, degraded demand labels) -- diagnostic only
         "sf_time": (f"{MC}/sf_time_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US"),
