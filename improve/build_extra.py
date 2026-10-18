@@ -42,9 +42,11 @@ def rail(bounds):
     s, w, n, e = bounds[1], bounds[0], bounds[3], bounds[2]
     q = f'[out:json][timeout:180];node["railway"="station"]({s},{w},{n},{e});out;'
     import time
-    for url in ["https://maps.mail.ru/osm/tools/overpass/api/interpreter", "https://overpass-api.de/api/interpreter"] * 3:
+    import osmnx as ox                             # overpass-api.de answers 406 without an identifying User-Agent/referer
+    hdr = {"User-Agent": ox.settings.http_user_agent, "referer": ox.settings.http_referer, "Accept-Language": "en"}
+    for url in ["https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter"] * 3:
         try:
-            r = requests.post(url, data={"data": q}, timeout=240, headers={"User-Agent": "urbanmind-research/1.0", "Accept": "*/*"}); r.raise_for_status()
+            r = requests.post(url, data={"data": q}, timeout=240, headers=hdr); r.raise_for_status()
             el = r.json()["elements"]; return gpd.GeoDataFrame(geometry=[Point(x["lon"], x["lat"]) for x in el], crs="EPSG:4326")
         except Exception as ex:
             print("  overpass fail", url, ex); time.sleep(20)

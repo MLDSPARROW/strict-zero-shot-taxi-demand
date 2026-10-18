@@ -2,7 +2,8 @@
 Chicago, New York City and San Francisco record local clock time, so 02:00 and 02:30 on the spring daylight-saving day
 (second Sunday of March) do not exist. The Washington, DC data are hourly counts without that gap, so all slots are kept."""
 from datetime import date, timedelta
-LOCAL_CLOCK = {"chicago": True, "nyc": True, "sf": True, "dc": False, "sf_zcta": True, "dc_cluster": False}
+LOCAL_CLOCK = {"chicago": True, "nyc": True, "sf": True, "dc": False, "sf_zcta": True, "dc_cluster": False, "austin": True}
+END = {"austin": date(2017, 2, 6)}           # PROTOCOL_MORE_CITIES.md: full days only, data end 2017-02-07 10:09
 
 
 def spring_forward(year):
@@ -11,6 +12,6 @@ def spring_forward(year):
 
 
 def calendar_slots(city, start):
-    n = (date(start.year + 1, 1, 1) - start).days
+    n = (END[city] - start).days + 1 if city in END else (date(start.year + 1, 1, 1) - start).days
     gap = spring_forward(start.year) if LOCAL_CLOCK[city] else None
     return [(d, k) for d in range(n) for k in range(48) if not (gap is not None and start + timedelta(days=d) == gap and k in (4, 5))]
