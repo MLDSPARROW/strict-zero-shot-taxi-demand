@@ -1,0 +1,13 @@
+C:\Users\user\Desktop\TAXI DEMAND\UrbanMind_paper_v2\code\improve\austin_eval.py:46: RuntimeWarning: Mean of empty slice
+  return np.abs(E[ok]).mean(), np.sqrt((E[ok] ** 2).mean()), np.nanmean(np.abs(E).reshape(Y.shape[0], -1), 1)[:ndays]
+===== AUSTIN (RideAustin ride-hailing, not taxi): 684 regions, 248 full days, 11904 slots =====
+   level unit 'transit commuters', predicted total over the span 135,236 vs observed 900,643 (-85%)
+   method                               fully strict MAE / RMSE | allocation only (true slot totals) MAE / RMSE
+   Uniform                              0.126 / 1.104        | 0.198 / 1.091
+   Jobs-proportional                    0.121 / 1.097        | 0.157 / 0.909
+   Jobs + residents                     0.123 / 1.099        | 0.166 / 0.957
+   Base allocator                       0.124 / 1.102        | 0.181 / 1.050
+   Chi et al. allocation                0.121 / 1.098        | 0.153 / 0.942
+   Final, native helpers (N)            0.122 / 1.098        | 0.157 / 0.953
+   Final, scale-matched (M)             0.121 / 1.096        | 0.152 / 0.924
+   N minus M: mean daily MAE difference +0.0007 [+0.0006, +0.0008], M better on 100% of days
