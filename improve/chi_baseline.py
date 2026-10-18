@@ -52,6 +52,7 @@ for seed in SEEDS:
     torch.manual_seed(seed)
     C = NC[HEL[0]].shape[1]
     mlp = nn.Sequential(nn.Linear(3, 48), nn.LeakyReLU(), nn.Linear(48, 64), nn.LeakyReLU(), nn.Linear(64, 48), nn.LeakyReLU(), nn.Linear(48, C))
+    nn.init.constant_(mlp[-1].bias, 1.0)          # protocol addendum: all categories start active (ReLU output, Eq. 4)
     opt = torch.optim.Adam(mlp.parameters(), lr=1e-3)
     for ep in range(5000):
         loss = sum(torch.sum(OBS[c] * (torch.log(OBS[c].clamp(min=1e-12)) - torch.log(alloc(mlp, NC[c]).clamp(min=1e-12)))) for c in HEL) / len(HEL)

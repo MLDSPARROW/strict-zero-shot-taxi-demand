@@ -33,6 +33,21 @@ its second stage can be implemented as published. Section and equation numbers b
 5. Helpers at native scale (the paper does not re-aggregate). Ten seeds (0 to 9), ensemble = mean of normalised shares,
    for parity with the other learned allocators; single-run mean and SD also reported.
 
+## Addendum (2026-10-18, after a one-seed smoke test on helper data only, before any target was scored)
+
+The smoke test (target sf_zcta, helpers Chicago and NYC, seed 0) ended with only 1 of 9 categories having non-zero
+activity: with the ReLU output of Eq. 4 and default initialisation, categories whose output starts negative receive no
+gradient and stay at zero. The paper does not state its initialisation, and its Fig. 8 shows all categories active, so
+the bias of the output layer is initialised to 1.0 so that every category starts active. Nothing else is changed. The
+check used only the helpers' training loss and the count of active categories; no target demand was read.
+
+Follow-up check, same conditions: the collapse persists with the bias fix (helper KL 0.8051, only "food" active), with
+every category rescaled by its pooled helper mean (KL 0.8051, only "food"), and with a softplus output that cannot die
+(KL 0.8050, food 99.9 % of the regional heat). The single-category solution is therefore the optimum of the published
+objective on these helpers, not an optimisation failure, and the implementation is kept as specified (ReLU output, bias
+1.0). It is reported as a property of the method: with location-independent category activity, the learned allocation
+here reduces to a share proportional to food POIs, nearly constant over the day.
+
 ## Targets and scoring
 
 All targets of the paper and of PROTOCOL_COARSE_TARGETS.md and PROTOCOL_MORE_CITIES.md, with the same share helpers as
