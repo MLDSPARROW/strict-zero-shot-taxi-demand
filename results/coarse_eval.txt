@@ -1,0 +1,28 @@
+
+===== sf_zcta (sf, 26 regions, 17518 calendar slots; level unit 'transit commuters', yearly total 1,409,850) =====
+   Uniform                MAE 3.347  RMSE 5.025
+   Jobs-proportional      MAE 2.638  RMSE 4.424
+   Jobs + residents       MAE 2.487  RMSE 4.049
+   N final (native helpers)   MAE 3.589  RMSE 6.763 | single runs MAE 3.697 +- 0.255
+   M final (scale-matched)    MAE 3.443  RMSE 6.262 | single runs MAE 3.568 +- 0.221
+   N minus M: mean daily MAE difference +0.1458 [+0.1216, +0.1729], M better on 87% of days; relative MAE gain (N-M)/N +4.1%
+
+===== dc_cluster (dc, 44 regions, 17520 calendar slots; level unit 'transit commuters', yearly total 1,310,512) =====
+   Uniform                MAE 3.529  RMSE 6.850
+   Jobs-proportional      MAE 3.006  RMSE 7.180
+   Jobs + residents       MAE 2.637  RMSE 6.001
+   N final (native helpers)   MAE 3.325  RMSE 8.469 | single runs MAE 3.381 +- 0.178
+   M final (scale-matched)    MAE 3.181  RMSE 7.998 | single runs MAE 3.231 +- 0.153
+   N minus M: mean daily MAE difference +0.1438 [+0.1015, +0.1914], M better on 67% of days; relative MAE gain (N-M)/N +4.3%
+
+===== dc (dc, 206 regions, 17520 calendar slots; level unit 'transit commuters', yearly total 1,310,512) =====
+   Uniform                MAE 0.937  RMSE 2.688
+   Jobs-proportional      MAE 0.835  RMSE 2.690
+   Jobs + residents       MAE 0.804  RMSE 2.404
+   N final (native helpers)   MAE 0.868  RMSE 2.707 | single runs MAE 0.877 +- 0.011
+   M final (scale-matched)    MAE 0.856  RMSE 2.658 | single runs MAE 0.864 +- 0.009
+   N minus M: mean daily MAE difference +0.0128 [+0.0112, +0.0145], M better on 98% of days; relative MAE gain (N-M)/N +1.5%
+
+===== READING RULE (fixed in the protocol) =====
+   M better than N at both coarse targets with intervals excluding zero: YES
+   relative gain dc_cluster +4.3% vs native dc +1.5%: larger at coarse
