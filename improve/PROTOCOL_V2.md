@@ -105,3 +105,16 @@ every epoch) and early stopping on the worst helper's validation loss. Screened 
 3. The ten busiest regions of Chicago and NYC were inspected (development targets only).
 4. A one-week query showed that only 43% of Chicago's 2021 taxi trips carry a pickup census tract, so a fine-scale
    Chicago helper was not pursued.
+
+## Addendum 1 (2026-10-20, after building the ACS covariates, before any v2 run or re-score)
+
+The verification step of `build_acs.py` (population in regions within 2% of the ACS city total) failed for NYC: -4.0%.
+The loss is concentrated in Manhattan (240,000 of 340,000 people): the generalised cartographic tract outlines
+(`cb_2021_36_tract_500k`) leave waterfront tracts up to 74% outside every taxi zone, so plain tract-area weights drop
+their counts. The same method in `build_extra.py` drops 5.6% of NYC's LODES jobs and 3.9% of its resident workers in the
+v1 files (SF and DC lose at most 0.2%; Chicago's regions cover only part of Cook County, so its gap is expected).
+Rule: where the regions cover the listed counties completely (NYC, SF, DC), each tract's overlap weights are normalised
+to sum to 1; elsewhere (Chicago, Austin) plain area weights are kept, and the re-interpolated LODES values must equal the
+v1 files there. This applies to the ACS counts and to LODES jobs and resident workers re-interpolated for v2 (`jobs_n`,
+`res_n`), which are used by flag `p` and by the v2 rows of the jobs and jobs + residents baselines. The v1 files and
+v1 rows are not changed, and both versions of the baselines are reported for NYC.
