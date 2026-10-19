@@ -1,0 +1,71 @@
+
+===== dc (hourly, 206 regions); dispersion from helpers chicago, nyc, sf_for_dc_p1 =====
+   NB k by lambda bin: 0.00248:0.000413, 0.00971:0.00788, 0.0383:0.0835, 0.152:0.507, 0.6:2.18, 2.38:5.96, 9.5:9.12, 38:16.4, 150:43
+   Zero forecast                        mean-forecast MAE 0.662 RMSE 2.789 | median-forecast MAE 0.662 | 80% interval coverage 0.732
+   Uniform                              mean-forecast MAE 0.937 RMSE 2.688 | median-forecast MAE 0.756 | 80% interval coverage 0.948
+   (grid median check: 0.000% of sampled cells differ from exact NB median)
+   Jobs-proportional                    mean-forecast MAE 0.835 RMSE 2.690 | median-forecast MAE 0.751 | 80% interval coverage 0.860
+   Jobs + residents                     mean-forecast MAE 0.804 RMSE 2.404 | median-forecast MAE 0.673 | 80% interval coverage 0.925
+   Jobs-proportional (v2 covariates)    mean-forecast MAE 0.835 RMSE 2.687 | median-forecast MAE 0.751 | 80% interval coverage 0.860
+   Jobs + residents (v2 covariates)     mean-forecast MAE 0.804 RMSE 2.402 | median-forecast MAE 0.673 | 80% interval coverage 0.925
+   Chi et al. allocation                mean-forecast MAE 0.851 RMSE 2.476 | median-forecast MAE 0.737 | 80% interval coverage 0.885
+   Ours v1, native helpers (N)          mean-forecast MAE 0.868 RMSE 2.707 | median-forecast MAE 0.756 | 80% interval coverage 0.888
+   Ours v1, scale-matched (M)           mean-forecast MAE 0.856 RMSE 2.658 | median-forecast MAE 0.738 | 80% interval coverage 0.901
+   Zero forecast minus Ours v1, native helpers (N) (median-forecast daily MAE): -0.0935 [-0.1132, -0.0684], Ours v1, native helpers (N) better on 16% of days
+   Jobs + residents (v2 covariates) minus Ours v1, native helpers (N) (median-forecast daily MAE): -0.0829 [-0.0923, -0.0741], Ours v1, native helpers (N) better on 0% of days
+   Zero forecast minus Ours v1, scale-matched (M) (median-forecast daily MAE): -0.0753 [-0.0957, -0.0511], Ours v1, scale-matched (M) better on 19% of days
+   Jobs + residents (v2 covariates) minus Ours v1, scale-matched (M) (median-forecast daily MAE): -0.0647 [-0.0719, -0.0574], Ours v1, scale-matched (M) better on 0% of days
+
+===== dc_cluster (hourly, 44 regions); dispersion from helpers chicago, nyc_for_dc_cluster_p1, sf_for_dc_cluster_p1 =====
+   NB k by lambda bin: 0.00258:0.000456, 0.0109:0.00823, 0.0462:0.0837, 0.198:0.608, 0.841:2.34, 3.57:6.65, 15.4:10.3, 66:15.9, 283:81.8
+   Zero forecast                        mean-forecast MAE 3.101 RMSE 7.688 | median-forecast MAE 3.101 | 80% interval coverage 0.428
+   Uniform                              mean-forecast MAE 3.529 RMSE 6.850 | median-forecast MAE 3.351 | 80% interval coverage 0.670
+   (grid median check: 0.000% of sampled cells differ from exact NB median)
+   Jobs-proportional                    mean-forecast MAE 3.006 RMSE 7.180 | median-forecast MAE 2.929 | 80% interval coverage 0.735
+   Jobs + residents                     mean-forecast MAE 2.637 RMSE 6.001 | median-forecast MAE 2.508 | 80% interval coverage 0.817
+   Jobs-proportional (v2 covariates)    mean-forecast MAE 3.005 RMSE 7.173 | median-forecast MAE 2.927 | 80% interval coverage 0.735
+   Jobs + residents (v2 covariates)     mean-forecast MAE 2.637 RMSE 5.996 | median-forecast MAE 2.507 | 80% interval coverage 0.817
+   Chi et al. allocation                mean-forecast MAE 2.919 RMSE 6.186 | median-forecast MAE 2.809 | 80% interval coverage 0.711
+   Ours v1, native helpers (N)          mean-forecast MAE 3.325 RMSE 8.469 | median-forecast MAE 3.223 | 80% interval coverage 0.741
+   Ours v1, scale-matched (M)           mean-forecast MAE 3.181 RMSE 7.998 | median-forecast MAE 3.096 | 80% interval coverage 0.738
+   Zero forecast minus Ours v1, native helpers (N) (median-forecast daily MAE): -0.1226 [-0.2498, +0.0374], Ours v1, native helpers (N) better on 26% of days
+   Jobs + residents (v2 covariates) minus Ours v1, native helpers (N) (median-forecast daily MAE): -0.7163 [-0.8006, -0.6383], Ours v1, native helpers (N) better on 0% of days
+   Zero forecast minus Ours v1, scale-matched (M) (median-forecast daily MAE): +0.0042 [-0.1419, +0.1820], Ours v1, scale-matched (M) better on 35% of days
+   Jobs + residents (v2 covariates) minus Ours v1, scale-matched (M) (median-forecast daily MAE): -0.5895 [-0.6359, -0.5431], Ours v1, scale-matched (M) better on 1% of days
+
+===== sf_zcta (30-min, 26 regions); dispersion from helpers chicago, nyc_for_sf_zcta_p1 =====
+   NB k by lambda bin: 0.00177:0.000325, 0.00704:0.00355, 0.0279:0.0752, 0.115:0.43, 0.468:2.05, 1.88:6.98, 7.75:7.56, 31.8:11.2, 128:55.9, 516:214
+   Zero forecast                        mean-forecast MAE 3.741 RMSE 6.431 | median-forecast MAE 3.741 | 80% interval coverage 0.307
+   Uniform                              mean-forecast MAE 3.347 RMSE 5.025 | median-forecast MAE 3.283 | 80% interval coverage 0.604
+   (grid median check: 0.000% of sampled cells differ from exact NB median)
+   Jobs-proportional                    mean-forecast MAE 2.638 RMSE 4.424 | median-forecast MAE 2.605 | 80% interval coverage 0.714
+   Jobs + residents                     mean-forecast MAE 2.487 RMSE 4.049 | median-forecast MAE 2.451 | 80% interval coverage 0.751
+   Jobs-proportional (v2 covariates)    mean-forecast MAE 2.638 RMSE 4.424 | median-forecast MAE 2.605 | 80% interval coverage 0.714
+   Jobs + residents (v2 covariates)     mean-forecast MAE 2.487 RMSE 4.049 | median-forecast MAE 2.451 | 80% interval coverage 0.751
+   Chi et al. allocation                mean-forecast MAE 2.382 RMSE 3.929 | median-forecast MAE 2.348 | 80% interval coverage 0.777
+   Ours v1, native helpers (N)          mean-forecast MAE 3.589 RMSE 6.763 | median-forecast MAE 3.578 | 80% interval coverage 0.598
+   Ours v1, scale-matched (M)           mean-forecast MAE 3.443 RMSE 6.262 | median-forecast MAE 3.442 | 80% interval coverage 0.595
+   Zero forecast minus Ours v1, native helpers (N) (median-forecast daily MAE): +0.1626 [+0.1085, +0.2297], Ours v1, native helpers (N) better on 72% of days
+   Chi et al. allocation minus Ours v1, native helpers (N) (median-forecast daily MAE): -1.2302 [-1.2732, -1.1896], Ours v1, native helpers (N) better on 0% of days
+   Zero forecast minus Ours v1, scale-matched (M) (median-forecast daily MAE): +0.2991 [+0.2430, +0.3622], Ours v1, scale-matched (M) better on 87% of days
+   Chi et al. allocation minus Ours v1, scale-matched (M) (median-forecast daily MAE): -1.0938 [-1.1237, -1.0632], Ours v1, scale-matched (M) better on 0% of days
+
+===== austin (30-min, 684 regions); dispersion from helpers chicago, nyc, sf_for_austin_p1 =====
+   NB k by lambda bin: 0.00171:0.000245, 0.00619:0.0031, 0.0228:0.111, 0.0851:0.322, 0.315:1.53, 1.17:5.12, 4.36:9.43, 16.3:15.3, 60.5:33.2, 214:101
+   Zero forecast                        mean-forecast MAE 0.111 RMSE 1.105 | median-forecast MAE 0.111 | 80% interval coverage 0.948
+   Uniform                              mean-forecast MAE 0.126 RMSE 1.104 | median-forecast MAE 0.111 | 80% interval coverage 0.948
+   (grid median check: 0.000% of sampled cells differ from exact NB median)
+   Jobs-proportional                    mean-forecast MAE 0.121 RMSE 1.097 | median-forecast MAE 0.110 | 80% interval coverage 0.951
+   Jobs + residents                     mean-forecast MAE 0.123 RMSE 1.099 | median-forecast MAE 0.111 | 80% interval coverage 0.950
+   Jobs-proportional (v2 covariates)    mean-forecast MAE 0.121 RMSE 1.097 | median-forecast MAE 0.110 | 80% interval coverage 0.951
+   Jobs + residents (v2 covariates)     mean-forecast MAE 0.123 RMSE 1.099 | median-forecast MAE 0.111 | 80% interval coverage 0.950
+   Chi et al. allocation                mean-forecast MAE 0.121 RMSE 1.098 | median-forecast MAE 0.111 | 80% interval coverage 0.951
+   Ours v1, native helpers (N)          mean-forecast MAE 0.122 RMSE 1.098 | median-forecast MAE 0.111 | 80% interval coverage 0.950
+   Ours v1, scale-matched (M)           mean-forecast MAE 0.121 RMSE 1.096 | median-forecast MAE 0.111 | 80% interval coverage 0.950
+   Base allocator                       mean-forecast MAE 0.124 RMSE 1.102 | median-forecast MAE 0.111 | 80% interval coverage 0.949
+   Zero forecast minus Ours v1, native helpers (N) (median-forecast daily MAE): +0.0000 [+0.0000, +0.0000], Ours v1, native helpers (N) better on 2% of days
+   Jobs-proportional minus Ours v1, native helpers (N) (median-forecast daily MAE): -0.0002 [-0.0003, -0.0001], Ours v1, native helpers (N) better on 21% of days
+   Zero forecast minus Ours v1, scale-matched (M) (median-forecast daily MAE): +0.0001 [+0.0000, +0.0001], Ours v1, scale-matched (M) better on 23% of days
+   Jobs-proportional minus Ours v1, scale-matched (M) (median-forecast daily MAE): -0.0001 [-0.0002, -0.0001], Ours v1, scale-matched (M) better on 20% of days
+
+done

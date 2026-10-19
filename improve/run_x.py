@@ -26,6 +26,12 @@ ROUND 8 (declared 2026-10-01, before running): b = area weight that depends on t
       (same rule in every city; no city-specific parameter). Screened as "ehb" vs eh/eho with the usual 3-seed rule.
 ROUND 7b (declared 2026-10-01, before running): combinations eo, eho, xoe screened with the same 3-seed rule vs the
       3-seed current best; passing ones go to the 10-seed paired test.
+VERSION 2 (PROTOCOL_V2.md, declared 2026-10-20 before running):
+  p = people-present exposure: logits = f(x, t) + log(alpha_t J_r + (1 - alpha_t) P_r + 1e-6), J/P = the region's share of
+      the city's LODES jobs / ACS population (data/acs_<city>.npz, jobs_n and pop), alpha_t = sigmoid(linear(calendar)),
+      initialised at 0.5; the learned log-relative-area input is removed, as for o
+  a = taxi-propensity inputs from ACS: log share of households without a vehicle, log share of households >= $150k (both
+      smoothed towards the city share with 50 pseudo-households), log1p(population per km2)
 PRE-DECLARED (2026-09-30, before any run): 3 seeds (0,1,2) per variant, compared with the 3-seed ensemble of the
 current best (seeds 0-2 of run_multi.py, same sources). A variant PASSES the screen if its 3-seed ensemble MAE_share
 is >= 3% better in at least one direction and not > 3% worse in the other. Passing variants go to 10 seeds and a
@@ -52,6 +58,7 @@ EXTRA, OFFSET, RANK = "x" in FL, "o" in FL, "r" in FL
 WITHIN, ENPLF, HUB = "w" in FL, "e" in FL, "h" in FL
 BETA = "b" in FL
 JOBS = "j" in FL
+EXPO, ACSF = "p" in FL, "a" in FL
 assert TGT not in SRCS
 CITY = {"nyc": (f"{B77}/nyc_2021_zone_30min.npy", f"{B77}/region_static_nyc.npz", date(2021, 1, 1), "US"),
         "chicago": (f"{B77}/chicago_2021_ca_30min.npy", f"{B77}/region_static_chicago.npz", date(2021, 1, 1), "US"),
@@ -141,12 +148,19 @@ def load(city):
         Y = np.load(yp).astype(np.float64); S = np.load(sp)
         tot = Y.sum(axis=2); cal = cal_fn(start, country)
         idx = [(d, s) for d in range(Y.shape[0]) for s in range(48) if tot[d, s] > 0]
-    raw = S["X"][:, [f for f in FEAT if not (OFFSET and f == 16)]].astype(np.float64)
+    raw = S["X"][:, [f for f in FEAT if not ((OFFSET or EXPO) and f == 16)]].astype(np.float64)
     if EXTRA: raw = np.concatenate([raw, np.load(f"{HERE}/data/extra_{city}.npz")["E"].astype(np.float64)], 1)
     enpl = np.load(f"{HERE}/data/enpl_{city}.npy").astype(np.float64)
     if JOBS: raw = np.concatenate([raw, np.load(f"{HERE}/data/extra_{city}.npz")["E"][:, :1].astype(np.float64)], 1)
     if ENPLF: raw = np.concatenate([raw, np.log1p(enpl)[:, None]], 1)
-    return {"Y": Y, "raw": raw, "hub": np.log1p(enpl).astype(np.float32), "la": np.log(S["area_km2"]).astype(np.float32), "area": S["area_km2"], "idx": idx,
+    v2 = {}
+    if EXPO or ACSF: A = np.load(f"{HERE}/data/acs_{city}.npz")
+    if ACSF:
+        cf = (A["carfree"] + 50 * A["carfree"].sum() / A["hh"].sum()) / (A["hh"] + 50)
+        rich = (A["rich"] + 50 * A["rich"].sum() / A["inc_hh"].sum()) / (A["inc_hh"] + 50)
+        raw = np.concatenate([raw, np.stack([np.log(cf), np.log(rich), np.log1p(A["pop"] / S["area_km2"])], 1)], 1)
+    if EXPO: v2 = {"J": (A["jobs_n"] / A["jobs_n"].sum()).astype(np.float32), "P": (A["pop"] / A["pop"].sum()).astype(np.float32)}
+    return {"Y": Y, "raw": raw, **v2, "hub": np.log1p(enpl).astype(np.float32), "la": np.log(S["area_km2"]).astype(np.float32), "area": S["area_km2"], "idx": idx,
             "C": np.stack([cal(d, s) for d, s in idx]),
             **({} if Y is None else {"Sh": np.stack([Y[d, s] / tot[d, s] for d, s in idx]).astype(np.float32),
                                      "T": np.array([tot[d, s] for d, s in idx])})}
@@ -178,6 +192,8 @@ class Allocator(nn.Module):                      # same joint allocator as bench
         if BETA: self.beta = nn.Linear(hid, 1)          # created only when used, so other variants keep identical random init
         self.ha, self.hb = nn.Parameter(torch.tensor(-2.0)), nn.Parameter(torch.tensor(1.0))
         self.out = nn.Sequential(nn.Linear(hid, hid), nn.GELU(), nn.Dropout(drop), nn.Linear(hid, 1))
+        if EXPO:                                         # created last and only when used: other layers keep their init
+            self.alpha = nn.Linear(9, 1); nn.init.zeros_(self.alpha.weight); nn.init.zeros_(self.alpha.bias)
     def forward(self, X, C):
         B, R = C.shape[0], X.shape[0]
         h = self.enc(torch.cat([X[None].expand(B, R, -1), C[:, None, :].expand(B, R, -1)], dim=2))
@@ -186,6 +202,9 @@ class Allocator(nn.Module):                      # same joint allocator as bench
         z = self.out(h).squeeze(-1)
         if OFFSET: z = z + self.la
         if BETA: z = z + torch.sigmoid(self.beta(h)).squeeze(-1) * self.la
+        if EXPO:
+            a = torch.sigmoid(self.alpha(C))                           # B x 1: weight of workers vs residents in this slot
+            z = z + torch.log(a * self.J[None] + (1 - a) * self.P[None] + 1e-6)
         lp = F.log_softmax(z, dim=1)
         if HUB and bool((self.hub > 0).any()):
             hl = torch.where(self.hub > 0, self.hb * self.hub, torch.full_like(self.hub, -1e9))
@@ -194,12 +213,13 @@ class Allocator(nn.Module):                      # same joint allocator as bench
         return lp
 
 
-T_ = {c: {k: torch.tensor(data[c][k]) for k in ("X", "C", "Sh", "la", "hub") if k in data[c]} for c in data}
+T_ = {c: {k: torch.tensor(data[c][k]) for k in ("X", "C", "Sh", "la", "hub", "J", "P") if k in data[c]} for c in data}
 NF = data[TGT]["X"].shape[1]
 
 
 def run(mdl, c, C):
     mdl.la, mdl.hub = T_[c]["la"], T_[c]["hub"]
+    if EXPO: mdl.J, mdl.P = T_[c]["J"], T_[c]["P"]
     return mdl(T_[c]["X"], C)
 
 
@@ -256,7 +276,7 @@ def evaluate(p):
 
 
 results, preds = {}, []
-if CAL: os.makedirs(f"{HERE}/out_cal", exist_ok=True)
+os.makedirs(f"{HERE}/{'out_cal' if CAL else 'out'}", exist_ok=True)
 out = f"{HERE}/{'out_cal' if CAL else 'out'}/multi_{TGT}_from_{'+'.join(SRCS)}{TAG}"
 for seed in SEEDS:
     t0 = time.time()
