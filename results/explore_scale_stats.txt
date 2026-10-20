@@ -1,0 +1,16 @@
+(1) region-size summaries as a multiple of the median area (mean = total area / number of regions = inverse region density)
+target         median km2  geo-mean    mean area-wtd mean  25% / median  75% / median
+Chicago              7.39      0.89    1.05          1.50          0.62          1.24
+NYC                  2.14      0.92    1.41          2.74          0.47          1.97
+SF tracts            0.35      1.04    4.11        165.76          0.57          1.60
+DC tracts            0.52      1.06    1.66          5.21          0.56          1.82
+SF ZIP areas         4.70      1.17    2.88         14.63          0.60          1.92
+DC clusters          3.42      0.98    1.18          1.77          0.62          1.34
+Austin cells         1.07      1.00    1.00          1.00          1.00          1.00
+
+(2) yearly trips per transit commuter (Austin: rides in the 248 evaluated days scaled to a year)
+   chicago  transit commuters   241,532  trips per commuter   15.1
+   nyc      transit commuters 1,728,114  trips per commuter   17.7
+   sf       transit commuters    87,355  trips per commuter   19.5
+   dc       transit commuters    75,680  trips per commuter   15.8
+   austin   transit commuters    11,762  trips per commuter  112.7

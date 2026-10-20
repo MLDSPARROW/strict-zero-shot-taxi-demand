@@ -1,0 +1,15 @@
+
+===== chicago: target regions 77, area quantiles 10/25/50/75/90 % (km2): 3.03 4.62 7.39 9.18 12.11; sd of log area 0.57
+   partition 1, nyc_for_chicago_p1        101 blocks, quantiles: 4.86 5.75 7.32 9.12 11.66; sd of log area 0.36
+   partition 1, sf_for_chicago_p1          21 blocks, quantiles: 5.43 6.45 8.12 9.40 26.43; sd of log area 0.81
+   discrepancy J per partition (mean |log-quantile difference|): 0.26 0.27 0.24 0.27 0.27 0.26 0.26 0.25 0.26 0.23
+   run MAE_share per partition (mean of eh, eo, x1000):         10.53 10.31 10.94 10.67 12.30 10.79 10.24 11.26 11.19 11.06
+   Spearman(J, MAE_share) over the 10 partitions: rho = -0.19, p = 0.60; MAE_share spread across partitions: 5.2% (sd / mean)
+
+===== nyc: target regions 263, area quantiles 10/25/50/75/90 % (km2): 0.55 1.00 2.14 4.22 6.18; sd of log area 0.99
+   partition 1, sf_for_nyc_p1              60 blocks, quantiles: 1.33 1.62 2.23 2.79 4.88; sd of log area 0.83
+   discrepancy J per partition (mean |log-quantile difference|): 0.41 0.43 0.47 0.43 0.46 0.45 0.41 0.45 0.48 0.42
+   run MAE_share per partition (mean of eh, eo, x1000):         4.83 4.77 4.49 4.51 4.28 4.43 4.51 5.10 4.49 4.23
+   Spearman(J, MAE_share) over the 10 partitions: rho = -0.37, p = 0.29; MAE_share spread across partitions: 5.5% (sd / mean)
+
+done
