@@ -1,0 +1,7 @@
+formula check nyc: max abs diff over 18 features 0.0000 (median 0.00000)
+formula check sf: max abs diff over 18 features 0.0000 (median 0.00000)
+formula check chicago: max abs diff over 18 features 0.0000 (median 0.00000)
+nyc_for_chicago: 263 regions -> 101 blocks, median block area 7.37 km2 (target 7.39), trips kept 1.0000, airport blocks 2
+sf_for_chicago: 243 regions -> 21 blocks, median block area 7.43 km2 (target 7.39), trips kept 1.0000, airport blocks 0
+sf_for_nyc: 243 regions -> 60 blocks, median block area 2.16 km2 (target 2.14), trips kept 1.0000, airport blocks 0
+chicago for nyc: helper regions already >= target size, skipped

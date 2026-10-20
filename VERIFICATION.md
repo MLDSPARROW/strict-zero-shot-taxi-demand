@@ -29,13 +29,35 @@ the exact script if they want to reproduce it themselves. Commit hashes are shor
 | Table "Cost of strictness" (`tab:cost`) | `improve/cost_final.py` | `results/cost_final.txt` | 8df1116 |
 | Fig. "Cost of strictness" (`fig:cost`) | `improve/cost_final.py`, `improve/figures.py` | `figs/fig_cost.pdf`; numbers in `results/cost_final.txt` | 8df1116 |
 
+Items added on 21 October 2026 (analyses after the main evaluation; each was run under a time-stamped protocol,
+except the two descriptive items marked as such in the paper):
+
+| Paper item | Script | Result file in this repo | Introduced in commit |
+|---|---|---|---|
+| Table "Additional targets" (`tab:data2`) | `improve/build_coarse_targets.py` (coarse versions), `multicity/prep_austin.py` (Austin cells) | region counts and totals are printed in `results/coarse_eval.txt` and `results/austin_eval.txt` | 7e3eaba, d094124 |
+| Table "Coarse versions of the held-out cities" (`tab:coarse`) | `improve/build_coarse_targets.py`, `improve/runner_coarse.py`, `improve/coarse_eval.py`; Chi row: `improve/chi_baseline.py`, `improve/chi_eval.py` | `results/coarse_eval.txt`, `results/chi_eval.txt`; protocol `improve/PROTOCOL_COARSE_TARGETS.md` | 7e3eaba, dc206da, 9851b03 |
+| Table "Austin" (`tab:austin`) | `multicity/prep_austin.py`, `improve/build_extra.py`, `improve/runner_austin.py`, `improve/austin_eval.py`; forecast-of-zero row: `improve/v1_i1_eval.py` | `results/austin_eval.txt`, `results/v1_i1_eval.txt`; protocol `improve/PROTOCOL_MORE_CITIES.md` | d094124, f82de81, 8cb5e45 |
+| Table "Gain of scale matching in all targets" (`tab:scalegain`) and Fig. (`fig:scalegain`) | `improve/scale_gain_plot.py`, which parses `results/control_eval.txt`, `results/coarse_eval.txt` and `results/austin_eval.txt` (descriptive, computed after the individual results) | `results/scale_gain.txt`; `figs/fig_scalegain.pdf` | 47c7479 |
+| Section "Comparison with the allocation of Chi et al." (numbers in the text) | `improve/chi_baseline.py`, `improve/chi_eval.py` | `results/chi_eval.txt`; protocol `improve/PROTOCOL_CHI_BASELINE.md` | dc206da, 7babd5c |
+| `tab:lit`: hourly rows of this work for Chicago, NYC, Washington, DC and Austin; forecast-of-zero values in the limitations | `improve/hourly_compare.py`, `improve/v1_i1_eval.py` (descriptive, protocol `PROTOCOL_V2.md` addendum 5) | `results/hourly_compare.txt`, `results/v1_i1_eval.txt` | cb6a760, f82de81 |
+| Section "Approaches that did not help", paragraph on further extensions | `improve/run_x.py` (flags `p`, `a`), `improve/v2_screen_eval.py`, `improve/v2_confirm_eval.py`, `improve/point_functional.py` | `results/v2_screen.txt`, `results/v2_confirm.txt`, `results/v1_i1_eval.txt`; protocol `improve/PROTOCOL_V2.md` (addenda 1 to 5) | 8bd2ad6, 3f5716f, f82de81, 3ca26c7 |
+
+Rows of `tab:lit` that come from other studies are copied from the cited tables (Chen et al. 2023 Tab. 2,
+Bansal et al. 2021 Tab. 3, Hou et al. 2019 Tab. 1, in addition to those listed above) and are not reproduced here.
+
 ## Known gap
 
-`tab:k` (the re-aggregation sizes, Chicago partition 1) is currently only reproducible by rerunning
-`improve/aggregate.py`; its console output was not saved as a `results/*.txt` file at the time it was run.
-This is flagged here rather than silently left out, and will be fixed the next time the data pipeline is
-rebuilt (see `PROTOCOL_REVISION.md` and the "more cities" follow-up work), by saving that script's output
-to `results/aggregate.txt`.
+None at present. `tab:k` (the re-aggregation sizes, base partition) was originally only reproducible by
+rerunning `improve/aggregate.py`, because its console output had not been saved. After the data pipeline was
+rebuilt on 20 October 2026, that output was archived as `results/aggregate.txt` (block counts and median block
+areas: NYC 263 to 101 and SF 243 to 21 blocks for Chicago, SF 243 to 60 blocks for NYC), and the rebuilt
+files reproduce the paper's block counts exactly. The ten partitions of every helper are rebuilt by
+`aggregate_multi.py` and `aggregate_multi2.py`; their block counts and median areas are printed there.
+
+The local working data of the earlier work (not the repository) were lost between 3 and 17 October 2026 and
+were rebuilt from public sources; the rebuilt trip totals match the paper's Table 1 exactly (checked in
+`improve/build_coarse_targets.py`), and the rebuilt final-method predictions reproduce the paper's results
+within 0.005 MAE (`results/v1_i1_eval.txt`, "reproduction check" lines).
 
 ## How to check a number yourself without rerunning anything
 
