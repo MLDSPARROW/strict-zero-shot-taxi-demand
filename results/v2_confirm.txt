@@ -1,0 +1,20 @@
+
+===== chicago: 10-run ensembles, 17518 observed slots =====
+   v1 = eh/2 + eo/2         MAE_share 0.00953 | allocation-only MAE 1.507 RMSE 4.117
+   v2 = eh/2 + eo/4 + ep/4  MAE_share 0.00960 | allocation-only MAE 1.527 RMSE 4.325
+   head eh                  MAE_share 0.01032 | allocation-only MAE 1.703 RMSE 5.261
+   head eo                  MAE_share 0.00930 | allocation-only MAE 1.481 RMSE 3.818
+   head ep                  MAE_share 0.01197 | allocation-only MAE 2.191 RMSE 8.158
+
+===== nyc: 10-run ensembles, 17518 observed slots =====
+   v1 = eh/2 + eo/2         MAE_share 0.00444 | allocation-only MAE 7.445 RMSE 17.266
+   v2 = eh/2 + eo/4 + ep/4  MAE_share 0.00421 | allocation-only MAE 7.004 RMSE 16.470
+   head eh                  MAE_share 0.00417 | allocation-only MAE 6.935 RMSE 16.992
+   head eo                  MAE_share 0.00484 | allocation-only MAE 8.194 RMSE 18.452
+   head ep                  MAE_share 0.00407 | allocation-only MAE 6.731 RMSE 16.248
+
+===== adoption rule =====
+   chicago: v1 - v2 daily MAE_share -0.000066 [-0.000101, -0.000039], v2 better on 46% of days, change -0.7%
+   nyc: v1 - v2 daily MAE_share +0.000229 [+0.000225, +0.000234], v2 better on 100% of days, change +5.2%
+   (a) lower mean MAE_share: True | (b) interval above zero in: ['nyc'] | (c) other target acceptable: False
+   DECISION: do not adopt v2 (v1 stays)

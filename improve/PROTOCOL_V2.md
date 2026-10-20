@@ -118,3 +118,45 @@ to sum to 1; elsewhere (Chicago, Austin) plain area weights are kept, and the re
 v1 files there. This applies to the ACS counts and to LODES jobs and resident workers re-interpolated for v2 (`jobs_n`,
 `res_n`), which are used by flag `p` and by the v2 rows of the jobs and jobs + residents baselines. The v1 files and
 v1 rows are not changed, and both versions of the baselines are reported for NYC.
+
+## Addendum 2 (2026-10-20, after the I2 screen, before confirmation runs 4-10 and before any held-out v2 run)
+
+Screen result (`results/v2_screen.txt`, runs 1-3, MAE_share of 3-run ensembles): ep vs eo Chicago -32.4%, NYC +18.0%;
+epa vs eo Chicago -26.6%, NYC +14.6%; eha vs eh Chicago -18.6%, NYC -13.6%. All three fail the pre-declared rule and are
+not adopted as replacement heads. The ACS propensity inputs (flag `a`) are dropped. I3 is not run (it was tied to a
+passing variant).
+
+Exploration after the screen, development data only (no held-out target data): (1) on every helper data set and scale
+(NYC and SF blocks at Chicago scale, Chicago, SF blocks at NYC scale, NYC, SF, SF blocks at DC scale), the yearly shares
+are much closer to the people prior (LODES jobs + ACS population) than to the area prior (L1 0.47-1.30 vs 1.26-1.77; the
+best geometric mix is 100% people in every case); the people head fails in Chicago because the learned correction on top
+of it overshoots the busiest areas (peak ratio 1.34). (2) Six combinations of the screened heads were compared on the
+development targets (runs 1-3, change in MAE_share vs v1 = (eh + eo)/2, Chicago / NYC): (eh + ep)/2 -7.3% / +10.8%;
+(eh + eo + ep)/3 -1.8% / +4.7%; eh/2 + eo/4 + ep/4 +0.3% / +5.9%; v1 shrunk 25% to the people prior -1.2% / -1.8%;
+people prior alone -40.9% / -11.6%.
+
+New rule, declared now: the v2 final share is eh/2 + eo/4 + ep/4, that is, v1's equal weighting of the hub head and the
+exposure head, with the exposure head replaced by an equal average of the area-exposure (eo) and people-exposure (ep)
+heads, treating the two exposure models as equally plausible. It was chosen after seeing the runs 1-3 numbers above, and
+this is disclosed. Confirmation on the development targets: runs r = 1..10 of eh, eo and ep (runs 4-10 are new). v2 is
+adopted if (a) its 10-run MAE_share averaged over Chicago and NYC is lower than that of v1, (b) the 7-day block bootstrap
+(2,000 draws) of the daily MAE_share difference v1 - v2 excludes zero on the positive side in at least one development
+target, and (c) in the other target v2 is not more than 3% worse and its interval does not lie entirely on the worse side.
+If adopted, v2 is evaluated once on all targets with the calendar-only predictions, as specified above, and scored with I1.
+
+## Addendum 3 (2026-10-20, after the 10-run confirmation, before any further run)
+
+Result (`results/v2_confirm.txt`, 10-run ensembles on the development targets, MAE_share):
+Chicago v1 0.00953, v2 0.00960 (v2 0.7% worse; 7-day block bootstrap of v1 - v2 [-0.000101, -0.000039], so v2 is
+significantly worse, better on 46% of days); NYC v1 0.00444, v2 0.00421 (v2 5.2% better, interval [+0.000225, +0.000234],
+better on 100% of days). Rule (a) holds, rule (b) holds in NYC, rule (c) fails: in the other target (Chicago) the interval
+of v1 - v2 lies entirely on the side where v2 is worse.
+
+DECISION, by the rule fixed in Addendum 2: v2 is NOT adopted and v1 stays the final method. No v2 prediction is run on
+SF, DC, the coarse targets or Austin. Per the protocol, the only v2 element that remains is the I1 scoring (median of
+the negative binomial predictive distribution for MAE, mean for RMSE), reported next to the v1 mean-forecast numbers for
+every target. For this, the v1 calendar-only predictions lost with the local data (Chicago, NYC, SF) are recomputed with
+the unchanged v1 code (heads eh and eo, ten runs each, same helpers, partitions and seeds as the paper); their
+mean-forecast MAE must reproduce the paper within 0.02, otherwise this is reported. Reported as a finding, not tuned
+further: the people-exposure head alone is the best head in NYC (MAE_share 0.00407 vs 0.00444 for v1) and the worst in
+Chicago (0.01197 vs 0.00953), so its effect depends on the city.
