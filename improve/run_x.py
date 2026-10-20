@@ -120,7 +120,7 @@ CITY = {"nyc": (f"{B77}/nyc_2021_zone_30min.npy", f"{B77}/region_static_nyc.npz"
         "sf_time": (f"{MC}/sf_time_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US"),
         "sf_space": (f"{MC}/sf_space_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US"),
         "sf_both": (f"{MC}/sf_both_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US")}
-for _c in SRCS:                                   # any other re-aggregated helper in data/agg (e.g. aggregation controls)
+for _c in SRCS + [TGT]:                           # any other re-aggregated helper in data/agg (e.g. aggregation controls); a pseudo-target may be one
     if _c not in CITY and os.path.exists(f"{HERE}/data/agg/{_c}_Y.npy"):
         CITY[_c] = (f"{HERE}/data/agg/{_c}_Y.npy", f"{HERE}/data/agg/{_c}_static.npz", date(2023 if _c.startswith("sf_") else 2021, 1, 1), "US")
 FEAT = list(range(18))

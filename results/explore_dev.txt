@@ -1,0 +1,46 @@
+
+===== chicago: 77 regions, 17518 slots; zero forecast MAE 2.698 =====
+   (b) blend of v1 shares with a smoother prior, strict mean-forecast MAE / RMSE
+      v1 alone   w=0.0: MAE 1.829  RMSE 5.207
+      uniform    w=0.1: MAE 1.805  RMSE 4.822
+      uniform    w=0.2: MAE 1.850  RMSE 4.703
+      uniform    w=0.3: MAE 1.966  RMSE 4.868
+      uniform    w=0.5: MAE 2.384  RMSE 5.919
+      jobs+res   w=0.1: MAE 1.806  RMSE 5.028
+      jobs+res   w=0.2: MAE 1.805  RMSE 4.948
+      jobs+res   w=0.3: MAE 1.829  RMSE 4.970
+      jobs+res   w=0.5: MAE 1.952  RMSE 5.312
+      people     w=0.1: MAE 1.806  RMSE 5.005
+      people     w=0.2: MAE 1.807  RMSE 4.909
+      people     w=0.3: MAE 1.835  RMSE 4.926
+      people     w=0.5: MAE 1.974  RMSE 5.287
+   (a) median-forecast MAE of v1 when k is scaled by s (s = 1 is the helper in-sample dispersion used so far)
+      s=1.0  : median-forecast MAE 1.715 (share of cells forecast as zero 0.662, observed zero share 0.586)
+      s=0.5  : median-forecast MAE 1.682 (share of cells forecast as zero 0.695, observed zero share 0.586)
+      s=0.25 : median-forecast MAE 1.632 (share of cells forecast as zero 0.744, observed zero share 0.586)
+      s=0.1  : median-forecast MAE 1.553 (share of cells forecast as zero 0.812, observed zero share 0.586)
+      s=0.05 : median-forecast MAE 1.594 (share of cells forecast as zero 0.873, observed zero share 0.586)
+
+===== nyc: 263 regions, 17518 slots; zero forecast MAE 6.627 =====
+   (b) blend of v1 shares with a smoother prior, strict mean-forecast MAE / RMSE
+      v1 alone   w=0.0: MAE 7.454  RMSE 17.590
+      uniform    w=0.1: MAE 7.643  RMSE 17.640
+      uniform    w=0.2: MAE 7.848  RMSE 17.743
+      uniform    w=0.3: MAE 8.069  RMSE 17.898
+      uniform    w=0.5: MAE 8.555  RMSE 18.359
+      jobs+res   w=0.1: MAE 7.526  RMSE 17.529
+      jobs+res   w=0.2: MAE 7.609  RMSE 17.504
+      jobs+res   w=0.3: MAE 7.702  RMSE 17.516
+      jobs+res   w=0.5: MAE 7.920  RMSE 17.646
+      people     w=0.1: MAE 7.535  RMSE 17.547
+      people     w=0.2: MAE 7.627  RMSE 17.541
+      people     w=0.3: MAE 7.730  RMSE 17.571
+      people     w=0.5: MAE 7.967  RMSE 17.742
+   (a) median-forecast MAE of v1 when k is scaled by s (s = 1 is the helper in-sample dispersion used so far)
+      s=1.0  : median-forecast MAE 7.244 (share of cells forecast as zero 0.210, observed zero share 0.666)
+      s=0.5  : median-forecast MAE 7.178 (share of cells forecast as zero 0.224, observed zero share 0.666)
+      s=0.25 : median-forecast MAE 7.054 (share of cells forecast as zero 0.249, observed zero share 0.666)
+      s=0.1  : median-forecast MAE 6.736 (share of cells forecast as zero 0.327, observed zero share 0.666)
+      s=0.05 : median-forecast MAE 6.391 (share of cells forecast as zero 0.425, observed zero share 0.666)
+
+done

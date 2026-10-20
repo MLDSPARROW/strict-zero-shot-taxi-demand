@@ -16,6 +16,7 @@ CITY = {"chicago": (f"{B}/chicago_2021_ca_30min.npy", f"{B}/region_static_chicag
         "austin": (None, f"{MC}/region_static_austin.npz", date(2016, 6, 4)),
         "porto": (None, f"{MC}/region_static_porto.npz", date(2013, 7, 1))}
 TGT, HEL, SEEDS = sys.argv[1], sys.argv[2].split(","), [int(s) for s in sys.argv[3].split(",")]
+OUTTAG = sys.argv[4] if len(sys.argv) > 4 else ""      # optional suffix of the output file (pseudo-target runs, PROTOCOL_V2.md addendum 6)
 assert TGT not in HEL
 
 
@@ -59,5 +60,5 @@ for seed in SEEDS:
         opt.zero_grad(); loss.backward(); opt.step()
     with torch.no_grad():
         d = alloc(mlp, NC[TGT]).numpy(); sh = d / np.maximum(d.sum(1, keepdims=True), 1e-12)
-    np.save(f"{HERE}/out_cal/chi_{TGT}_seed{seed}.npy", sh[row].astype(np.float32))
+    np.save(f"{HERE}/out_cal/chi_{TGT}{OUTTAG}_seed{seed}.npy", sh[row].astype(np.float32))
     print(f"{TGT} <- {HEL} seed {seed}: final KL {loss.item():.4f}, active categories {int((torch.relu(mlp(ENC)).sum(0) > 0).sum())}/{C}", flush=True)
