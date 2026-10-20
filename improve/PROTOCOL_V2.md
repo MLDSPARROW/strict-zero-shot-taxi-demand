@@ -174,3 +174,15 @@ DC hourly MAE below 0.66 and RMSE below 2.40: NOT MET (0.738 / 2.658; zero 0.662
 Austin: all methods tie at 0.110 to 0.111 (median-forecast MAE). Coarse targets: sf_zcta 3.442 and dc_cluster 3.096, behind
 Chi et al. (2.348) and jobs + residents (2.508). The median-forecast scoring lowers the MAE of every method but does not change
 which method is best in NYC, SF, DC or Austin; it is reported as an additional column, and v1 remains the final method.
+
+## Addendum 5 (2026-10-21, declared before running; scoring variant for comparison with published studies, no model change)
+
+Published studies that predict taxi or ride-hailing demand report hourly counts, and for Austin on 7 ZIP codes or 10 k-means
+zones (Hou et al., TRB 2019: 7 ZIP codes, one hour ahead, LSTM MAE 7.2 / RMSE 12.3; Bansal et al., VEHITS 2021: 10 zones, hourly,
+LSTM 6.098 / 18.421), and all use recent target history, which this method never does. To compare at the same resolution, the
+existing final-method predictions are scored at hourly resolution (sum of the two half-hour slots; an hour with a missing slot
+is dropped) for Chicago, NYC and SF (as already done for DC), and for Austin additionally after summing the 684 cells into K = 10
+and K = 7 zones by k-means (random_state 0, n_init 10) on the cell centroids, which uses only the region geometry. Scores: mean-
+forecast MAE and RMSE of the fully strict predictions for the final method, jobs-proportional, jobs + residents, Chi et al. and
+the zero forecast; for Austin also, labelled as a diagnostic and not as a strict result, the same predicted shares with the
+true slot totals, because the strict city total is 85% too low. Reported as obtained.
