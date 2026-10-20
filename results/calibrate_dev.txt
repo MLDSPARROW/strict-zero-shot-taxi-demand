@@ -1,0 +1,25 @@
+
+===== chicago: 77 regions, 17518 calendar slots; zero forecast MAE 2.698 =====
+   method             | uncalibrated: mean MAE / RMSE, I1 median MAE | calibration (prior, w, k_full, k_disp) | full: RMSE, mean MAE, median MAE | disp-only (w = 0): RMSE, median MAE
+   Ours v1            |   1.829 /   5.207,   1.715             | jobs+res w=0.5 k_full=0.320 k_disp=0.226 |   5.312,   1.952,   2.175 |   5.207,   2.367
+   Chi et al.         |   2.712 /   7.882,   2.522             | jobs+res w=0.5 k_full=0.160 k_disp=0.226 |   7.335,   2.561,   2.630 |   7.882,   2.459
+   Jobs-proportional  |   2.515 /   8.711,   2.369             | uniform  w=0.0 k_full=0.320 k_disp=0.320 |   8.711,   2.515,   2.190 |   8.711,   2.190
+   Jobs + residents   |   2.595 /   7.413,   2.389             | uniform  w=0.0 k_full=0.226 k_disp=0.226 |   7.413,   2.595,   2.478 |   7.413,   2.478
+   Uniform            |   4.058 /  10.535,   3.801             | jobs+res w=0.5 k_full=0.160 k_disp=0.113 |   8.433,   3.109,   2.671 |  10.535,   2.698
+
+===== nyc: 263 regions, 17518 calendar slots; zero forecast MAE 6.627 =====
+   method             | uncalibrated: mean MAE / RMSE, I1 median MAE | calibration (prior, w, k_full, k_disp) | full: RMSE, mean MAE, median MAE | disp-only (w = 0): RMSE, median MAE
+   Ours v1            |   7.454 /  17.590,   7.244             | jobs+res w=0.2 k_full=0.640 k_disp=0.640 |  17.504,   7.609,   6.607 |  17.590,   6.470
+   Chi et al.         |   8.749 /  19.416,   8.548             | jobs+res w=0.5 k_full=0.640 k_disp=0.640 |  18.707,   8.619,   7.341 |  19.416,   7.413
+   Jobs-proportional  |   7.495 /  17.514,   7.300             | jobs+res w=0.5 k_full=0.905 k_disp=0.905 |  17.838,   8.000,   7.083 |  17.514,   6.631
+   Jobs + residents   |   8.645 /  18.572,   8.445             | uniform  w=0.0 k_full=0.640 k_disp=0.640 |  18.572,   8.645,   7.348 |  18.572,   7.348
+   Uniform            |  10.034 /  20.290,   9.816             | jobs+res w=0.5 k_full=0.453 k_disp=0.226 |  19.167,   9.266,   7.341 |  20.290,   6.825
+
+===== PRE-REGISTERED ADOPTION RULES (addendum 6) =====
+   (R) shrinkage adopted: False  (ours RMSE full vs v1: chicago 5.312 vs 5.207, nyc 17.504 vs 17.590)
+   (M) calibrated median-forecast MAE <= 0.97 x I1 in both cities (dispersion only): False  (chicago 2.367 vs 1.715, nyc 6.470 vs 7.244)
+   chicago: zero forecast minus ours (calibrated median-forecast daily MAE): +0.3313 [+0.3021, +0.3606], ours better on 100% of days
+   chicago: Jobs-proportional minus ours (calibrated median-forecast daily MAE): -0.1767 [-0.2009, -0.1561], ours better on 8% of days
+   nyc: zero forecast minus ours (calibrated median-forecast daily MAE): +0.1577 [+0.1360, +0.1901], ours better on 87% of days
+   nyc: Jobs-proportional minus ours (calibrated median-forecast daily MAE): +0.1618 [+0.1231, +0.1976], ours better on 82% of days
+   DECISION: MAE component not adopted; RMSE shrinkage not adopted

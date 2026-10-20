@@ -226,3 +226,17 @@ holds, the layer is evaluated once on the held-out targets (SF, DC, sf_zcta, dc_
 the same way and the result reported as obtained, with the paired 7-day block bootstrap against the zero forecast and the best
 calibrated baseline. If M fails, the I1 scoring of addendum 4 stays as the reported one-time result. The mean-forecast numbers of v1
 stay in every table whatever happens.
+
+## Addendum 7 (2026-10-21, result of the cross-city calibration screen of addendum 6, `results/calibrate_dev.txt`)
+
+The 44 pseudo-target jobs ran as specified. Two coding errors in the scoring script were fixed before the final run (Chi pseudo-target shares
+are stored on calendar slots and had to be restricted to the observed slots of San Francisco, and an import); neither changes the design.
+Result for the learned allocator (development targets, calibration fitted on pseudo-targets only):
+(R) shrinkage: Chicago RMSE 5.312 against 5.207 for v1 (worse), New York City 17.504 against 17.590 (0.5% better); not adopted.
+(M) dispersion only: median-forecast MAE Chicago 2.367 against 1.715 for the helper-in-sample dispersion of addendum 4 (38% worse), New York City
+6.470 against 7.244 (10.7% better, and below the zero forecast, 6.627); the rule required at least 3% improvement in both cities, so it is not adopted.
+The fitted dispersions were k = 0.226 for Chicago (best constant on the development target itself: 1.0) and k = 0.640 for New York City (best:
+0.25 to 0.35), that is, too cautious in one city and too confident in the other. A likely reason is that the pseudo-targets are predicted by
+models with one helper only, which are much less accurate than the deployed models with two helpers, and that two pseudo-targets are too few to
+fix a city-level dispersion. Decision by the rule fixed beforehand: the calibration layer is not adopted, no held-out pseudo-target run is
+made, and the I1 scoring of addendum 4 remains the reported point-forecast analysis. No variant of the layer will be tried after this result.

@@ -12,6 +12,9 @@ src = open(f"{HERE}/v1_i1_eval.py").read(); ns = {"__file__": f"{HERE}/v1_i1_eva
 exec(src[:src.index("for t in (sys.argv")], ns)
 from point_functional import Quantiles
 target, TG, O, MC, norm, helper, dispersion, boot, YP = (ns[k] for k in ("target", "TG", "O", "MC", "norm", "helper", "dispersion", "boot", "YP"))
+from slots import calendar_slots
+from datetime import date
+START = {"chicago": date(2021, 1, 1), "nyc": date(2021, 1, 1), "sf": date(2023, 1, 1)}
 OUT, AG, B = f"{HERE}/out", f"{HERE}/data/agg", f"{HERE}/../bench77/data"
 KGRID = [0.02 * 2 ** (j / 2) for j in range(20)]; WGRID = [0.0, 0.1, 0.2, 0.3, 0.5]
 NRUN = 5
@@ -41,8 +44,9 @@ def pseudo_samples(T, method):
         if method == "Ours v1":
             ld = lambda h: np.mean([norm(np.load(f"{OUT}/multi_{p['tag']}_from_{p['srcs'](r)}_v{h}_seed{r - 1}.npy")) for r in range(1, NRUN + 1)], 0)
             share = 0.5 * ld("eh") + 0.5 * ld("eo")
-        elif method == "Chi et al.":
-            share = np.mean([norm(np.load(f"{O}/chi_{p['c']}_pseudoT_{T}_seed{s}.npy")) for s in range(NRUN)], 0)
+        elif method == "Chi et al.":                                       # saved on calendar slots; keep the observed ones (SF has 2 empty slots)
+            cal = calendar_slots(p["c"], START[p["c"]]); pos = {x: i for i, x in enumerate(cal)}; rows = [pos[x] for x in idx]
+            share = np.mean([norm(np.load(f"{O}/chi_{p['c']}_pseudoT_{T}_seed{s}.npy"))[rows] for s in range(NRUN)], 0)
         elif method == "Jobs-proportional": share = np.repeat((E_["jobs"] / E_["jobs"].sum())[None], len(di), 0)
         elif method == "Jobs + residents": share = np.repeat((jr / jr.sum())[None], len(di), 0)
         else: share = np.full((len(di), R), 1.0 / R)
