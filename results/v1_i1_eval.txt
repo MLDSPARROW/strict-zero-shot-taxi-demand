@@ -1,0 +1,101 @@
+
+===== chicago (30-min, 77 regions, 17518 calendar slots); dispersion from nyc_for_chicago_p1, sf_for_chicago_p1 =====
+   method                           mean-forecast MAE / RMSE | median-forecast MAE | 80% coverage
+   Zero forecast                    2.698 / 11.028               | 2.698                | 0.586
+   Uniform                          4.058 / 10.535               | 3.801                | 0.641
+   Jobs-proportional                2.515 / 8.711               | 2.369                | 0.852
+   Jobs + residents                 2.595 / 7.413               | 2.389                | 0.838
+   Chi et al. allocation            2.712 / 7.882               | 2.522                | 0.830
+   Ours v1, final (M)               1.829 / 5.207               | 1.715                | 0.848
+   reproduction check vs archived final method 1.83 / 5.21: MAE difference -0.001, RMSE difference -0.003 -> OK (within 0.02)
+   Zero forecast minus ours, daily median-forecast MAE: +0.9823 [+0.8093, +1.1996], ours better on 91% of days
+   Jobs-proportional minus ours, daily median-forecast MAE: +0.6535 [+0.5563, +0.7642], ours better on 98% of days
+   Jobs + residents (best RMSE baseline) minus ours, daily MSE: +27.8412 [+20.0100, +36.6574], ours better on 70% of days
+   success criterion fixed in PROTOCOL_V2.md: not more than 3% worse than 1.83 / 5.21
+
+===== nyc (30-min, 263 regions, 17518 calendar slots); dispersion from chicago, sf_for_nyc_p1 =====
+   method                           mean-forecast MAE / RMSE | median-forecast MAE | 80% coverage
+   Zero forecast                    6.627 / 21.694               | 6.627                | 0.666
+   Uniform                          10.034 / 20.290               | 9.816                | 0.285
+   Jobs-proportional                7.495 / 17.514               | 7.300                | 0.541
+   Jobs + residents                 8.645 / 18.572               | 8.445                | 0.433
+   Chi et al. allocation            8.749 / 19.416               | 8.548                | 0.509
+   Ours v1, final (M)               7.454 / 17.590               | 7.244                | 0.584
+   reproduction check vs archived final method 7.45 / 17.59: MAE difference +0.004, RMSE difference -0.000 -> OK (within 0.02)
+   Zero forecast minus ours, daily median-forecast MAE: -0.6169 [-0.7005, -0.5097], ours better on 4% of days
+   Jobs-proportional minus ours, daily median-forecast MAE: +0.0554 [+0.0102, +0.0943], ours better on 53% of days
+   Jobs-proportional (best RMSE baseline) minus ours, daily MSE: -2.6495 [-5.7918, -0.4622], ours better on 39% of days
+   success criterion fixed in PROTOCOL_V2.md: MAE < 6.63 (zero forecast) and < 6.83 (UrbanGPT); RMSE < 17.51 (jobs-proportional)
+
+===== sf (30-min, 243 regions, 17518 calendar slots); dispersion from chicago, nyc =====
+   method                           mean-forecast MAE / RMSE | median-forecast MAE | 80% coverage
+   Zero forecast                    0.400 / 1.215               | 0.400                | 0.788
+   Uniform                          0.564 / 1.137               | 0.400                | 0.914
+   Jobs-proportional                0.484 / 1.150               | 0.426                | 0.873
+   Jobs + residents                 0.488 / 1.010               | 0.387                | 0.909
+   Chi et al. allocation            0.476 / 0.979               | 0.386                | 0.918
+   Ours v1, final (M)               0.485 / 1.082               | 0.430                | 0.874
+   reproduction check vs archived final method 0.48 / 1.08: MAE difference +0.005, RMSE difference +0.002 -> OK (within 0.02)
+   Zero forecast minus ours, daily median-forecast MAE: -0.0296 [-0.0320, -0.0267], ours better on 2% of days
+   Chi et al. allocation minus ours, daily median-forecast MAE: -0.0435 [-0.0448, -0.0422], ours better on 0% of days
+   Chi et al. allocation (best RMSE baseline) minus ours, daily MSE: -0.2124 [-0.2230, -0.2029], ours better on 0% of days
+   success criterion fixed in PROTOCOL_V2.md: MAE <= 0.40, RMSE < 0.98 (Chi et al.)
+
+===== dc (hourly, 206 regions, 17520 calendar slots); dispersion from chicago, nyc, sf_for_dc_p1 =====
+   method                           mean-forecast MAE / RMSE | median-forecast MAE | 80% coverage
+   Zero forecast                    0.662 / 2.789               | 0.662                | 0.732
+   Uniform                          0.937 / 2.688               | 0.756                | 0.948
+   Jobs-proportional                0.835 / 2.690               | 0.751                | 0.860
+   Jobs + residents                 0.804 / 2.404               | 0.673                | 0.925
+   Chi et al. allocation            0.851 / 2.476               | 0.737                | 0.885
+   Ours v1, native helpers (N)      0.868 / 2.707               | 0.756                | 0.888
+   Ours v1, final (M)               0.856 / 2.658               | 0.738                | 0.901
+   reproduction check vs archived final method 0.86 / 2.66: MAE difference -0.004, RMSE difference -0.002 -> OK (within 0.02)
+   Zero forecast minus ours, daily median-forecast MAE: -0.0753 [-0.0953, -0.0499], ours better on 19% of days
+   Jobs + residents minus ours, daily median-forecast MAE: -0.0645 [-0.0717, -0.0575], ours better on 0% of days
+   Jobs + residents (best RMSE baseline) minus ours, daily MSE: -1.2893 [-1.5081, -1.0602], ours better on 1% of days
+   success criterion fixed in PROTOCOL_V2.md: MAE < 0.66, RMSE < 2.40 (jobs + residents), hourly
+
+===== sf_zcta (30-min, 26 regions, 17518 calendar slots); dispersion from chicago, nyc_for_sf_zcta_p1 =====
+   method                           mean-forecast MAE / RMSE | median-forecast MAE | 80% coverage
+   Zero forecast                    3.741 / 6.431               | 3.741                | 0.307
+   Uniform                          3.347 / 5.025               | 3.283                | 0.604
+   Jobs-proportional                2.638 / 4.424               | 2.605                | 0.714
+   Jobs + residents                 2.487 / 4.049               | 2.451                | 0.751
+   Chi et al. allocation            2.382 / 3.929               | 2.348                | 0.777
+   Ours v1, native helpers (N)      3.589 / 6.763               | 3.578                | 0.598
+   Ours v1, final (M)               3.443 / 6.262               | 3.442                | 0.595
+   reproduction check vs archived final method 3.443 / 6.262: MAE difference -0.000, RMSE difference +0.000 -> OK (within 0.02)
+   Zero forecast minus ours, daily median-forecast MAE: +0.2991 [+0.2506, +0.3637], ours better on 87% of days
+   Chi et al. allocation minus ours, daily median-forecast MAE: -1.0938 [-1.1245, -1.0637], ours better on 0% of days
+   Chi et al. allocation (best RMSE baseline) minus ours, daily MSE: -23.7773 [-24.4827, -23.0597], ours better on 0% of days
+
+===== dc_cluster (hourly, 44 regions, 17520 calendar slots); dispersion from chicago, nyc_for_dc_cluster_p1, sf_for_dc_cluster_p1 =====
+   method                           mean-forecast MAE / RMSE | median-forecast MAE | 80% coverage
+   Zero forecast                    3.101 / 7.688               | 3.101                | 0.428
+   Uniform                          3.529 / 6.850               | 3.351                | 0.670
+   Jobs-proportional                3.006 / 7.180               | 2.929                | 0.735
+   Jobs + residents                 2.637 / 6.001               | 2.508                | 0.817
+   Chi et al. allocation            2.919 / 6.186               | 2.809                | 0.711
+   Ours v1, native helpers (N)      3.325 / 8.469               | 3.223                | 0.741
+   Ours v1, final (M)               3.181 / 7.998               | 3.096                | 0.738
+   reproduction check vs archived final method 3.181 / 7.998: MAE difference +0.000, RMSE difference -0.000 -> OK (within 0.02)
+   Zero forecast minus ours, daily median-forecast MAE: +0.0042 [-0.1463, +0.1875], ours better on 35% of days
+   Jobs + residents minus ours, daily median-forecast MAE: -0.5885 [-0.6344, -0.5440], ours better on 1% of days
+   Jobs + residents (best RMSE baseline) minus ours, daily MSE: -27.9496 [-30.8913, -24.7518], ours better on 0% of days
+
+===== austin (30-min, 684 regions, 11904 calendar slots); dispersion from chicago, nyc, sf_for_austin_p1 =====
+   method                           mean-forecast MAE / RMSE | median-forecast MAE | 80% coverage
+   Zero forecast                    0.111 / 1.105               | 0.111                | 0.948
+   Uniform                          0.126 / 1.104               | 0.111                | 0.948
+   Jobs-proportional                0.121 / 1.097               | 0.110                | 0.951
+   Jobs + residents                 0.123 / 1.099               | 0.111                | 0.950
+   Chi et al. allocation            0.121 / 1.098               | 0.111                | 0.951
+   Ours v1, native helpers (N)      0.122 / 1.098               | 0.111                | 0.950
+   Ours v1, final (M)               0.121 / 1.096               | 0.111                | 0.950
+   reproduction check vs archived final method 0.121 / 1.096: MAE difference -0.000, RMSE difference +0.000 -> OK (within 0.02)
+   Zero forecast minus ours, daily median-forecast MAE: +0.0001 [+0.0000, +0.0001], ours better on 23% of days
+   Jobs-proportional minus ours, daily median-forecast MAE: -0.0001 [-0.0002, -0.0001], ours better on 20% of days
+   Jobs-proportional (best RMSE baseline) minus ours, daily MSE: +0.0008 [+0.0001, +0.0017], ours better on 49% of days
+
+done

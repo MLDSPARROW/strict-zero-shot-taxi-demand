@@ -160,3 +160,17 @@ the unchanged v1 code (heads eh and eo, ten runs each, same helpers, partitions 
 mean-forecast MAE must reproduce the paper within 0.02, otherwise this is reported. Reported as a finding, not tuned
 further: the people-exposure head alone is the best head in NYC (MAE_share 0.00407 vs 0.00444 for v1) and the worst in
 Chicago (0.01197 vs 0.00953), so its effect depends on the city.
+
+## Addendum 4 (2026-10-21, result of the I1 scoring of the final v1 method, `results/v1_i1_eval.txt`)
+
+Reproduction: the v1 predictions recomputed with the unchanged code match the archived final method within 0.005 MAE on every
+target (Chicago 1.829 / 5.207, NYC 7.454 / 17.590, SF 0.485 / 1.082, DC 0.856 / 2.658, sf_zcta 3.443 / 6.262, dc_cluster
+3.181 / 7.998, Austin 0.121 / 1.096), inside the declared 0.02 tolerance.
+Success criteria fixed on 2026-10-20 (median-forecast MAE, mean-forecast RMSE): Chicago not more than 3% worse than 1.83 / 5.21:
+MET (median-forecast MAE 1.715, the lowest of all methods, better than the zero forecast on 91% of days). NYC MAE below 6.63 and
+6.83: NOT MET (7.244; zero forecast 6.627; jobs-proportional 7.300, ours better by 0.055 [0.010, 0.094]); NYC RMSE below 17.51:
+NOT MET (17.59). SF MAE at most 0.40 and RMSE below 0.98: NOT MET (0.430 / 1.082; zero forecast 0.400, Chi et al. 0.386 / 0.979).
+DC hourly MAE below 0.66 and RMSE below 2.40: NOT MET (0.738 / 2.658; zero 0.662, jobs + residents 0.673 / 2.404).
+Austin: all methods tie at 0.110 to 0.111 (median-forecast MAE). Coarse targets: sf_zcta 3.442 and dc_cluster 3.096, behind
+Chi et al. (2.348) and jobs + residents (2.508). The median-forecast scoring lowers the MAE of every method but does not change
+which method is best in NYC, SF, DC or Austin; it is reported as an additional column, and v1 remains the final method.
