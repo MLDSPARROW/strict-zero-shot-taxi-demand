@@ -67,3 +67,16 @@ whole experiment needs about 3 hours with two runs in parallel.
 
 Scale-conditioned allocator, constrained downscaling, origin-destination gravity features, hierarchical allocation and the level diagnostic
 of the same external list are not run; the reasons are in the assessment recorded in the repository history of 2026-10-21.
+
+## Result (2026-10-21, `results/scale_rule_eval.txt`, `results/dc_sweep_table.txt`; recorded here as obtained)
+
+All 70 runs finished as specified (block counts and median block areas in `results/scale_rules_build.txt`; DC mean rule: goal 0.859 km2, 124 blocks).
+- H1 (DC, mean rule better than median rule, interval excludes zero): FALSE. Hourly MAE 0.8556 against 0.8555 for the median rule, mean daily
+  difference -0.0002 [-0.0010, +0.0005]; the RMSE is lower, 2.639 against 2.673.
+- H2 (San Francisco ZIP-code areas, same test): FALSE, and in the other direction. MAE 3.556 against 3.443 for the median rule, a difference of
+  -0.114 [-0.134, -0.092] (3.3% worse), better on 12% of days; RMSE 6.116 against 6.262.
+- Reading rule: the mean rule is NOT SUPPORTED. The median rule remains the frozen method; no further summary statistic is tried.
+- H3 (DC sweep): TRUE. Lowest MAE at q = 1 (0.855); q = 0.75, 1.5, 2 and 4 are higher by 0.003, 0.002, 0.004 and 0.006 (intervals exclude zero),
+  native helpers by 0.017; the RMSE is slightly lower for the larger blocks (2.63 at q = 4 against 2.67 at q = 1).
+The block-size sweep for Washington, DC (H3 and the table of `dc_sweep_table.py`) is reported in the paper as the extension of the sweep that was
+requested; the mean-rule hypothesis (H1, H2) is a negative result that is kept in this repository record only.

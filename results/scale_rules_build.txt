@@ -1,0 +1,8 @@
+sf_for_dc_xmeanp1..5: target dc, helper sf (243 regions), goal 0.859 km2, K 124 -> 124 to 124 blocks, median block area 0.853 km2 (range 0.847 to 0.857)
+sf_for_dc_x150p1..5: target dc, helper sf (243 regions), goal 0.778 km2, K 133 -> 133 to 133 blocks, median block area 0.809 km2 (range 0.802 to 0.815)
+sf_for_dc_x200p1..5: target dc, helper sf (243 regions), goal 1.038 km2, K 105 -> 105 to 105 blocks, median block area 1.089 km2 (range 1.066 to 1.121)
+sf_for_dc_x075p1..5: target dc, helper sf (243 regions), goal 0.389 km2, K 215 -> 215 to 215 blocks, median block area 0.389 km2 (range 0.384 to 0.392)
+sf_for_dc_x400p1..5: target dc, helper sf (243 regions), goal 2.076 km2, K 61 -> 61 to 61 blocks, median block area 2.073 km2 (range 1.957 to 2.147)
+chicago_for_sf_zcta_mp1..10: target sf_zcta, helper chicago (77 regions), goal 13.557 km2, K 41 -> 41 to 41 blocks, median block area 13.776 km2 (range 13.191 to 14.260)
+nyc_for_sf_zcta_mp1..10: target sf_zcta, helper nyc (263 regions), goal 13.557 km2, K 58 -> 58 to 58 blocks, median block area 13.477 km2 (range 13.040 to 13.882)
+done

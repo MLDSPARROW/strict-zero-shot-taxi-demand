@@ -1,0 +1,20 @@
+
+===== Washington, DC tracts, 206 regions (hourly); final method, MAE / RMSE, difference to the median rule [95% interval], positive = better =====
+   native helpers           0.8725 / 2.7391 | -0.0170 [-0.0193, -0.0149], better on 0% of days (-2.0% of the median-rule MAE)
+   q=0.75                   0.8588 / 2.6665 | -0.0033 [-0.0043, -0.0024], better on 33% of days (-0.4% of the median-rule MAE)
+   q=1, median rule         0.8555 / 2.6727
+   q=1.5                    0.8573 / 2.6749 | -0.0018 [-0.0024, -0.0014], better on 31% of days (-0.2% of the median-rule MAE)
+   mean rule (q=1.656)      0.8556 / 2.6392 | -0.0002 [-0.0010, +0.0005], better on 49% of days (-0.0% of the median-rule MAE)
+   q=2                      0.8599 / 2.6364 | -0.0044 [-0.0053, -0.0036], better on 16% of days (-0.5% of the median-rule MAE)
+   q=4                      0.8618 / 2.6308 | -0.0064 [-0.0090, -0.0042], better on 29% of days (-0.7% of the median-rule MAE)
+
+===== San Francisco ZIP-code areas, 26 regions (30-min); final method, MAE / RMSE, difference to the median rule [95% interval], positive = better =====
+   q=1, median rule         3.4427 / 6.2623
+   mean rule (q=2.882)      3.5564 / 6.1159 | -0.1136 [-0.1340, -0.0918], better on 12% of days (-3.3% of the median-rule MAE)
+
+===== PRE-REGISTERED READING (PROTOCOL_V3.md) =====
+   H1 (DC, mean rule better than median rule, interval excludes zero): False (-0.0002 [-0.0010, +0.0005])
+   H2 (SF ZIP, mean rule better than median rule, interval excludes zero): False (-0.1136 [-0.1340, -0.0918])
+   mean rule: NOT SUPPORTED
+   H3 (DC sweep, lowest MAE at q between 0.5 and 2 and q=4 worse than q=1): best q = 1.0 -> True
+done
