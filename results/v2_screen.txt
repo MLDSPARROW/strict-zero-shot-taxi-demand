@@ -1,0 +1,19 @@
+
+===== chicago: 77 regions, 17518 observed slots, ensemble of runs 1..3 =====
+   ep   MAE_share 0.01271 (single runs 0.01290 +- 0.00041) | allocation-only MAE 2.421 RMSE 9.587 | peak ratio 1.34 | top-10 recall 0.8
+   epa  MAE_share 0.01215 (single runs 0.01261 +- 0.00061) | allocation-only MAE 2.198 RMSE 8.856 | peak ratio 1.44 | top-10 recall 0.8
+   eha  MAE_share 0.01138 (single runs 0.01208 +- 0.00039) | allocation-only MAE 1.926 RMSE 6.776 | peak ratio 1.39 | top-10 recall 0.8
+   eo   MAE_share 0.00960 (single runs 0.01076 +- 0.00038) | allocation-only MAE 1.538 RMSE 4.181 | peak ratio 1.07 | top-10 recall 0.8
+   eh   MAE_share 0.00960 (single runs 0.01043 +- 0.00028) | allocation-only MAE 1.572 RMSE 4.365 | peak ratio 0.95 | top-10 recall 0.8
+
+===== nyc: 263 regions, 17518 observed slots, ensemble of runs 1..3 =====
+   ep   MAE_share 0.00418 (single runs 0.00422 +- 0.00011) | allocation-only MAE 6.910 RMSE 16.547 | peak ratio 0.48 | top-10 recall 0.4
+   epa  MAE_share 0.00435 (single runs 0.00438 +- 0.00026) | allocation-only MAE 7.202 RMSE 16.533 | peak ratio 0.34 | top-10 recall 0.4
+   eha  MAE_share 0.00481 (single runs 0.00483 +- 0.00024) | allocation-only MAE 8.144 RMSE 18.379 | peak ratio 0.77 | top-10 recall 0.2
+   eo   MAE_share 0.00509 (single runs 0.00513 +- 0.00011) | allocation-only MAE 8.659 RMSE 19.205 | peak ratio 0.34 | top-10 recall 0.2
+   eh   MAE_share 0.00423 (single runs 0.00427 +- 0.00025) | allocation-only MAE 7.040 RMSE 17.003 | peak ratio 0.80 | top-10 recall 0.2
+
+===== screen rule (>= 3% better in one development target, not > 3% worse in the other) =====
+   ep vs eo: Chicago -32.4%, NYC +18.0% -> fail
+   epa vs eo: Chicago -26.6%, NYC +14.6% -> fail
+   eha vs eh: Chicago -18.6%, NYC -13.6% -> fail
