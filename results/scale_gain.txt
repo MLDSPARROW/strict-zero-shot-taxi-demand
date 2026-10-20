@@ -1,0 +1,12 @@
+Gain of scale-matched (M) over native (N) helpers, fully strict mean-forecast MAE (final method, ten runs per head)
+case               target area finest ratio geo-mean ratio merged   MAE N   MAE M  gain %     95% interval
+Chicago                   7.39        20.97           8.51      2   2.050   1.820   11.32 [ 7.51, 15.76]
+DC clusters               3.42         9.69           3.94      2   3.325   3.181    4.32 [ 3.05,  5.76]
+NYC                       2.14         6.07           6.07      1   7.600   7.450    1.96 [ 1.72,  2.22]
+Austin                    1.07         3.02           3.02      1   0.122   0.121    0.57 [ 0.49,  0.66]
+SF zip-code areas         4.70         2.20           2.20      1   3.589   3.443    4.06 [ 3.39,  4.82]
+DC                        0.52         1.47           1.47      1   0.868   0.856    1.47 [ 1.29,  1.67]
+SF                        0.35         0.16              -      0   N = M by construction (no helper finer than the target): gain 0, not applicable
+Spearman rank correlation, gain vs finest-helper ratio: rho = +0.71, exact two-sided permutation p = 0.14 (n = 6 cases; not a test of a law)
+Spearman rank correlation, gain vs geometric-mean ratio over merged helpers: rho = +0.60, exact two-sided permutation p = 0.24 (n = 6 cases; not a test of a law)
+MAE of N and M for Chicago and NYC are from the Kaggle runs of the control experiment (both conditions on the same workers); the others are laptop runs.
