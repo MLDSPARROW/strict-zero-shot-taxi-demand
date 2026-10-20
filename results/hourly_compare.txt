@@ -1,0 +1,53 @@
+
+===== chicago: 77 regions, hourly, fully strict =====
+   Zero forecast            MAE   5.396  RMSE  21.881   (mean hourly count 5.396)
+   Jobs-proportional        MAE   4.819  RMSE  17.212   (mean hourly count 5.396)
+   Jobs + residents         MAE   4.979  RMSE  14.583   (mean hourly count 5.396)
+   Chi et al. allocation    MAE   5.219  RMSE  15.534   (mean hourly count 5.396)
+   Ours v1, final           MAE   3.424  RMSE  10.071   (mean hourly count 5.396)
+
+===== nyc: 263 regions, hourly, fully strict =====
+   Zero forecast            MAE  13.255  RMSE  43.113   (mean hourly count 13.255)
+   Jobs-proportional        MAE  14.891  RMSE  34.700   (mean hourly count 13.255)
+   Jobs + residents         MAE  17.212  RMSE  36.833   (mean hourly count 13.255)
+   Chi et al. allocation    MAE  17.408  RMSE  38.531   (mean hourly count 13.255)
+   Ours v1, final           MAE  14.802  RMSE  34.851   (mean hourly count 13.255)
+
+===== sf: 243 regions, hourly, fully strict =====
+   Zero forecast            MAE   0.801  RMSE   2.206   (mean hourly count 0.801)
+   Jobs-proportional        MAE   0.886  RMSE   2.060   (mean hourly count 0.801)
+   Jobs + residents         MAE   0.856  RMSE   1.743   (mean hourly count 0.801)
+   Chi et al. allocation    MAE   0.817  RMSE   1.672   (mean hourly count 0.801)
+   Ours v1, final           MAE   0.884  RMSE   1.909   (mean hourly count 0.801)
+
+Austin K = 10: cells per zone [90, 82, 80, 79, 77, 76, 68, 62, 39, 31]
+
+===== austin, K = 10: 10 zones, hourly, fully strict =====
+   Zero forecast            MAE  15.132  RMSE  54.892   (mean hourly count 15.132)
+   Jobs-proportional        MAE  14.316  RMSE  53.773   (mean hourly count 15.132)
+   Jobs + residents         MAE  14.398  RMSE  53.948   (mean hourly count 15.132)
+   Chi et al. allocation    MAE  14.360  RMSE  53.761   (mean hourly count 15.132)
+   Ours v1, final           MAE  14.167  RMSE  53.653   (mean hourly count 15.132)
+
+===== austin, K = 10: 10 zones, hourly, TRUE slot totals (diagnostic) =====
+   Jobs-proportional        MAE  10.981  RMSE  30.548   (mean hourly count 15.132)
+   Jobs + residents         MAE  12.732  RMSE  35.421   (mean hourly count 15.132)
+   Chi et al. allocation    MAE  10.687  RMSE  29.607   (mean hourly count 15.132)
+   Ours v1, final           MAE   8.747  RMSE  26.627   (mean hourly count 15.132)
+
+Austin K = 7: cells per zone [118, 113, 106, 104, 95, 75, 73]
+
+===== austin, K = 7: 7 zones, hourly, fully strict =====
+   Zero forecast            MAE  21.617  RMSE  55.334   (mean hourly count 21.617)
+   Jobs-proportional        MAE  20.301  RMSE  53.950   (mean hourly count 21.617)
+   Jobs + residents         MAE  20.388  RMSE  54.122   (mean hourly count 21.617)
+   Chi et al. allocation    MAE  20.340  RMSE  54.092   (mean hourly count 21.617)
+   Ours v1, final           MAE  20.103  RMSE  53.843   (mean hourly count 21.617)
+
+===== austin, K = 7: 7 zones, hourly, TRUE slot totals (diagnostic) =====
+   Jobs-proportional        MAE  13.798  RMSE  28.879   (mean hourly count 21.617)
+   Jobs + residents         MAE  16.281  RMSE  33.748   (mean hourly count 21.617)
+   Chi et al. allocation    MAE  14.652  RMSE  32.735   (mean hourly count 21.617)
+   Ours v1, final           MAE  10.452  RMSE  24.800   (mean hourly count 21.617)
+
+done
