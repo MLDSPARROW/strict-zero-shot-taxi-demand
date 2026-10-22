@@ -16,6 +16,9 @@ CITY = {"chicago": (f"{B}/chicago_2021_ca_30min.npy", f"{B}/region_static_chicag
         "austin": (None, f"{MC}/region_static_austin.npz", date(2016, 6, 4)),
         "porto": (None, f"{MC}/region_static_porto.npz", date(2013, 7, 1))}
 TGT, HEL, SEEDS = sys.argv[1], sys.argv[2].split(","), [int(s) for s in sys.argv[3].split(",")]
+for _c in HEL:                                      # re-aggregated helper units of data/agg (PROTOCOL_V5.md), as in run_x.py
+    if _c not in CITY and os.path.exists(f"{HERE}/data/agg/{_c}_Y.npy"):
+        CITY[_c] = (f"{HERE}/data/agg/{_c}_Y.npy", f"{HERE}/data/agg/{_c}_static.npz", date(2023 if _c.startswith("sf_") else 2021, 1, 1))
 OUTTAG = sys.argv[4] if len(sys.argv) > 4 else ""      # optional suffix of the output file (pseudo-target runs, PROTOCOL_V2.md addendum 6)
 assert TGT not in HEL
 
