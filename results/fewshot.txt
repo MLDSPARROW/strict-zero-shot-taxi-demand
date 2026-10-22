@@ -1,0 +1,13 @@
+===== step 1: choice of a on October and November 2021 (MAE / RMSE of the mean forecast) =====
+   chicago: strict forecast 2.191 / 6.266 | a=0: 1.400 / 4.327 | a=0.5: 1.395 / 4.312 | a=1: 1.399 / 4.306 | a=2: 1.412 / 4.301 | a=4: 1.437 / 4.300 | a=8: 1.477 / 4.305 | a=16: 1.531 / 4.317 | a=32: 1.593 / 4.346 | a=64: 1.662 / 4.420
+   nyc: strict forecast 10.228 / 22.530 | a=0: 1.955 / 6.367 | a=0.5: 2.016 / 6.332 | a=1: 2.068 / 6.308 | a=2: 2.163 / 6.290 | a=4: 2.347 / 6.342 | a=8: 2.704 / 6.647 | a=16: 3.329 / 7.527 | a=32: 4.265 / 9.238 | a=64: 5.452 / 11.679
+   criterion mean MAE(a)/MAE(0): 0:1.000 0.5:1.014 1:1.029 2:1.058 4:1.113 8:1.219 16:1.398 32:1.660 64:1.988 -> a = 0 (frozen)
+
+===== step 2: December 2021 with a = 0 =====
+   chicago: strict forecast (A) 2.185 / 6.310 | week of data only (a=0) 1.293 / 3.952 | strict + week (a=0) 1.293 / 3.952 | MAE by horizon step 1..6: 1.259 1.255 1.294 1.310 1.323 1.318
+   nyc: strict forecast (A) 9.441 / 21.021 | week of data only (a=0) 1.831 / 6.024 | strict + week (a=0) 1.831 / 6.024 | MAE by horizon step 1..6: 1.684 1.776 1.821 1.859 1.897 1.949
+
+H1 (strict + week better than strict, MAE and RMSE, both cities): True
+H2 (strict + week better than the week alone, MAE, both cities): False
+H3 (against Chronos-Bolt-small of PROTOCOL_V6): compare with results/fm_chronos.txt when that run has finished
+done

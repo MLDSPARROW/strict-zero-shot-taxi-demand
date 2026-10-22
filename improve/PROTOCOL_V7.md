@@ -47,3 +47,18 @@ which uses no target data. For the target slot t = t0 + j (j = 0, ..., 5) and re
   targets (`results/history_baselines.txt`); the form of the estimator is the standard shrinkage of a Gamma-Poisson model, and a is chosen on
   October and November, not on December.
 - The strict forecast used as the prior is that of the final method (v1); the strict method of Way 2 (PROTOCOL_V4) is not used here.
+
+## Result (2026-10-22, `results/fewshot.txt`; recorded here as obtained)
+
+Step 1 (October and November 2021, MAE of the mean forecast, Chicago / NYC): the strict forecast alone 2.191 / 10.228; the week of data alone (a = 0)
+1.400 / 1.955; with the strict forecast mixed in, Chicago 1.395 (a = 0.5), 1.399 (1), 1.412 (2), 1.437 (4) and NYC 2.016 (0.5), 2.068 (1), 2.163 (2),
+2.347 (4), so that the strict forecast made NYC worse at every a > 0 and improved Chicago by at most 0.4%; the RMSE improved slightly for a = 2 to 4
+in both cities (Chicago 4.327 to 4.300, NYC 6.367 to 6.290). The selection rule gave a = 0 (criterion mean MAE(a)/MAE(0): 1.000 at a = 0, 1.014 at 0.5),
+which was frozen.
+Step 2 (December 2021, MAE / RMSE): Chicago strict 2.185 / 6.310, week of data (a = 0) 1.293 / 3.952; NYC strict 9.441 / 21.021, week of data
+1.831 / 6.024 (the strict values agree with the cost-of-strictness table: 2.18 / 6.31 and 9.44 / 21.02).
+H1 (strict plus week better than strict): true. H2 (strict plus week better than the week alone): FALSE, because the chosen a = 0 is the week alone.
+H3 (against Chronos-Bolt-small): see `results/fm_chronos.txt`.
+Reading: in these two dense cities a week of the city's own data contains far more information than the strict forecast, which adds nothing to it at
+the level of MAE. The estimator with a = 0 is a plain average of the week and is not a method of this study; the extra is not carried into the paper,
+is not carried to the held-out cities, and no variant of the estimator will be tried on the basis of this result without a new time-stamped protocol.
