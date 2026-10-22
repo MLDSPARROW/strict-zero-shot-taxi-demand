@@ -1,0 +1,10 @@
+===== chicago: 77 regions, 248 origins, 19096 series to forecast =====
+   D, Chronos-Bolt-small, previous 7 days, 1 to 6 slots ahead: MAE 1.083  RMSE 2.887   (median forecast MAE 1.055; non-finite values replaced: 0)
+   MAE by horizon step 1..6: 1.020 1.043 1.087 1.090 1.117 1.139
+   A, strictly zero-shot (recomputed): MAE 2.185  RMSE 6.310   table: 2.18 / 6.31 -> OK (within 0.02)
+   cost of strictness against D: MAE +1.10, +102% | RMSE +3.42, +119%
+===== nyc: 263 regions, 248 origins, 65224 series to forecast =====
+   D, Chronos-Bolt-small, previous 7 days, 1 to 6 slots ahead: MAE 1.505  RMSE 4.690   (median forecast MAE 1.481; non-finite values replaced: 0)
+   MAE by horizon step 1..6: 1.389 1.455 1.495 1.546 1.559 1.584
+   A, strictly zero-shot (recomputed): MAE 9.441  RMSE 21.021   table: 9.44 / 21.02 -> OK (within 0.02)
+   cost of strictness against D: MAE +7.94, +527% | RMSE +16.33, +348%

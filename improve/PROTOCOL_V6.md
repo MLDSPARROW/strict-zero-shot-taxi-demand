@@ -45,3 +45,14 @@ By decision of the first author, the result of this protocol is reported in the 
 table with published results, with the column "target data used" = the previous seven days), and not as a version D of the cost-of-strictness
 table, which stays unchanged. The model, the setting, the scoring, the consistency check of version A and the prediction above are not
 changed. The simple history baselines of PROTOCOL_V5.md (comparison 2) are not put in the paper.
+
+## Result (2026-10-22, `results/fm_chronos.txt`; recorded here as obtained)
+
+Chronos-Bolt-small, previous 7 days of each region, 1 to 6 slots ahead, December 2021 (quantile-mean forecast, MAE / RMSE; median-forecast MAE in
+brackets): Chicago 1.083 / 2.887 (1.055); New York City 1.505 / 4.690 (1.481). MAE by horizon step 1 to 6: Chicago 1.020 1.043 1.087 1.090 1.117 1.139;
+New York City 1.389 1.455 1.495 1.546 1.559 1.584. No non-finite forecasts. The consistency check of version A passed (recomputed 2.185 / 6.310 and
+9.441 / 21.021, table 2.18 / 6.31 and 9.44 / 21.02). Cost of strictness against this model: Chicago +1.10 MAE (+102%) and +3.42 RMSE (+119%); New York
+City +7.94 (+527%) and +16.33 (+348%). The prediction (lower MAE than the strict method in both cities) holds. The model is better than the plain weekly
+average of PROTOCOL_V7 (Chicago 1.293 / 3.952, NYC 1.831 / 6.024), so H3 of PROTOCOL_V7 (strict forecast plus a week of data better than
+Chronos-Bolt-small) is FALSE in both cities. To be reported in the table with published results with the label "uses the previous seven days of the
+region", next to the strict values of the same slots.
