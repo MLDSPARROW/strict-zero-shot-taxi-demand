@@ -32,6 +32,13 @@ VERSION 2 (PROTOCOL_V2.md, declared 2026-10-20 before running):
       initialised at 0.5; the learned log-relative-area input is removed, as for o
   a = taxi-propensity inputs from ACS: log share of households without a vehicle, log share of households >= $150k (both
       smoothed towards the city share with 50 pseudo-households), log1p(population per km2)
+VERSION 4 (PROTOCOL_V4.md, declared 2026-10-22 before running):
+  m = context latents of scale-matched masked map pre-training (mapmae.py, map data only): 8 inputs per region or block, read
+      from data/mapmae/<city>__<target>__s<seed>.npy (one seed per call)
+  d = masked demand modelling on the helper blocks: in every batch, half of the slots are the usual task (all regions hidden);
+      in the other half the observed shares of a spatially contiguous random subset of regions are given as an input and the
+      model predicts how the rest of the slot's trips are shared among the hidden regions; the hidden fraction is drawn from
+      U(min(1, 0.3 + 0.07 x epoch), 1), so from epoch 10 on every slot is the usual task. Prediction never sees any demand.
 PRE-DECLARED (2026-09-30, before any run): 3 seeds (0,1,2) per variant, compared with the 3-seed ensemble of the
 current best (seeds 0-2 of run_multi.py, same sources). A variant PASSES the screen if its 3-seed ensemble MAE_share
 is >= 3% better in at least one direction and not > 3% worse in the other. Passing variants go to 10 seeds and a
@@ -53,13 +60,17 @@ CAL = "--calendar" in sys.argv                  # PROTOCOL_REVISION.md: predict 
 sys.argv = [a for a in sys.argv if a != "--calendar"]
 TGT, SRCS = sys.argv[1], sys.argv[2].split(",")
 SEEDS = [int(s) for s in sys.argv[3].split(",")]
-FL = sys.argv[4]; TAG = "_v" + FL
+FL = sys.argv[4]
+SMOKE = os.environ.get("RUNX_SMOKE") == "1"      # code test only: 1 epoch of 5 steps, output tagged _smoke
+TAG = "_v" + FL + os.environ.get("RUNX_OUTTAG", "") + ("_smoke" if SMOKE else "")
 EXTRA, OFFSET, RANK = "x" in FL, "o" in FL, "r" in FL
 WITHIN, ENPLF, HUB = "w" in FL, "e" in FL, "h" in FL
 BETA = "b" in FL
 JOBS = "j" in FL
 EXPO, ACSF = "p" in FL, "a" in FL
+MAPM, DMASK = "m" in FL, "d" in FL
 assert TGT not in SRCS
+assert not MAPM or len(SEEDS) == 1, "flag m: the map latents depend on the seed, so one seed per call"
 CITY = {"nyc": (f"{B77}/nyc_2021_zone_30min.npy", f"{B77}/region_static_nyc.npz", date(2021, 1, 1), "US"),
         "chicago": (f"{B77}/chicago_2021_ca_30min.npy", f"{B77}/region_static_chicago.npz", date(2021, 1, 1), "US"),
         "nyc_for_chicago": (f"{HERE}/data/agg/nyc_for_chicago_Y.npy", f"{HERE}/data/agg/nyc_for_chicago_static.npz", date(2021, 1, 1), "US"),
@@ -160,6 +171,8 @@ def load(city):
         rich = (A["rich"] + 50 * A["rich"].sum() / A["inc_hh"].sum()) / (A["inc_hh"] + 50)
         raw = np.concatenate([raw, np.stack([np.log(cf), np.log(rich), np.log1p(A["pop"] / S["area_km2"])], 1)], 1)
     if EXPO: v2 = {"J": (A["jobs_n"] / A["jobs_n"].sum()).astype(np.float32), "P": (A["pop"] / A["pop"].sum()).astype(np.float32)}
+    if MAPM: raw = np.concatenate([raw, np.load(f"{HERE}/data/{os.environ.get('RUNX_MAPDIR', 'mapmae')}/{city}__{TGT}__s{SEEDS[0]}.npy").astype(np.float64)], 1)
+    if DMASK: v2["cen"] = S["centroid_km"].astype(np.float64)
     return {"Y": Y, "raw": raw, **v2, "hub": np.log1p(enpl).astype(np.float32), "la": np.log(S["area_km2"]).astype(np.float32), "area": S["area_km2"], "idx": idx,
             "C": np.stack([cal(d, s) for d, s in idx]),
             **({} if Y is None else {"Sh": np.stack([Y[d, s] / tot[d, s] for d, s in idx]).astype(np.float32),
@@ -194,9 +207,11 @@ class Allocator(nn.Module):                      # same joint allocator as bench
         self.out = nn.Sequential(nn.Linear(hid, hid), nn.GELU(), nn.Dropout(drop), nn.Linear(hid, 1))
         if EXPO:                                         # created last and only when used: other layers keep their init
             self.alpha = nn.Linear(9, 1); nn.init.zeros_(self.alpha.weight); nn.init.zeros_(self.alpha.bias)
-    def forward(self, X, C):
+        if DMASK: self.dem = nn.Linear(2, hid, bias=False)   # demand input of visible regions (flag d); created last
+    def forward(self, X, C, D=None):
         B, R = C.shape[0], X.shape[0]
         h = self.enc(torch.cat([X[None].expand(B, R, -1), C[:, None, :].expand(B, R, -1)], dim=2))
+        if D is not None: h = h + self.dem(D)            # D: B x R x 2 = (visible, visible x log1p(R x share)); zeros = all hidden
         for i in range(len(self.self_w)):
             h = self.norm[i](h + F.gelu(self.self_w[i](h) + self.ctx_w[i](h.mean(dim=1, keepdim=True))))
         z = self.out(h).squeeze(-1)
@@ -217,10 +232,19 @@ T_ = {c: {k: torch.tensor(data[c][k]) for k in ("X", "C", "Sh", "la", "hub", "J"
 NF = data[TGT]["X"].shape[1]
 
 
-def run(mdl, c, C):
+def run(mdl, c, C, D=None):
     mdl.la, mdl.hub = T_[c]["la"], T_[c]["hub"]
     if EXPO: mdl.J, mdl.P = T_[c]["J"], T_[c]["P"]
-    return mdl(T_[c]["X"], C)
+    return mdl(T_[c]["X"], C, D)
+
+
+def hidden_ce(lp, sh, hid):
+    """Cross-entropy of the trips of the hidden regions: the predicted and observed shares are renormalised over the hidden
+    regions of each slot. With every region hidden this is the usual loss. Slots whose hidden regions have no trip are skipped."""
+    lpn = lp.masked_fill(~hid, float("-inf")); lpn = lpn - torch.logsumexp(lpn, dim=1, keepdim=True)
+    w = sh * hid; tot = w.sum(1); ok = tot > 0
+    ce = -(torch.where(hid, w / tot.clamp(min=1e-12)[:, None], torch.zeros_like(w)) * torch.where(hid, lpn, torch.zeros_like(lpn))).sum(1)
+    return ce[ok].mean()
 
 
 def rank_loss(lp, sh, npair=256):
@@ -239,14 +263,28 @@ def predict(mdl, c, sel):
 
 
 def train(seed, epochs=25, bs=64, steps=233):
+    if SMOKE: epochs, steps = 1, 5
     torch.manual_seed(seed); rng = np.random.default_rng(seed)
     mdl = Allocator(NF); opt = torch.optim.AdamW(mdl.parameters(), lr=1e-3, weight_decay=1e-4)
+    if DMASK:                                    # own generator, so that the helper and batch draws are those of the run without d
+        rng_m = np.random.default_rng(seed + 7919); half = bs // 2
+        KS = {c: np.exp(-0.5 * (np.linalg.norm(data[c]["cen"][:, None] - data[c]["cen"][None], axis=2)
+                                / np.sqrt(np.median(data[c]["area"]))) ** 2) for c in SRCS}   # smoothing over about one region
     best, state, bad = 1e9, None, 0
     for ep in range(epochs):
         mdl.train()
         for _ in range(steps):
             c = SRCS[rng.integers(len(SRCS))]
             b = rng.choice(data[c]["tr"], size=bs, replace=False)
+            if DMASK:                            # rows 0..half-1: all hidden (the usual task); rows half..bs-1: contiguous random subset hidden
+                sh = T_[c]["Sh"][b]; R = sh.shape[1]
+                rho = rng_m.uniform(min(1.0, 0.3 + 0.07 * ep), 1.0, size=bs - half)
+                rank = np.argsort(np.argsort(rng_m.standard_normal((bs - half, R)) @ KS[c], axis=1), axis=1)
+                hid = np.ones((bs, R), bool); hid[half:] = rank < np.ceil(rho * R)[:, None]
+                hid = torch.tensor(hid); vis = (~hid).float()
+                lp = run(mdl, c, T_[c]["C"][b], torch.stack([vis, vis * torch.log1p(R * sh)], dim=2))
+                loss = hidden_ce(lp, sh, hid)
+                opt.zero_grad(); loss.backward(); opt.step(); continue
             lp = run(mdl, c, T_[c]["C"][b])
             loss = -(T_[c]["Sh"][b] * lp).sum(dim=1).mean()
             if RANK: loss = loss + 0.1 * rank_loss(lp, T_[c]["Sh"][b])
