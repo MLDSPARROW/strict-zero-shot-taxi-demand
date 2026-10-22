@@ -1,0 +1,61 @@
+C:\Users\user\Desktop\TAXI DEMAND\UrbanMind_paper_v2\code\improve\history_baselines.py:33: RuntimeWarning: Mean of empty slice
+  d = np.nanmean(dm["Final method, strict (no target data)"], 1) - np.nanmean(dm[k], 1); d = d[~np.isnan(d)]; b = boot(d, rng)
+<string>:46: RuntimeWarning: Mean of empty slice
+
+===== chicago (30-min), days 29 to 365: 337 days, 1245398 scored region-slots =====
+   Zero forecast                                           MAE 2.822  RMSE 11.422
+   Last week (uses target history)                         MAE 1.251  RMSE 3.864
+   Historical average of 4 weeks (uses target history)     MAE 1.077  RMSE 3.265
+   Final method, strict (no target data)                   MAE 1.874  RMSE 5.324
+   final minus last week: daily MAE +0.623 [+0.561, +0.681], final better on 2% of days
+   final minus historical average of 4 weeks: daily MAE +0.797 [+0.761, +0.845], final better on 0% of days
+
+===== nyc (30-min), days 29 to 365: 337 days, 4253762 scored region-slots =====
+   Zero forecast                                           MAE 6.890  RMSE 22.314
+   Last week (uses target history)                         MAE 1.855  RMSE 6.024
+   Historical average of 4 weeks (uses target history)     MAE 1.623  RMSE 5.308
+   Final method, strict (no target data)                   MAE 7.757  RMSE 18.066
+   final minus last week: daily MAE +5.902 [+5.466, +6.404], final better on 0% of days
+   final minus historical average of 4 weeks: daily MAE +6.134 [+5.701, +6.711], final better on 1% of days
+
+===== sf (30-min), days 29 to 365: 337 days, 3930282 scored region-slots =====
+   Zero forecast                                           MAE 0.400  RMSE 1.210
+   Last week (uses target history)                         MAE 0.461  RMSE 1.082
+   Historical average of 4 weeks (uses target history)     MAE 0.413  RMSE 0.857
+   Final method, strict (no target data)                   MAE 0.484  RMSE 1.079
+   final minus last week: daily MAE +0.024 [+0.018, +0.031], final better on 17% of days
+   final minus historical average of 4 weeks: daily MAE +0.071 [+0.068, +0.075], final better on 1% of days
+
+===== dc (hourly), days 29 to 365: 337 days, 1666128 scored region-slots =====
+   Zero forecast                                           MAE 0.690  RMSE 2.888
+   Last week (uses target history)                         MAE 0.560  RMSE 1.578
+   Historical average of 4 weeks (uses target history)     MAE 0.501  RMSE 1.342
+   Final method, strict (no target data)                   MAE 0.884  RMSE 2.746
+   final minus last week: daily MAE +0.324 [+0.305, +0.345], final better on 0% of days
+   final minus historical average of 4 weeks: daily MAE +0.383 [+0.360, +0.409], final better on 0% of days
+
+===== sf_zcta (30-min), days 29 to 365: 337 days, 420524 scored region-slots =====
+   Zero forecast                                           MAE 3.741  RMSE 6.380
+   Last week (uses target history)                         MAE 2.169  RMSE 3.638
+   Historical average of 4 weeks (uses target history)     MAE 1.774  RMSE 2.878
+   Final method, strict (no target data)                   MAE 3.440  RMSE 6.234
+   final minus last week: daily MAE +1.271 [+1.232, +1.325], final better on 1% of days
+   final minus historical average of 4 weeks: daily MAE +1.666 [+1.640, +1.704], final better on 0% of days
+
+===== dc_cluster (hourly), days 29 to 365: 337 days, 355872 scored region-slots =====
+   Zero forecast                                           MAE 3.231  RMSE 7.949
+   Last week (uses target history)                         MAE 1.642  RMSE 3.724
+   Historical average of 4 weeks (uses target history)     MAE 1.408  RMSE 3.208
+   Final method, strict (no target data)                   MAE 3.286  RMSE 8.233
+   final minus last week: daily MAE +1.644 [+1.555, +1.732], final better on 0% of days
+   final minus historical average of 4 weeks: daily MAE +1.878 [+1.782, +1.984], final better on 0% of days
+
+===== austin (30-min), days 29 to 248: 220 days, 7223040 scored region-slots =====
+   Zero forecast                                           MAE 0.124  RMSE 1.173
+   Last week (uses target history)                         MAE 0.130  RMSE 0.785
+   Historical average of 4 weeks (uses target history)     MAE 0.118  RMSE 0.682
+   Final method, strict (no target data)                   MAE 0.134  RMSE 1.164
+   final minus last week: daily MAE +0.004 [-0.005, +0.010], final better on 38% of days
+   final minus historical average of 4 weeks: daily MAE +0.016 [+0.007, +0.022], final better on 18% of days
+
+done
