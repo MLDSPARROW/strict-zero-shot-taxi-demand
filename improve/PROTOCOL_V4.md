@@ -134,3 +134,26 @@ hold (`python v4_eval.py --confirm`). Rule (b) asks for an interval above zero, 
 reported as a small refinement. If d is adopted, it is evaluated once on the held-out targets as specified above (it needs no map
 pre-training), fully strict, and reported as obtained, with its post-screen origin stated. If it is not adopted, v1 stays and the paper is
 not changed.
+
+## Addendum 2 (2026-10-22, result of the 10-run confirmation of d, `results/v4_confirm.txt`; recorded here as obtained)
+
+The 28 runs (r = 4..10 of ehd and eod for Chicago and NYC) finished as specified, without errors. Ten-run ensembles (r = 1..10), MAE_share
+of the two-head average, v1 against d:
+- Chicago: v1 0.00953, d 0.00935 (1.9% better); interval of the daily difference v1 - d [+0.000160, +0.000199], d better on 95% of days;
+  allocation-only trip MAE / RMSE 1.507 / 4.117 for v1 and 1.475 / 3.939 for d; single runs 0.01016 +- 0.00037 and 0.01006 +- 0.00032.
+- NYC: v1 0.00444, d 0.00441 (0.8% better); interval [+0.000033, +0.000038], d better on 100% of days; allocation-only trip MAE / RMSE
+  7.445 / 17.266 for v1 and 7.376 / 17.125 for d; single runs 0.00448 +- 0.00027 and 0.00445 +- 0.00029.
+- Rules (a), (b), (c) of the confirmation: (a) lower mean MAE_share: true; (b) interval above zero: both targets; (c) other target
+  acceptable: true. DECISION by the rule fixed above: d is adopted. The effect is small, and the NYC gain fell from 2.8% (3 runs) to
+  0.8% (10 runs); the single-run spreads are of the same order as the gains, so the gain is consistent over days but small in size.
+  Its post-screen origin (Addendum 1) is stated whenever it is reported.
+
+Held-out evaluation (frozen now, before any held-out run with d). Fully strict calendar-slot predictions (`run_x.py ... --calendar`, the
+target demand is never opened), heads ehd and eod, runs r = 1..10 with model seed r - 1, with the helper configuration of the final
+method of the paper for each target: SF <- chicago,nyc; DC <- chicago,nyc,sf_for_dc_p_r; sf_zcta <- chicago,nyc_for_sf_zcta_p_r;
+dc_cluster <- chicago,nyc_for_dc_cluster_p_r,sf_for_dc_cluster_p_r; Austin <- chicago,nyc,sf_for_austin_p_r. That is 100 runs, in the order
+DC, SF, sf_zcta, dc_cluster, Austin. City totals, rhythm, hourly scoring (DC, dc_cluster) and baselines are those of the paper. For every
+target, v1 (the existing ten runs per head) and d are reported side by side with the mean daily MAE difference and its 7-day block
+bootstrap interval (2,000 draws) and the RMSE, and the result is reported as obtained, whether d is better or worse. SF and DC are a
+second look, because their v1 results were known when d was chosen. The paper is changed only after these results are in. Cities that
+the author may add from other sources are not part of this evaluation; if they are used later, a new time-stamped protocol is needed.

@@ -1,0 +1,18 @@
+
+===== chicago: 77 regions, 17518 observed slots, ensembles of runs 1..10 =====
+   v1  MAE_share 0.00953 (single runs 0.01016 +- 0.00037; heads eh 0.01032, eo 0.00930) | allocation-only MAE 1.507 RMSE 4.117 | peak ratio 0.99 | top-10 recall 0.8
+   m   missing runs
+   d   MAE_share 0.00935 (single runs 0.01006 +- 0.00032; heads eh 0.00958, eo 0.00928) | allocation-only MAE 1.475 RMSE 3.939 | peak ratio 0.97 | top-10 recall 0.8
+   md  missing runs
+
+===== nyc: 263 regions, 17518 observed slots, ensembles of runs 1..10 =====
+   v1  MAE_share 0.00444 (single runs 0.00448 +- 0.00027; heads eh 0.00417, eo 0.00484) | allocation-only MAE 7.445 RMSE 17.266 | peak ratio 0.55 | top-10 recall 0.2
+   m   missing runs
+   d   MAE_share 0.00441 (single runs 0.00445 +- 0.00029; heads eh 0.00410, eo 0.00484) | allocation-only MAE 7.376 RMSE 17.125 | peak ratio 0.54 | top-10 recall 0.2
+   md  missing runs
+
+===== confirmation rule (a)-(c) =====
+   d   chicago  change +1.9% | v1 - d daily MAE_share +0.000180 [+0.000160, +0.000199], d better on 95% of days
+   d   nyc      change +0.8% | v1 - d daily MAE_share +0.000036 [+0.000033, +0.000038], d better on 100% of days
+   d   (a) lower mean MAE_share: True | (b) interval above zero in: ['chicago', 'nyc'] | (c) other target acceptable: True -> ADOPT
+   DECISION: select d
