@@ -1,0 +1,51 @@
+
+===== chicago: 77 regions, 244 origins, 18788 series to forecast =====
+Passing a tuple of `past_key_values` is deprecated and will be removed in Transformers v4.48.0. You should pass an instance of `EncoderDecoderCache` instead, e.g. `past_key_values=EncoderDecoderCache.from_legacy_cache(past_key_values)`.
+   2048/18788 series [142s]
+   4096/18788 series [277s]
+   6144/18788 series [409s]
+   8192/18788 series [540s]
+   10240/18788 series [674s]
+   12288/18788 series [810s]
+   14336/18788 series [943s]
+   16384/18788 series [1075s]
+   18432/18788 series [1213s]
+   18788/18788 series [1236s]
+   Chronos-Bolt-small, development period: MAE 1.157 RMSE 3.209 (non-finite values replaced: 0)
+
+===== nyc: 263 regions, 244 origins, 64172 series to forecast =====
+   2048/64172 series [137s]
+   4096/64172 series [278s]
+   6144/64172 series [411s]
+   8192/64172 series [545s]
+   10240/64172 series [677s]
+   12288/64172 series [808s]
+   14336/64172 series [944s]
+   16384/64172 series [1079s]
+   18432/64172 series [1214s]
+   20480/64172 series [1348s]
+   22528/64172 series [1490s]
+   24576/64172 series [1628s]
+   26624/64172 series [1765s]
+   28672/64172 series [1900s]
+   30720/64172 series [2038s]
+   32768/64172 series [2180s]
+   34816/64172 series [2319s]
+   36864/64172 series [2458s]
+   38912/64172 series [2594s]
+   40960/64172 series [2724s]
+   43008/64172 series [2854s]
+   45056/64172 series [2981s]
+   47104/64172 series [3108s]
+   49152/64172 series [3237s]
+   51200/64172 series [3366s]
+   53248/64172 series [3498s]
+   55296/64172 series [3639s]
+   57344/64172 series [3763s]
+   59392/64172 series [3915s]
+   61440/64172 series [4051s]
+   63488/64172 series [4183s]
+   64172/64172 series [4226s]
+   Chronos-Bolt-small, development period: MAE 1.577 RMSE 4.958 (non-finite values replaced: 0)
+
+done

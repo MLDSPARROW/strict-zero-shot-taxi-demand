@@ -70,3 +70,18 @@ matching is applied to the helpers as in the strict method. The target data ente
   will be under a new addendum, once, with the frozen candidate.
 - The Poisson-median MAE is information only; the primary comparison uses the mean forecast of both methods, as in PROTOCOL_V6.
 - Other foundation models (larger Chronos-Bolt models, TimesFM, Moirai, OpenCity) are not part of this protocol.
+
+## Result of the development phase (2026-10-23, `results/xc7d_dev.txt`, `results/fm_chronos_dev.txt`; recorded here as obtained)
+
+October and November 2021, origins every 12 slots with alternating offsets, MAE / RMSE of the mean forecast, two partitions per candidate.
+Chicago: weekly average (a = 0) 1.404 / 4.372; Chronos-Bolt-small 1.157 / 3.209 (median-forecast MAE 1.130); C1 1.246 / 3.658; C2 1.226 / 3.503; C3 1.269 / 3.745;
+C4 1.237 / 3.631; C1 with native helpers 1.228 / 3.566. New York City: weekly average 1.954 / 6.418; Chronos-Bolt-small 1.577 / 4.958 (median 1.556); C1 1.805 / 5.751;
+C2 1.738 / 5.511; C3 1.785 / 5.617; C4 1.927 / 6.221; C1 with native helpers 1.806 / 5.762.
+Criterion (mean over the two cities of MAE / MAE of Chronos-Bolt): C1 1.111, C2 1.081, C3 1.114, C4 1.146, so C2 is chosen. C2 is above Chronos-Bolt in both cities
+(ratio 1.059 in Chicago, 1.102 in NYC; the intervals of the daily MAE difference, +0.069 [+0.033, +0.084] and +0.161 [+0.124, +0.195], lie above zero), so the go rule
+is not met and, as fixed above, December is NOT run under this protocol.
+Reading: the forecaster trained on helper cities only improves on the weekly average by 12.7% (Chicago) and 11.1% (NYC), but stays 5.9% and 10.2% behind Chronos-Bolt
+(mean forecast; with the Poisson-median forecast its MAE is 1.155 and 1.683 against 1.130 and 1.556). The map features hurt (C2 better than C1 in both cities), and the
+deepest trees were worst in NYC. Scale-matched and native helpers give the same error for C1 (Chicago 1.246 against 1.228, NYC 1.805 against 1.806): when a week of the
+target's data is read, scale matching does not matter. By the decision of the first author nothing of PROTOCOL_V6, V7 and V8 goes into the paper, and no variant will be
+tried without a new time-stamped protocol.

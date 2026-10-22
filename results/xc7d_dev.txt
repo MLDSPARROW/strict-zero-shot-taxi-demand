@@ -1,0 +1,20 @@
+
+===== development period, 1 October to 30 November 2021, origins every 12 slots (alternating offsets), MAE / RMSE of the mean forecast =====
+
+chicago: weekly average (a=0) 1.404 / 4.372 | Chronos-Bolt-small 1.157 / 3.209 (median-forecast MAE 1.130)
+   C1 (depth 6, map features True): 1.246 / 3.658  ratio to Chronos MAE 1.077  daily MAE difference to Chronos +0.0891 [+0.0480, +0.1001], better on 15% of days | Poisson-median MAE 1.177
+   C2 (depth 6, map features False): 1.226 / 3.503  ratio to Chronos MAE 1.059  daily MAE difference to Chronos +0.0688 [+0.0330, +0.0838], better on 23% of days | Poisson-median MAE 1.155
+   C3 (depth 4, map features True): 1.269 / 3.745  ratio to Chronos MAE 1.096  daily MAE difference to Chronos +0.1116 [+0.0675, +0.1259], better on 11% of days | Poisson-median MAE 1.199
+   C4 (depth 8, map features True): 1.237 / 3.631  ratio to Chronos MAE 1.069  daily MAE difference to Chronos +0.0803 [+0.0397, +0.0905], better on 16% of days | Poisson-median MAE 1.168
+   C1 with native helpers: 1.228 / 3.566 (for information, not used for the choice)
+
+nyc: weekly average (a=0) 1.954 / 6.418 | Chronos-Bolt-small 1.577 / 4.958 (median-forecast MAE 1.556)
+   C1 (depth 6, map features True): 1.805 / 5.751  ratio to Chronos MAE 1.144  daily MAE difference to Chronos +0.2278 [+0.1864, +0.2598], better on 3% of days | Poisson-median MAE 1.748
+   C2 (depth 6, map features False): 1.738 / 5.511  ratio to Chronos MAE 1.102  daily MAE difference to Chronos +0.1607 [+0.1238, +0.1950], better on 11% of days | Poisson-median MAE 1.683
+   C3 (depth 4, map features True): 1.785 / 5.617  ratio to Chronos MAE 1.132  daily MAE difference to Chronos +0.2082 [+0.1763, +0.2346], better on 8% of days | Poisson-median MAE 1.726
+   C4 (depth 8, map features True): 1.927 / 6.221  ratio to Chronos MAE 1.222  daily MAE difference to Chronos +0.3503 [+0.3014, +0.3862], better on 2% of days | Poisson-median MAE 1.872
+   C1 with native helpers: 1.806 / 5.762 (for information, not used for the choice)
+
+criterion (mean over the two cities of MAE / MAE of Chronos-Bolt): C1: 1.111 C2: 1.081 C3: 1.114 C4: 1.146 -> C2
+selected candidate C2; lower MAE than Chronos-Bolt in both cities on the development period: False -> December is NOT run under this protocol
+done
