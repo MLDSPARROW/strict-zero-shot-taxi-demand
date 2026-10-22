@@ -120,3 +120,17 @@ Allocation-only trip MAE / RMSE (true slot totals): Chicago v1 1.494 / 4.035, m 
 DECISION by the rule fixed above: no variant passes the screen, so no confirmation and no held-out run is made, v1 remains the final
 method and the paper is not changed. No variant of m or d will be tried on the basis of this result without a new time-stamped
 protocol that discloses it.
+
+## Addendum 1 (2026-10-22, after the screen result above, before any further run)
+
+Way 2 (switch d) did not pass the screen: Chicago +0.6% and NYC +2.8%, so the 3% threshold was not reached in either development target.
+Way 2 is carried to the confirmation stage anyway, by the decision of the first author, taken after seeing the screen result and the
+allocation-only trip errors above. The screen threshold is therefore waived for d by decision and not by the rule, and this is
+disclosed here. The reasons given for the decision: d is the only variant that was better than v1 in both development targets (m and md
+are worse in Chicago, -8.3% and -3.9%), and in NYC it was better on every day of the year. m and md are not carried forward.
+The confirmation rule above is unchanged: runs r = 4..10 of ehd and eod are run for Chicago and NYC (28 runs), the 10-run ensemble
+(r = 1..10; runs 1 to 3 are those of the screen) is compared with the existing 10-run v1, and d is adopted only if rules (a), (b) and (c)
+hold (`python v4_eval.py --confirm`). Rule (b) asks for an interval above zero, which a small effect can satisfy, so an adoption would be
+reported as a small refinement. If d is adopted, it is evaluated once on the held-out targets as specified above (it needs no map
+pre-training), fully strict, and reported as obtained, with its post-screen origin stated. If it is not adopted, v1 stays and the paper is
+not changed.
