@@ -1,0 +1,40 @@
+
+===== chicago (30-min) =====
+   Chi-N, native helpers      MAE 2.712  RMSE 7.882   (single runs 2.712 +- 0.000)
+   Chi-M, scale-matched       MAE 2.711  RMSE 7.884   (single runs 2.711 +- 0.000)
+   final method (v1)          MAE 1.829  RMSE 5.207
+   Chi-N minus Chi-M, daily MAE: +0.0003 [+0.0002, +0.0004], Chi-M better on 76% of days; MAE change +0.0%, RMSE change -0.0% (positive = Chi-M better)
+
+===== nyc (30-min) =====
+   Chi-N, native helpers      MAE 8.749  RMSE 19.416   (single runs 8.749 +- 0.019)
+   Chi-M, scale-matched       MAE 8.622  RMSE 19.298   (single runs 8.622 +- 0.057)
+   final method (v1)          MAE 7.454  RMSE 17.590
+   Chi-N minus Chi-M, daily MAE: +0.1271 [+0.1168, +0.1381], Chi-M better on 100% of days; MAE change +1.5%, RMSE change +0.6% (positive = Chi-M better)
+
+===== dc (hourly) =====
+   Chi-N, native helpers      MAE 0.851  RMSE 2.476   (single runs 0.851 +- 0.000)
+   Chi-M, scale-matched       MAE 0.851  RMSE 2.476   (single runs 0.851 +- 0.000)
+   final method (v1)          MAE 0.856  RMSE 2.658
+   Chi-N minus Chi-M, daily MAE: -0.0000 [-0.0000, -0.0000], Chi-M better on 21% of days; MAE change -0.0%, RMSE change +0.0% (positive = Chi-M better)
+
+===== sf_zcta (30-min) =====
+   Chi-N, native helpers      MAE 2.382  RMSE 3.929   (single runs 2.382 +- 0.000)
+   Chi-M, scale-matched       MAE 2.382  RMSE 3.929   (single runs 2.382 +- 0.000)
+   final method (v1)          MAE 3.443  RMSE 6.262
+   Chi-N minus Chi-M, daily MAE: -0.0000 [-0.0000, -0.0000], Chi-M better on 10% of days; MAE change -0.0%, RMSE change -0.0% (positive = Chi-M better)
+
+===== dc_cluster (hourly) =====
+   Chi-N, native helpers      MAE 2.919  RMSE 6.186   (single runs 2.919 +- 0.000)
+   Chi-M, scale-matched       MAE 2.919  RMSE 6.186   (single runs 2.919 +- 0.000)
+   final method (v1)          MAE 3.181  RMSE 7.998
+   Chi-N minus Chi-M, daily MAE: -0.0000 [-0.0000, -0.0000], Chi-M better on 8% of days; MAE change -0.0%, RMSE change +0.0% (positive = Chi-M better)
+
+===== austin (30-min) =====
+   Chi-N, native helpers      MAE 0.121  RMSE 1.098   (single runs 0.121 +- 0.000)
+   Chi-M, scale-matched       MAE 0.121  RMSE 1.098   (single runs 0.121 +- 0.000)
+   final method (v1)          MAE 0.121  RMSE 1.096
+   Chi-N minus Chi-M, daily MAE: +0.0000 [+0.0000, +0.0000], Chi-M better on 67% of days; MAE change +0.0%, RMSE change +0.0% (positive = Chi-M better)
+
+Chi-M significantly better in 3 of 6 targets ['chicago', 'nyc', 'austin']; significantly worse in 3 ['dc', 'sf_zcta', 'dc_cluster']
+READING: NOT GENERALISING
+done

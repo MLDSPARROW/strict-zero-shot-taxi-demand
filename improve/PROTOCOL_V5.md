@@ -47,3 +47,18 @@ protocol after the download is approved by the first author.
 - Targets: Chicago, NYC, SF, DC, sf_zcta, dc_cluster, Austin. Metrics: mean-forecast MAE and RMSE, as in the main tables.
 - No prediction is made; the numbers are descriptive and reported as obtained. They use the observed demand of the previous weeks of the
   target, so they are not comparable in information with the strictly zero-shot method and are always labelled "uses target history".
+
+## Result of comparison 1 (2026-10-22, `results/chi_m_eval.txt`; recorded here as obtained)
+
+All 60 runs of Chi-M finished as specified. Fully strict MAE / RMSE, Chi-N (native helpers) -> Chi-M (scale-matched helpers), next to the final method (v1):
+Chicago 2.712 / 7.882 -> 2.711 / 7.884 (v1 1.829 / 5.207); NYC 8.749 / 19.416 -> 8.622 / 19.298 (v1 7.454 / 17.590); Washington, DC (hourly) 0.851 / 2.476 -> same
+(v1 0.856 / 2.658); sf_zcta 2.382 / 3.929 -> same (v1 3.443 / 6.262); dc_cluster (hourly) 2.919 / 6.186 -> same (v1 3.181 / 7.998); Austin 0.121 / 1.098 -> same
+(v1 0.121 / 1.096). Paired block bootstrap of the mean daily MAE difference Chi-N minus Chi-M: Chicago +0.0003 [+0.0002, +0.0004]; NYC +0.127
+[+0.117, +0.138], Chi-M better on 100% of days (1.5% lower MAE); Washington, DC, sf_zcta and dc_cluster differences below 1e-6 with intervals that
+exclude zero on the negative side; Austin below 1e-6.
+READING BY THE RULE FIXED IN ADVANCE: Chi-M significantly better in 3 of 6 targets (Chicago, NYC, Austin) and significantly worse in 3 (DC, sf_zcta,
+dc_cluster), so the label is NOT GENERALISING. The rule had no minimum size of the difference, and five of the six differences are below 0.0004 in
+MAE, that is, zero for practical purposes; this is a weakness of the rule found in hindsight and is stated here. In substance, the allocation of Chi
+et al. as reimplemented (PROTOCOL_CHI_BASELINE.md: the learned activities collapse to the single category food) hardly depends on the helper data, so
+merging the helper regions leaves it unchanged, and only NYC (1.5%) moves. The test is therefore uninformative about scale matching and is not
+evidence for or against it; the evidence of the paper for generality is the XGBoost allocator. It is not put in the paper.
