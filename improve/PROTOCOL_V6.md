@@ -38,3 +38,10 @@ previous seven days of each region. Simple history baselines (last week, four-we
 - Version D uses the target's own demand of the previous seven days; it is not zero-shot in the sense of this study and is labelled so,
   like B and C.
 - Other foundation models (OpenCity, UniST, TimesFM, Moirai), other contexts or horizons, and other cities are not part of this protocol.
+
+## Addendum 1 (2026-10-22, before any result of this protocol was looked at)
+
+By decision of the first author, the result of this protocol is reported in the comparison with published results and foundation models (the
+table with published results, with the column "target data used" = the previous seven days), and not as a version D of the cost-of-strictness
+table, which stays unchanged. The model, the setting, the scoring, the consistency check of version A and the prediction above are not
+changed. The simple history baselines of PROTOCOL_V5.md (comparison 2) are not put in the paper.
