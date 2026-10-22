@@ -103,3 +103,20 @@ of the laptop, about 2.5 hours. Confirmation: up to 28 further runs per passing 
   were deleted. The only change made after these tests was the cell-size recovery described above (a correctness fix: the first test
   stopped at the cell-area check). The design values (masked fraction, partitions, layers, bandwidths, latent size, steps, batch split,
   hidden-fraction schedule) were fixed before any test and were not tuned.
+
+## Result (2026-10-22, `results/v4_screen.txt`; recorded here as obtained)
+
+All 6 map pre-trainings and 36 allocator runs finished as specified (`runner_v4_w0.log`, `runner_v4_w1.log`; mean 176 s and 17.6
+epochs per run). Map pre-training check (map data only): in all 30 city-seed-target cases the reconstruction error on the hidden cells
+of unused partitions was below the Gaussian reference, ratio 0.46 to 0.87.
+Screen, MAE_share of the 3-run ensembles of the two-head average, change against v1 (positive = better):
+- m: Chicago -8.3% (0.01015 against 0.00937; peak ratio 0.77 against 1.01, so the busiest areas are under-predicted), NYC +1.7%
+  (0.00452 against 0.00460). FAIL.
+- d: Chicago +0.6% (0.00931; interval of the daily difference v1 - d [+0.000045, +0.000080], better on 65% of days), NYC +2.8% (0.00447;
+  [+0.000123, +0.000135], better on 100% of days). Better in both targets, but below the 3% threshold in both. FAIL.
+- md: Chicago -3.9% (0.00973), NYC +1.6% (0.00453). FAIL.
+Allocation-only trip MAE / RMSE (true slot totals): Chicago v1 1.494 / 4.035, m 1.632 / 4.575, d 1.487 / 4.063, md 1.531 / 4.211; NYC v1
+7.735 / 17.643, m 7.526 / 17.154, d 7.517 / 17.260, md 7.528 / 17.170.
+DECISION by the rule fixed above: no variant passes the screen, so no confirmation and no held-out run is made, v1 remains the final
+method and the paper is not changed. No variant of m or d will be tried on the basis of this result without a new time-stamped
+protocol that discloses it.
