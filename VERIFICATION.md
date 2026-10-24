@@ -42,6 +42,8 @@ except the two descriptive items marked as such in the paper):
 | Section "Comparison with the allocation of Chi et al." (numbers in the text) | `improve/chi_baseline.py`, `improve/chi_eval.py` | `results/chi_eval.txt`; protocol `improve/PROTOCOL_CHI_BASELINE.md` | dc206da, 7babd5c |
 | `tab:lit`: hourly rows of this work for Chicago, NYC, Washington, DC and Austin; forecast-of-zero values in the limitations | `improve/hourly_compare.py`, `improve/v1_i1_eval.py` (descriptive, protocol `PROTOCOL_V2.md` addendum 5) | `results/hourly_compare.txt`, `results/v1_i1_eval.txt` | cb6a760, f82de81 |
 | Austin rides per transit commuter (113) and the taxi-city range (15.1 to 19.5) in the Austin section | `improve/explore_scale_stats.py` (Table 1 gives the taxi cities; Austin: 900,643 rides in 248 days scaled to a year, ACS transit commuters) | `results/explore_scale_stats.txt` | 21fe0f2 |
+| Table "Final method and XGBoost allocator" (`tab:xgbheld`) | `improve/xgb_heldout.py` (ten XGBoost runs per held-out target on the scale-matched helpers), scored by `improve/v10_heldout.py` | `results/v10_heldout.txt`, rows "XGBoost, scale-matched" and "final method v1"; protocol `improve/PROTOCOL_V10.md` (written before any XGBoost model was trained for these targets) | 24 Oct 2026 |
+| Fig. "four targets" (`fig:four`), bars of the XGBoost allocator | `improve/fig_four.py` (values typed in from the files named in its docstring: `results/xgb_scale.txt` for Chicago and NYC, `results/v10_heldout.txt` for SF and DC) | `figs/fig_four.pdf` | 24 Oct 2026 |
 
 Rows of `tab:lit` that come from other studies are copied from the cited tables (Chen et al. 2023 Tab. 2,
 Bansal et al. 2021 Tab. 3, Hou et al. 2019 Tab. 1, in addition to those listed above) and are not reproduced here.

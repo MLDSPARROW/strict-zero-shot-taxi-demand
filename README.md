@@ -108,5 +108,5 @@ Python 3.10.11; exact package versions in `requirements.txt` (`pip install -r re
 
 - `run_x.py` is the experiment driver used for all allocator variants; its docstring lists every variant and the date its
   decision rule was declared, before the corresponding runs.
-- Variants that were tested and not adopted (see the paper, Section "Diagnostics and approaches that did not help") are also
-  selectable by flags in `run_x.py`.
+- Variants that were tested and not adopted are also selectable by flags in `run_x.py`; their protocols are in `improve/PROTOCOL_*.md`
+  and their results in `results/`.
