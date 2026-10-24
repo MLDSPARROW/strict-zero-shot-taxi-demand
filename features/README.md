@@ -10,11 +10,13 @@ models can be retrained without a new OpenStreetMap download. `SHA256SUMS.txt` l
 | `extra_<city>.npz` | LODES 2021 jobs and resident workers, rail stations from OpenStreetMap, per region | |
 | `enpl_<city>.npy` | FAA CY2021 enplanements of the large airport inside each region (0 elsewhere) | |
 | `acs_city.json` | ACS 2020 to 2024 five-year city estimates (Census Reporter API) used for the annual level | |
+| `*_sydney.*`, `sydney_regions.geojson` | Sydney (`improve/PROTOCOL_SYDNEY.md`): the 401 suburbs, their 18 map features, grid, jobs/residents and airport value. Sydney has no taxi data | 2026-10-24 |
 
 The OpenStreetMap data were retrieved through the Overpass API between 27 September and 1 October 2026. The raw Overpass
 responses were not kept, so these derived arrays are the reference snapshot. To use them, copy `region_static_*` to
 `bench77/data` (Chicago, NYC) or `multicity/data` (SF, DC), `grid_*` to `grid/data`, `extra_*` and `enpl_*` to
-`improve/data` and `acs_city.json` to `improve/raw`.
+`improve/data` and `acs_city.json` to `improve/raw`. Sydney: `region_static_sydney.npz` to `multicity/data`, `sydney_regions.geojson` to `multicity/data/sydney`,
+`grid_sydney.npz` to `grid/data`, `extra_sydney.npz` and `enpl_sydney.npy` to `improve/data`.
 
 The taxi demand arrays are not included. They are rebuilt from the public trip records by `bench77/prep_data.py` and
 `multicity/prep_sf.py`, `multicity/prep_dc.py`.

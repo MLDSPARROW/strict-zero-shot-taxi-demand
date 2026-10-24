@@ -85,6 +85,12 @@ added before any held-out result was inspected). Runs: `improve/aggregate_heldou
 `improve/runner_heldout.py`; scoring for all four targets: `improve/score_all.py`, `improve/v4_numbers.py`,
 `improve/heldout_ceiling.py`; four-city figure: `improve/fig_four.py`; sensitivity analyses: `improve/revision_extras.py`.
 
+## Application: demand estimates for cities without taxi data
+
+The final method also gives an estimate of the demand per area, weekday and time for a city that has no taxi data, from public map data and the calendar only (no accuracy is claimed; the numbers are labelled
+estimates). Sydney: `improve/PROTOCOL_SYDNEY.md`, `improve/sydney_results.py`, `improve/build_sydney_page.py`. One hundred cities of the USA, UK, Canada and Australia for one dynamic web page: `improve/PROTOCOL_CITIES100.md`,
+`multicity/cities100.csv`, and the instructions in `miliroute/` (start with `miliroute/START_HERE.md`).
+
 ## Data sources (all public)
 
 - Chicago Taxi Trips (City of Chicago Data Portal, dataset `wrvz-psew`), 2021.

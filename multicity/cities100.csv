@@ -1,0 +1,101 @@
+n,country,rank_in_country,city,region,slug,status
+1,United States,1,Los Angeles,CA,los-angeles-ca,planned
+2,United States,2,Houston,TX,houston-tx,planned
+3,United States,3,Phoenix,AZ,phoenix-az,planned
+4,United States,4,Philadelphia,PA,philadelphia-pa,planned
+5,United States,5,San Antonio,TX,san-antonio-tx,planned
+6,United States,6,San Diego,CA,san-diego-ca,planned
+7,United States,7,Dallas,TX,dallas-tx,planned
+8,United States,8,San Jose,CA,san-jose-ca,planned
+9,United States,9,Jacksonville,FL,jacksonville-fl,planned
+10,United States,10,Fort Worth,TX,fort-worth-tx,planned
+11,United States,11,Columbus,OH,columbus-oh,planned
+12,United States,12,Charlotte,NC,charlotte-nc,planned
+13,United States,13,Indianapolis,IN,indianapolis-in,planned
+14,United States,14,Seattle,WA,seattle-wa,planned
+15,United States,15,Denver,CO,denver-co,planned
+16,United States,16,Boston,MA,boston-ma,planned
+17,United States,17,Atlanta,GA,atlanta-ga,planned
+18,United States,18,Miami,FL,miami-fl,planned
+19,United States,19,Detroit,MI,detroit-mi,planned
+20,United States,20,Minneapolis,MN,minneapolis-mn,planned
+21,United States,21,Tampa,FL,tampa-fl,planned
+22,United States,22,Baltimore,MD,baltimore-md,planned
+23,United States,23,St. Louis,MO,st-louis-mo,planned
+24,United States,24,Orlando,FL,orlando-fl,planned
+25,United States,25,Portland,OR,portland-or,planned
+26,United States,26,Sacramento,CA,sacramento-ca,planned
+27,United States,27,Pittsburgh,PA,pittsburgh-pa,planned
+28,United States,28,Las Vegas,NV,las-vegas-nv,planned
+29,United States,29,Cincinnati,OH,cincinnati-oh,planned
+30,United States,30,Kansas City,MO,kansas-city-mo,planned
+31,United States,31,Cleveland,OH,cleveland-oh,planned
+32,United States,32,Nashville,TN,nashville-tn,planned
+33,United States,33,Milwaukee,WI,milwaukee-wi,planned
+34,United States,34,Raleigh,NC,raleigh-nc,planned
+35,United States,35,Oklahoma City,OK,oklahoma-city-ok,planned
+36,United States,36,Memphis,TN,memphis-tn,planned
+37,United States,37,Richmond,VA,richmond-va,planned
+38,United States,38,Louisville,KY,louisville-ky,planned
+39,United States,39,New Orleans,LA,new-orleans-la,planned
+40,United States,40,Salt Lake City,UT,salt-lake-city-ut,planned
+41,United States,41,Hartford,CT,hartford-ct,planned
+42,United States,42,Buffalo,NY,buffalo-ny,planned
+43,United States,43,Birmingham,AL,birmingham-al,planned
+44,United States,44,Honolulu,HI,honolulu-hi,planned
+45,United States,45,Tucson,AZ,tucson-az,planned
+46,United States,46,Albuquerque,NM,albuquerque-nm,planned
+47,United States,47,El Paso,TX,el-paso-tx,planned
+48,United States,48,Omaha,NE,omaha-ne,planned
+49,United States,49,Providence,RI,providence-ri,planned
+50,United States,50,Fresno,CA,fresno-ca,planned
+51,United Kingdom,1,London,England,london,planned
+52,United Kingdom,2,Birmingham,England,birmingham,planned
+53,United Kingdom,3,Manchester,England,manchester,planned
+54,United Kingdom,4,Glasgow,Scotland,glasgow,planned
+55,United Kingdom,5,Liverpool,England,liverpool,planned
+56,United Kingdom,6,Leeds,England,leeds,planned
+57,United Kingdom,7,Sheffield,England,sheffield,planned
+58,United Kingdom,8,Edinburgh,Scotland,edinburgh,planned
+59,United Kingdom,9,Bristol,England,bristol,planned
+60,United Kingdom,10,Newcastle upon Tyne,England,newcastle-upon-tyne,planned
+61,United Kingdom,11,Cardiff,Wales,cardiff,planned
+62,United Kingdom,12,Belfast,Northern Ireland,belfast,planned
+63,United Kingdom,13,Nottingham,England,nottingham,planned
+64,United Kingdom,14,Leicester,England,leicester,planned
+65,United Kingdom,15,Southampton,England,southampton,planned
+66,United Kingdom,16,Portsmouth,England,portsmouth,planned
+67,United Kingdom,17,Brighton,England,brighton,planned
+68,United Kingdom,18,Coventry,England,coventry,planned
+69,United Kingdom,19,Aberdeen,Scotland,aberdeen,planned
+70,United Kingdom,20,Hull,England,hull,planned
+71,Canada,1,Toronto,ON,toronto-on,planned
+72,Canada,2,Montreal,QC,montreal-qc,planned
+73,Canada,3,Vancouver,BC,vancouver-bc,planned
+74,Canada,4,Calgary,AB,calgary-ab,planned
+75,Canada,5,Edmonton,AB,edmonton-ab,planned
+76,Canada,6,Ottawa,ON,ottawa-on,planned
+77,Canada,7,Winnipeg,MB,winnipeg-mb,planned
+78,Canada,8,Quebec City,QC,quebec-city-qc,planned
+79,Canada,9,Hamilton,ON,hamilton-on,planned
+80,Canada,10,Kitchener-Waterloo,ON,kitchener-waterloo-on,planned
+81,Canada,11,London,ON,london-on,planned
+82,Canada,12,Halifax,NS,halifax-ns,planned
+83,Canada,13,Victoria,BC,victoria-bc,planned
+84,Canada,14,Windsor,ON,windsor-on,planned
+85,Canada,15,Saskatoon,SK,saskatoon-sk,planned
+86,Australia,1,Sydney,NSW,sydney-nsw,running
+87,Australia,2,Melbourne,VIC,melbourne-vic,planned
+88,Australia,3,Brisbane,QLD,brisbane-qld,planned
+89,Australia,4,Perth,WA,perth-wa,planned
+90,Australia,5,Adelaide,SA,adelaide-sa,planned
+91,Australia,6,Gold Coast,QLD,gold-coast-qld,planned
+92,Australia,7,Newcastle,NSW,newcastle-nsw,planned
+93,Australia,8,Canberra,ACT,canberra-act,planned
+94,Australia,9,Sunshine Coast,QLD,sunshine-coast-qld,planned
+95,Australia,10,Wollongong,NSW,wollongong-nsw,planned
+96,Australia,11,Geelong,VIC,geelong-vic,planned
+97,Australia,12,Hobart,TAS,hobart-tas,planned
+98,Australia,13,Townsville,QLD,townsville-qld,planned
+99,Australia,14,Cairns,QLD,cairns-qld,planned
+100,Australia,15,Darwin,NT,darwin-nt,planned
