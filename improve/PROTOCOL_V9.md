@@ -97,3 +97,10 @@ allocation-only MAE 7.735 -> 7.151 and RMSE 17.643 -> 17.105; peak ratio 0.54 ->
 DECISION by the rule fixed above: k FAILS the screen, because it is more than 3% worse in Chicago although it is more than 3% better in NYC. No confirmation and no held-out run of k are made.
 Reading: the bike-share cities carry information for the allocation in NYC (the largest single gain in the allocation of any variant so far) and spoil it in Chicago, where the true shares are far
 more concentrated than the bike-share shares. The screen of dk (Way 2 together with the bike-share cities, addendum 1) is still running and is judged separately.
+
+## Result of the screen of dk (2026-10-24, `results/v9_screen_k_dk.txt`; recorded here as obtained)
+
+Runs r = 1..3, heads ehdk and eodk. Chicago: v1 0.00937, dk 0.01058 (12.9% worse; difference v1 - dk -0.001205 [-0.001431, -0.000991], dk better on 10% of days; allocation-only MAE 1.494 -> 1.950,
+peak ratio 1.01 -> 0.67). NYC: v1 0.00460, dk 0.00430 (6.6% better; +0.000304 [+0.000299, +0.000307], dk better on 100% of days; allocation-only MAE 7.735 -> 7.302, peak ratio 0.54 -> 0.67).
+DECISION by the rule fixed above: dk FAILS the screen (more than 3% worse in Chicago). Against k, dk is less bad in Chicago (-12.9% against -20.3%) and gains less in NYC (+6.6% against +8.2%); Way 2 alone
+(d) was +0.6% and +2.8% there, so the combination is not better than its parts. Neither k nor dk is confirmed or run at the held-out targets. No variant is tried without a new time-stamped addendum.
