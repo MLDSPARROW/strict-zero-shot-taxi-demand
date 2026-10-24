@@ -6,7 +6,7 @@ Screen (n = 3): k passes if its MAE_share is >= 3% better than v1 in one develop
 Confirmation (n = 10, --confirm): k is adopted if (a) its mean MAE_share over the two targets is lower than v1's, (b) the 7-day block bootstrap (2,000
 draws, as coarse_eval.py) interval of the daily MAE_share difference v1 - k lies above zero in at least one target, and (c) in the other target it is not
 > 3% worse and its interval is not entirely below zero (the rules of PROTOCOL_V4.md).
-Usage (from improve/): python v9_eval.py [--confirm]"""
+Usage (from improve/): python v9_eval.py [--confirm] [--cand k,dk|q,t]"""
 import os, sys, numpy as np
 from v9_common import srcs
 HERE = os.path.dirname(os.path.abspath(__file__)); B = f"{HERE}/../bench77/data"
@@ -16,7 +16,8 @@ CONF = "--confirm" in sys.argv; N = 10 if CONF else 3
 V1 = {"chicago": lambda r: f"nyc_for_chicago_p{r}+sf_for_chicago_p{r}", "nyc": lambda r: f"chicago+sf_for_nyc_p{r}"}
 YF = {"chicago": f"{B}/chicago_2021_ca_30min.npy", "nyc": f"{B}/nyc_2021_zone_30min.npy"}
 KS = lambda T, r: "+".join(srcs(T, r))
-VAR = {"v1": ("", lambda T, r: V1[T](r)), "d": ("d", lambda T, r: V1[T](r)), "k": ("k", KS), "dk": ("dk", KS)}      # d: Way 2 alone, for reference only (PROTOCOL_V4 runs)
+VAR = {"v1": ("", lambda T, r: V1[T](r)), "d": ("d", lambda T, r: V1[T](r)), "k": ("k", KS), "dk": ("dk", KS), "q": ("q", KS), "t": ("t", KS)}   # d: Way 2 alone, for reference only (PROTOCOL_V4 runs)
+CANDS = sys.argv[sys.argv.index("--cand") + 1].split(",") if "--cand" in sys.argv else ["k", "dk"]      # variants judged by the rule (addendum 2: --cand q,t)
 norm = lambda p: p / p.sum(1, keepdims=True)
 res = {}
 for T in ("chicago", "nyc"):
@@ -26,6 +27,7 @@ for T in ("chicago", "nyc"):
     Sh = Y[di, si] / tot[di, si][:, None]; Tt = tot[di, si]; true_year = Y.sum((0, 1)) / Y.sum()
     print(f"\n===== {T}: {Y.shape[2]} regions, {len(idx)} observed slots, ensembles of runs 1..{N} =====")
     for name, (v, sf) in VAR.items():
+        if name not in ("v1", "d") and name not in CANDS: continue
         fs = {h: [f"{HERE}/out/multi_{T}_from_{sf(T, r)}_v{h}{v}_seed{r - 1}.npy" for r in range(1, N + 1)] for h in ("eh", "eo")}
         if not all(os.path.exists(f) for h in fs for f in fs[h]): print(f"   {name:3s} missing runs"); continue
         runs = {h: [norm(np.load(f)) for f in fs[h]] for h in fs}
@@ -39,7 +41,7 @@ for T in ("chicago", "nyc"):
               f"peak ratio {P.max(1).mean() / Sh.max(1).mean():.2f} | top-10 recall {top:.1f}")
 rng = np.random.default_rng(0); TS = ("chicago", "nyc"); adopted = []
 print(f"\n===== {'confirmation rule (a)-(c)' if CONF else 'screen rule: >= 3% better in one development target, not > 3% worse in the other'} =====")
-for name in ("k", "dk"):                                  # candidates; d alone is printed above for reference only
+for name in CANDS:                                        # candidates; d alone is printed above for reference only
     if not all((T, x) in res for T in TS for x in ("v1", name)): print(f"   {name}: missing runs"); continue
     g, ci = {}, {}
     for T in TS:

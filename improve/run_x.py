@@ -69,7 +69,9 @@ BETA = "b" in FL
 JOBS = "j" in FL
 EXPO, ACSF = "p" in FL, "a" in FL
 MAPM, DMASK = "m" in FL, "d" in FL
-BIKE, MINB = "k" in FL, 10                     # flag k (PROTOCOL_V9.md): bike-share cities (names bike_*) as extra teachers
+PRE, THEAD = "q" in FL, "t" in FL              # PROTOCOL_V9.md addendum 2: q = pre-train on the bike-share helpers, then train on the taxi helpers only;
+                                                # t = separate output layers for the bike-share and the taxi helpers (shared encoder)
+BIKE, MINB = "k" in FL or PRE or THEAD, 10     # flag k (PROTOCOL_V9.md): bike-share cities (names bike_*) as extra teachers (q and t imply its inputs and stopping rule)
 assert TGT not in SRCS
 assert not MAPM or len(SEEDS) == 1, "flag m: the map latents depend on the seed, so one seed per call"
 CITY = {"nyc": (f"{B77}/nyc_2021_zone_30min.npy", f"{B77}/region_static_nyc.npz", date(2021, 1, 1), "US"),
@@ -214,13 +216,15 @@ class Allocator(nn.Module):                      # same joint allocator as bench
         if EXPO:                                         # created last and only when used: other layers keep their init
             self.alpha = nn.Linear(9, 1); nn.init.zeros_(self.alpha.weight); nn.init.zeros_(self.alpha.bias)
         if DMASK: self.dem = nn.Linear(2, hid, bias=False)   # demand input of visible regions (flag d); created last
+        if THEAD:                                        # flag t: output layers of the bike-share helpers (the taxi helpers and the target use self.out)
+            self.out_b = nn.Sequential(nn.Linear(hid, hid), nn.GELU(), nn.Dropout(drop), nn.Linear(hid, 1)); self.bike = False
     def forward(self, X, C, D=None):
         B, R = C.shape[0], X.shape[0]
         h = self.enc(torch.cat([X[None].expand(B, R, -1), C[:, None, :].expand(B, R, -1)], dim=2))
         if D is not None: h = h + self.dem(D)            # D: B x R x 2 = (visible, visible x log1p(R x share)); zeros = all hidden
         for i in range(len(self.self_w)):
             h = self.norm[i](h + F.gelu(self.self_w[i](h) + self.ctx_w[i](h.mean(dim=1, keepdim=True))))
-        z = self.out(h).squeeze(-1)
+        z = (self.out_b if (THEAD and self.bike) else self.out)(h).squeeze(-1)
         if OFFSET: z = z + self.la
         if BETA: z = z + torch.sigmoid(self.beta(h)).squeeze(-1) * self.la
         if EXPO:
@@ -240,6 +244,7 @@ NF = data[TGT]["X"].shape[1]
 
 def run(mdl, c, C, D=None):
     mdl.la, mdl.hub = T_[c]["la"], T_[c]["hub"]
+    if THEAD: mdl.bike = c.startswith("bike_")
     if EXPO: mdl.J, mdl.P = T_[c]["J"], T_[c]["P"]
     return mdl(T_[c]["X"], C, D)
 
@@ -276,11 +281,26 @@ def train(seed, epochs=25, bs=64, steps=233):
         rng_m = np.random.default_rng(seed + 7919); half = bs // 2
         KS = {c: np.exp(-0.5 * (np.linalg.norm(data[c]["cen"][:, None] - data[c]["cen"][None], axis=2)
                                 / np.sqrt(np.median(data[c]["area"]))) ** 2) for c in SRCS}   # smoothing over about one region
+    if PRE and BIKE_S:                           # stage 1 (flag q): the bike-share helpers only; early stopping on their held-out days (patience 3, at most 12 epochs)
+        b1, s1, bad1 = 1e9, None, 0
+        for ep1 in range(12):
+            mdl.train()
+            for _ in range(steps):
+                c = BIKE_S[rng.integers(len(BIKE_S))]; b = rng.choice(data[c]["tr"], size=bs, replace=False)
+                lp = run(mdl, c, T_[c]["C"][b]); loss = -(T_[c]["Sh"][b] * lp).sum(dim=1).mean(); opt.zero_grad(); loss.backward(); opt.step()
+            mdl.eval(); v1_ = float(np.mean([(predict(mdl, c, data[c]["va"]) - T_[c]["Sh"][data[c]["va"]]).abs().mean().item() for c in BIKE_S]))
+            if v1_ < b1 - 1e-7: b1, s1, bad1 = v1_, {k: t.clone() for k, t in mdl.state_dict().items()}, 0
+            else:
+                bad1 += 1
+                if bad1 >= 3: break
+        mdl.load_state_dict(s1); opt = torch.optim.AdamW(mdl.parameters(), lr=1e-3, weight_decay=1e-4)      # fresh optimiser for stage 2
+        print(f"    stage 1: {ep1 + 1} epochs on the bike-share helpers, held-out MAE_share {b1:.5f}", flush=True)
     best, state, bad = 1e9, None, 0
     for ep in range(epochs):
         mdl.train()
         for _ in range(steps):
-            if BIKE and TAXI_S and BIKE_S: grp = TAXI_S if rng.integers(2) == 0 else BIKE_S; c = grp[rng.integers(len(grp))]    # data type first, then a helper of it
+            if PRE and TAXI_S: c = TAXI_S[rng.integers(len(TAXI_S))]                                                       # stage 2 of q: taxi helpers only
+            elif BIKE and TAXI_S and BIKE_S: grp = TAXI_S if rng.integers(2) == 0 else BIKE_S; c = grp[rng.integers(len(grp))]    # data type first, then a helper of it
             else: c = SRCS[rng.integers(len(SRCS))]
             b = rng.choice(data[c]["tr"], size=bs, replace=False)
             if DMASK:                            # rows 0..half-1: all hidden (the usual task); rows half..bs-1: contiguous random subset hidden

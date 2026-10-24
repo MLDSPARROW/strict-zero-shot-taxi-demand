@@ -104,3 +104,19 @@ Runs r = 1..3, heads ehdk and eodk. Chicago: v1 0.00937, dk 0.01058 (12.9% worse
 peak ratio 1.01 -> 0.67). NYC: v1 0.00460, dk 0.00430 (6.6% better; +0.000304 [+0.000299, +0.000307], dk better on 100% of days; allocation-only MAE 7.735 -> 7.302, peak ratio 0.54 -> 0.67).
 DECISION by the rule fixed above: dk FAILS the screen (more than 3% worse in Chicago). Against k, dk is less bad in Chicago (-12.9% against -20.3%) and gains less in NYC (+6.6% against +8.2%); Way 2 alone
 (d) was +0.6% and +2.8% there, so the combination is not better than its parts. Neither k nor dk is confirmed or run at the held-out targets. No variant is tried without a new time-stamped addendum.
+
+## Addendum 2 (2026-10-24, variants q and t; written before any run of them)
+
+After the screens of k and dk, the first author asked for a way to keep the gain in NYC without the loss in Chicago. A diagnosis of the Chicago predictions of k from the existing runs (no new run): the annual
+share of the Near North Side falls from 28.2% in v1 (true 24.5%) to 15.7%, that of the Loop from 18.7% (true 14.3%) to 8.5%, and that of O'Hare from 11.6% to 8.2% (true 14.6%), while Lincoln Park rises
+from 5.3% (true 2.4%) to 10.2% and the Near West Side from 9.2% to 15.0% (true 9.2%). The annual share error (half the sum of the absolute differences) is 18.2% for v1 and 32.2% for k; in NYC it falls from
+55.6% to 51.0%. Bike-share trips are concentrated in residential and leisure areas where taxi trips are not, and the shared output layer mixes the two. Two variants that separate the two types are fixed now:
+- q: stage 1 trains on the bike-share helpers only (early stopping on their held-out days, patience 3, at most 12 epochs, best state restored); stage 2 is the training of the final method on the taxi helpers
+  only (fresh optimiser, at most 25 epochs, early stopping on the held-out days of the taxi helpers as before). Heads ehq and eoq.
+- t: as k (type input, minimum of 10 trips, stopping on the taxi helpers, type probability 1/2), but the output layer of the allocator has a separate copy for the bike-share helpers while the encoder is shared;
+  the taxi helpers and the target use the original output layer. Heads eht and eot.
+Rules: the screen and confirmation rules of this protocol, each variant judged separately against v1 (`runner_v9.py <worker> 2 screen q` and `... t`, then `python v9_eval.py --cand q,t`); if both are adopted at the
+confirmation, the one with the lower mean MAE_share is selected; the held-out evaluation is made only for an adopted variant, under the plan of this protocol. Code: switches q and t of `run_x.py`, inert without them;
+smoke tests ran on both targets (1 epoch of 5 steps, outputs deleted); the reproduction check of the unchanged path is repeated after the start of the screen and recorded here.
+Disclosure: the two variants are a reaction to the screens of k and dk on the development targets, so a pass on them is a development result and not a held-out one. Since PROTOCOL_V4, seven variants (m, d, md, k, dk, q, t)
+have been screened on the same two development targets; the held-out evaluation decides.
