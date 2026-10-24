@@ -21,11 +21,14 @@ log = []; say = lambda s: (print(s, flush=True), log.append(s))
 # ---- shares ----
 sl = calendar_slots("sydney", START); di, si = np.array([a for a, _ in sl]), np.array([b for _, b in sl])
 reg = gpd.read_file(f"{HERE}/../multicity/data/sydney/sydney_regions.geojson").sort_values("rid").reset_index(drop=True); R = len(reg)
+PARTIAL = "--partial" in sys.argv                      # page test only: use the runs finished so far (both heads), never for the reported estimate
+RUNS = [r for r in range(1, 11) if all(os.path.exists(f"{HERE}/out_cal/multi_sydney_from_{'+'.join(sydney_srcs(r))}_v{h}_seed{r - 1}.npy") for h in ("eh", "eo"))] if PARTIAL else list(range(1, 11))
 H = {}
 for h in ("eh", "eo"):
-    runs = [norm(np.load(f"{HERE}/out_cal/multi_sydney_from_{'+'.join(sydney_srcs(r))}_v{h}_seed{r - 1}.npy").astype(np.float64)) for r in range(1, 11)]
+    runs = [norm(np.load(f"{HERE}/out_cal/multi_sydney_from_{'+'.join(sydney_srcs(r))}_v{h}_seed{r - 1}.npy").astype(np.float64)) for r in RUNS]
     assert all(p.shape == (len(sl), R) for p in runs), "prediction rows differ from the calendar slots or the suburbs"
-    H[h] = (np.mean(runs, 0), np.std([p.mean(0) for p in runs], 0))
+    H[h] = (np.mean(runs, 0), np.std([p.mean(0) for p in runs], 0) if len(runs) > 1 else np.zeros(R))
+if PARTIAL: RES = f"{RES}/partial"; os.makedirs(RES, exist_ok=True); print(f"PARTIAL TEST: runs {RUNS} only", flush=True)
 P = norm(0.5 * H["eh"][0] + 0.5 * H["eo"][0])
 say(f"shares: {len(sl)} calendar slots of 2023, {R} suburbs, heads eh and eo, ten runs each")
 
@@ -58,7 +61,8 @@ df = pd.DataFrame({"rank": 0, "suburb": reg["LOC_NAME"], "loc_pid": reg["LOC_PID
 df["rank"] = df["share_pct"].rank(ascending=False, method="first").astype(int); df = df.sort_values("rank")
 df.to_csv(f"{RES}/sydney_suburbs.csv", index=False)
 json.dump({"names": reg["LOC_NAME"].tolist(), "pid": reg["LOC_PID"].tolist(), "area": reg["area_km2"].round(3).tolist(), "jobs": jobs.round(0).tolist(), "res": res.round(0).tolist(),
-           "rhythm": rh.round(6).tolist(), "nd": nd.tolist(), "level_year_strict": lev_year, "share_ws": np.round(S_ws * 1e6).astype(int).transpose(2, 0, 1).tolist()},
+           "rhythm": rh.round(6).tolist(), "nd": nd.tolist(), "level_year_strict": lev_year, "share_year": share.round(8).tolist(),
+           "share_ws": np.round(S_ws * 1e6).astype(int).transpose(2, 0, 1).tolist()},
           open(f"{RES}/sydney_week.json", "w"), separators=(",", ":"))
 # ---- checks (descriptive; there is nothing to validate against) ----
 from scipy.stats import spearmanr

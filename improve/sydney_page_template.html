@@ -1,0 +1,261 @@
+<meta charset="utf-8">
+<title>Sydney Taxi Demand</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: a map of the 401 suburbs on the left, a readout for the chosen suburb and time on the right.
+   Harbour-blue ramp for demand; the yellow of a taxi sign marks the chosen suburb. */
+:root{
+  --bg:#F3F6F7; --surface:#FFFFFF; --ink:#12232D; --muted:#566874; --line:#D3DDE2; --soft:#E8EEF1; --sel:#F2B400; --bar:#2E7E9B;
+  --note-bg:#FFF6DB; --note-ink:#4F3B00; --note-line:#E6CB75;
+  --r0:#EEF5F6; --r1:#CFE5E8; --r2:#A2CFD6; --r3:#6DB0BF; --r4:#3B8AA8; --r5:#1E6188; --r6:#0F3A66;
+  --font-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif; --font-body:"Public Sans","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C141A; --surface:#13202A; --ink:#E6EEF2; --muted:#93A7B3; --line:#27383F; --soft:#1B2B35; --sel:#FFC933; --bar:#4FB0C6;
+  --note-bg:#2A2410; --note-ink:#F0DFA0; --note-line:#5C4B16;
+  --r0:#16303B; --r1:#1B4C60; --r2:#1F6E8A; --r3:#2A93AF; --r4:#4FB8C8; --r5:#92DADC; --r6:#DDFAF6; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C141A; --surface:#13202A; --ink:#E6EEF2; --muted:#93A7B3; --line:#27383F; --soft:#1B2B35; --sel:#FFC933; --bar:#4FB0C6;
+  --note-bg:#2A2410; --note-ink:#F0DFA0; --note-line:#5C4B16;
+  --r0:#16303B; --r1:#1B4C60; --r2:#1F6E8A; --r3:#2A93AF; --r4:#4FB8C8; --r5:#92DADC; --r6:#DDFAF6; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.45;
+  padding-block:22px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1240px;margin:0 auto}
+h1{font-family:var(--font-display);font-weight:700;font-size:clamp(28px,4.4vw,40px);line-height:1.08;margin:0 0 6px;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:0 0 14px;color:var(--muted);max-width:68ch}
+.notice{background:var(--note-bg);color:var(--note-ink);border:1px solid var(--note-line);border-radius:6px;padding:10px 14px;max-width:84ch;margin:0 0 20px}
+.tabs{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface);margin-bottom:14px}
+.tabs button{font:inherit;font-weight:500;color:var(--muted);background:transparent;border:0;padding:9px 16px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--sel);outline-offset:2px}
+.controls{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:flex-end;margin-bottom:6px}
+.ctl{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ctl.grow{flex:1 1 280px}
+.lab{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{font:inherit;font-size:14px;font-weight:500;color:var(--ink);background:transparent;border:0;border-right:1px solid var(--line);padding:8px 11px;cursor:pointer;min-width:46px}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.timerow{display:flex;align-items:center;gap:12px}
+input[type=range]{flex:1;min-width:120px;accent-color:var(--bar)}
+output{font-variant-numeric:tabular-nums;font-weight:600;min-width:7.5em}
+.btn{font:inherit;font-weight:500;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 14px;cursor:pointer}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+input[type=text],input[type=search],select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0}
+#total{width:11em;font-variant-numeric:tabular-nums}
+.hint{margin:6px 0 18px;color:var(--muted);font-size:13px;max-width:96ch}
+.grid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:18px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.side{display:flex;flex-direction:column;gap:18px;min-width:0}
+.mapcard{position:relative}
+.maphead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;margin-bottom:8px}
+.mt{font-family:var(--font-display);font-weight:600;font-size:18px}
+.scalesel{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.scalesel select{padding:5px 8px;font-size:13px}
+#map{display:block;width:100%;height:auto;max-height:80vh;margin:0 auto}
+#map .sub,#map .halo,#map .ring{vector-effect:non-scaling-stroke}
+#map .sub{stroke:var(--surface);stroke-width:.8px;cursor:pointer}
+#map .sub:hover{stroke:var(--ink);stroke-width:2px}
+#map .halo{fill:none;stroke:var(--ink);stroke-width:5.5px;pointer-events:none;stroke-linejoin:round}
+#map .ring{fill:none;stroke:var(--sel);stroke-width:3px;pointer-events:none;stroke-linejoin:round}
+#map text{font-family:var(--font-body);font-weight:600;font-size:36px;fill:var(--ink);stroke:var(--surface);stroke-width:7px;paint-order:stroke;pointer-events:none;text-anchor:middle}
+.legend{margin-top:10px}
+.legend .bar{height:10px;border-radius:5px}
+.legend .ticks{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:4px}
+.legcap{font-size:12px;color:var(--muted);margin-top:2px}
+.tip{position:fixed;z-index:20;pointer-events:none;background:var(--ink);color:var(--bg);padding:6px 10px;border-radius:6px;font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pickrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.pickrow input{flex:1 1 180px}
+.sname{font-family:var(--font-display);font-weight:700;font-size:28px;line-height:1.1;margin:2px 0 6px;text-wrap:balance}
+.chips{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:13px;margin-bottom:12px}
+.big{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.big .num{font-family:var(--font-display);font-weight:700;font-size:48px;line-height:1;font-variant-numeric:tabular-nums}
+.big .unit{color:var(--muted)}
+.facts{display:flex;flex-wrap:wrap;gap:6px 22px;margin:10px 0 14px;font-size:14px;font-variant-numeric:tabular-nums}
+.facts b{font-weight:600}
+.chart{width:100%;height:auto;display:block}
+.chart text{font-family:var(--font-body);font-size:10px;fill:var(--muted)}
+.cap{font-size:12px;color:var(--muted);margin:2px 0 0}
+h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 10px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:6px 8px;border-bottom:1px solid var(--line);font-size:14px}
+th:first-child,td:first-child{text-align:left}
+.avg th:nth-child(2),.avg td:nth-child(2){text-align:left}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;position:sticky;top:0;background:var(--surface);cursor:pointer;white-space:nowrap}
+tbody tr{cursor:pointer}
+tbody tr:hover,tbody tr.on{background:var(--soft)}
+.top td.nm{text-align:left}
+.top .nmbox{display:flex;flex-direction:column;gap:3px}
+.top .bar{display:block;height:5px;border-radius:3px;background:var(--bar)}
+.scroll{max-height:560px;overflow:auto}
+.rk{color:var(--muted);width:2.2em}
+footer{margin-top:26px;color:var(--muted);font-size:13px;max-width:100ch}
+footer h2{font-size:15px;margin-bottom:6px}
+footer ul{margin:0 0 12px;padding-left:18px}
+footer li{margin:2px 0}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Sydney Taxi Demand</h1>
+  <p class="lede">Expected taxi pickups in <span id="nSub">401</span> suburbs within 25 km of the city centre, for any day and half-hour of the week.</p>
+  <div class="notice" role="note"><strong>An estimate, not a count.</strong> A model trained on taxi data from Chicago, New York and San Francisco, together with Sydney's public map data, produced these numbers. No Sydney taxi data was used, so they have not been checked against real trips.</div>
+</header>
+
+<div class="tabs" role="group" aria-label="View"><button id="tabTime" type="button" aria-pressed="true">By day and time</button><button id="tabAvg" type="button" aria-pressed="false">Average per suburb</button></div>
+
+<section class="controls" aria-label="Controls">
+  <div class="ctl" id="ctlDay"><span class="lab">Day</span><div class="seg" id="days"></div></div>
+  <div class="ctl grow" id="ctlTime"><label class="lab" for="slot">Time</label><div class="timerow"><input type="range" id="slot" min="0" max="47" step="1" value="18"><output id="slotOut" for="slot"></output><button class="btn" id="play" type="button" aria-pressed="false">Play</button></div></div>
+  <div class="ctl"><label class="lab" for="total">Taxi trips per day, all suburbs</label><input type="text" inputmode="numeric" id="total" autocomplete="off"></div>
+</section>
+<p class="hint" id="hint"></p>
+
+<main class="grid">
+  <section class="card mapcard">
+    <div class="maphead"><div class="mt" id="mapTitle"></div>
+      <div class="scalesel" id="scaleBox"><label for="scaleMode">Colour scale</label><select id="scaleMode"><option value="fixed">Same all week</option><option value="fit">Fits this half-hour</option></select></div></div>
+    <svg id="map" role="img" aria-label="Map of Sydney suburbs shaded by expected taxi pickups"></svg>
+    <div class="legend"><div class="bar" id="legBar"></div><div class="ticks" id="legTicks"></div><div class="legcap" id="legCap"></div></div>
+  </section>
+  <aside class="side">
+    <section class="card" id="selCard"></section>
+    <section class="card" id="listCard"></section>
+  </aside>
+</main>
+<div class="tip" id="tip" hidden></div>
+
+<footer>
+  <h2>How to read this</h2>
+  <ul>
+    <li>Each number is the expected number of taxi pickups in that suburb in that half-hour. It is an average, so a real half-hour can be higher or lower.</li>
+    <li>The pattern across suburbs and times is the model's estimate. The total is yours to set: the default of <span id="strictDay"></span> trips a day comes from a rule that uses public-transport commuters in the 2021 Census, taken on a lockdown day, so it is probably too low.</li>
+    <li>It counts taxi-style pickups as recorded in the three training cities, not rideshare. Outer Sydney beyond 25 km from the city centre (Penrith, Campbelltown, the Hawkesbury) is not covered.</li>
+  </ul>
+  <h2>Data</h2>
+  <ul>
+    <li>Suburb outlines: Geoscape Administrative Boundaries (CC BY 4.0). Jobs and residents in 2021: Transport for NSW Travel Zone Projections (CC BY). Commuters: ABS Census 2021 (CC BY 4.0). Map places: &copy; OpenStreetMap contributors (ODbL).</li>
+    <li>Method: strict zero-shot transfer with scale matching, Ghalejughi, Khattak and Hussain, in preparation.</li>
+  </ul>
+</footer>
+</div>
+
+<script>
+(()=>{
+const D=/*DATA*/null;
+if(!D){document.getElementById('listCard').textContent='The data did not load.';return}
+const R=D.names.length,DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],DS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const flat=Int32Array.from(D.share_ws.flat(2));
+const sh=(i,w,s)=>flat[(i*7+w)*48+s]/1e6;
+const unitCity=(w,s)=>365*D.rhythm[w][s]/D.nd[w];                    // city trips in this half-hour for 1 trip a day on average
+const nf=new Intl.NumberFormat('en-AU'),$=id=>document.getElementById(id);
+const fmt=v=>v>=10?v.toFixed(1):v>=1?v.toFixed(2):v>=0.1?v.toFixed(2):v.toFixed(3);
+const hhmm=s=>String(Math.floor(s/2)).padStart(2,'0')+':'+(s%2?'30':'00');
+const span=s=>hhmm(s)+'–'+hhmm((s+1)%48);
+const qtl=(arr,p)=>{const a=Float64Array.from(arr).sort();return a[Math.min(a.length-1,Math.floor(p*(a.length-1)))]};
+const STRICT=Math.round(D.level_year_strict/365/100)*100;
+let fixedUnit=0;{const t=new Float64Array(R);for(let w=0;w<7;w++)for(let s=0;s<48;s++){const c=unitCity(w,s);for(let i=0;i<R;i++)t[i]=c*sh(i,w,s);fixedUnit=Math.max(fixedUnit,qtl(t,.97))}}
+let pk={w:1,s:18,v:-1};for(let w=0;w<5;w++)for(let s=0;s<48;s++)if(D.rhythm[w][s]>pk.v)pk={w,s,v:D.rhythm[w][s]};
+const cbd=Math.max(0,D.names.indexOf('Sydney'));
+const st={tab:'time',w:pk.w,s:pk.s,total:STRICT,sel:cbd,scale:'fixed',play:null,sortKey:'day',sortDir:-1,q:''};
+$('nSub').textContent=R;$('strictDay').textContent=nf.format(STRICT);
+// colours
+let RAMP=[];const hex=h=>{h=h.replace('#','');return[0,2,4].map(j=>parseInt(h.substr(j,2),16))};
+const readRamp=()=>{const c=getComputedStyle(document.documentElement);RAMP=[0,1,2,3,4,5,6].map(k=>hex(c.getPropertyValue('--r'+k).trim()))};
+const ramp=t=>{t=Math.max(0,Math.min(1,t));const x=t*6,k=Math.min(5,Math.floor(x)),f=x-k,a=RAMP[k],b=RAMP[k+1];return'rgb('+[0,1,2].map(j=>Math.round(a[j]+(b[j]-a[j])*f)).join(',')+')'};
+// map
+const NS='http://www.w3.org/2000/svg',svg=$('map');svg.setAttribute('viewBox','0 0 '+D.w+' '+D.h);
+const g=document.createElementNS(NS,'g');svg.appendChild(g);const P=[];
+for(let i=0;i<R;i++){const p=document.createElementNS(NS,'path');p.setAttribute('d',D.paths[i]);p.dataset.i=i;p.setAttribute('class','sub');g.appendChild(p);P.push(p)}
+const halo=document.createElementNS(NS,'path'),ring=document.createElementNS(NS,'path');halo.setAttribute('class','halo');ring.setAttribute('class','ring');svg.appendChild(halo);svg.appendChild(ring);
+['Sydney','Parramatta','Mascot','Bondi','Manly','Chatswood','Bankstown','Hurstville'].forEach(n=>{const i=D.names.indexOf(n);if(i<0)return;const t=document.createElementNS(NS,'text');t.setAttribute('x',D.cx[i]);t.setAttribute('y',D.cy[i]);t.textContent=n==='Sydney'?'City':n==='Mascot'?'Airport':n;svg.appendChild(t)});
+// state helpers
+function current(){const v=new Float64Array(R);if(st.tab==='avg'){for(let i=0;i<R;i++)v[i]=st.total*D.share_year[i]}else{const c=st.total*unitCity(st.w,st.s);for(let i=0;i<R;i++)v[i]=c*sh(i,st.w,st.s)}return v}
+function vmaxOf(v){return st.tab==='time'&&st.scale==='fixed'?st.total*fixedUnit:qtl(v,.97)}
+function render(){
+  const v=current(),vmax=Math.max(vmaxOf(v),1e-9);
+  for(let i=0;i<R;i++)P[i].style.fill=ramp(Math.sqrt(v[i]/vmax));
+  const d=P[st.sel].getAttribute('d');halo.setAttribute('d',d);ring.setAttribute('d',d);
+  $('legBar').style.background='linear-gradient(to right,'+[0,1,2,3,4,5,6].map(k=>'rgb('+RAMP[k].join(',')+')').join(',')+')';
+  $('legTicks').innerHTML=[0,.25,.5,.75,1].map(t=>'<span>'+(t===1?'≥':'')+(t===0?'0':fmt(vmax*t*t))+'</span>').join('');
+  $('legCap').textContent=st.tab==='avg'?'Expected taxi pickups per day in the suburb':'Expected taxi pickups in this half-hour';
+  $('mapTitle').textContent=st.tab==='avg'?'Average day':DAYS[st.w]+', '+span(st.s);
+  $('slotOut').textContent=span(st.s);
+  renderSel(v);renderList(v);
+}
+const rankOf=(v,i)=>{let r=1;for(let j=0;j<R;j++)if(v[j]>v[i])r++;return r};
+function renderSel(v){
+  const i=st.sel,avg=st.total*D.share_year[i],now=st.tab==='time';
+  let h='<div class="pickrow"><span class="lab">Suburb</span><input type="search" id="pick" list="subs" placeholder="Find a suburb" aria-label="Find a suburb"><datalist id="subs">'+D.names.map(n=>'<option value="'+n.replace(/"/g,'&quot;')+'">').join('')+'</datalist></div>';
+  h+='<div class="sname">'+D.names[i]+'</div><div class="chips"><span>'+D.area[i].toFixed(1)+' km²</span><span>'+nf.format(Math.round(D.jobs[i]))+' jobs</span><span>'+nf.format(Math.round(D.res[i]))+' residents</span></div>';
+  if(now){
+    h+='<div class="big"><span class="num">'+fmt(v[i])+'</span><span class="unit">expected pickups, '+DS[st.w]+' '+span(st.s)+'</span></div>';
+    h+='<div class="facts"><span>Share of all demand now <b>'+(100*v[i]/Math.max(1e-12,v.reduce((a,b)=>a+b,0))).toFixed(2)+'%</b></span><span>Rank now <b>'+rankOf(v,i)+'</b> of '+R+'</span><span>Average day <b>'+fmt(avg)+'</b> trips</span></div>';
+    h+=dayChart(i);
+  }else{
+    h+='<div class="big"><span class="num">'+fmt(avg)+'</span><span class="unit">expected pickups per day on average</span></div>';
+    h+='<div class="facts"><span>Share of all demand <b>'+(100*D.share_year[i]).toFixed(2)+'%</b></span><span>Rank <b>'+rankOf(v,i)+'</b> of '+R+'</span><span>Busiest half-hour of the week <b>'+busiest(i)+'</b></span></div>';
+    h+=dayChart(i);
+  }
+  const keep=document.activeElement&&document.activeElement.id==='pick';$('selCard').innerHTML=h;
+  const pick=$('pick');pick.addEventListener('change',()=>{const k=D.names.indexOf(pick.value.trim());if(k>=0){st.sel=k;render()}});
+  if(keep)pick.focus();
+}
+function busiest(i){let b=-1,bw=0,bs=0;for(let w=0;w<7;w++)for(let s=0;s<48;s++){const x=unitCity(w,s)*sh(i,w,s);if(x>b){b=x;bw=w;bs=s}}return DS[bw]+' '+span(bs)}
+function dayChart(i){
+  const W=480,H=150,l=30,r=6,t=8,b=22,pw=(W-l-r)/48,w=st.w,c=st.total,vals=[],avg=st.tab==='avg';let mx=0;
+  for(let s=0;s<48;s++){let x=0;if(avg){for(let d=0;d<7;d++)x+=D.rhythm[d][s]*sh(i,d,s);x*=c}else x=c*unitCity(w,s)*sh(i,w,s);vals.push(x);mx=Math.max(mx,x)}mx=mx||1;
+  let o='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Expected pickups through the day"><line x1="'+l+'" x2="'+(W-r)+'" y1="'+(H-b)+'" y2="'+(H-b)+'" stroke="var(--line)"/>';
+  [0,.5,1].forEach(f=>{const y=H-b-(H-b-t)*f;o+='<line x1="'+l+'" x2="'+(W-r)+'" y1="'+y+'" y2="'+y+'" stroke="var(--line)" stroke-dasharray="2 3"/><text x="'+(l-4)+'" y="'+(y+3)+'" text-anchor="end">'+(f===0?'0':fmt(mx*f))+'</text>'});
+  vals.forEach((x,s)=>{const hh=(H-b-t)*x/mx,cur=st.tab==='time'&&s===st.s;o+='<rect x="'+(l+s*pw+.6)+'" y="'+(H-b-hh)+'" width="'+(pw-1.2)+'" height="'+Math.max(hh,.4)+'" fill="'+(cur?'var(--sel)':'var(--bar)')+'"'+(cur?' stroke="var(--ink)" stroke-width=".8"':'')+'/>'});
+  [0,6,12,18,24].forEach(h=>{o+='<text x="'+(l+h*2*pw)+'" y="'+(H-6)+'" text-anchor="'+(h===24?'end':'middle')+'">'+String(h).padStart(2,'0')+':00</text>'});
+  return o+'</svg><p class="cap">'+(avg?'An average day of the week':DAYS[w])+', expected pickups per half-hour</p>';
+}
+function renderList(v){
+  const c=$('listCard');
+  if(st.tab==='time'){
+    const idx=[...v.keys()].sort((a,b)=>v[b]-v[a]).slice(0,10),mx=v[idx[0]]||1;
+    let h='<h2>Busiest suburbs, '+DS[st.w]+' '+span(st.s)+'</h2><table class="top"><tbody>';
+    idx.forEach((i,k)=>{h+='<tr data-i="'+i+'"'+(i===st.sel?' class="on"':'')+'><td class="rk">'+(k+1)+'</td><td class="nm"><div class="nmbox"><span>'+D.names[i]+'</span><span class="bar" style="width:'+Math.max(2,100*v[i]/mx)+'%"></span></div></td><td>'+fmt(v[i])+'</td></tr>'});
+    c.innerHTML=h+'</tbody></table>';
+  }else{
+    const rows=[...v.keys()].map(i=>({i,n:D.names[i],day:v[i],sh:100*D.share_year[i],jobs:D.jobs[i],res:D.res[i]}));
+    const q=st.q.trim().toLowerCase(),k=st.sortKey,dir=st.sortDir;
+    rows.sort((a,b)=>k==='n'?dir*(a.n<b.n?-1:1):dir*(a[k]-b[k]));
+    const shown=rows.filter(r=>!q||r.n.toLowerCase().includes(q));
+    const th=(key,label)=>'<th data-k="'+key+'">'+label+(st.sortKey===key?(st.sortDir<0?' ↓':' ↑'):'')+'</th>';
+    let h='<h2>Every suburb, average per day</h2><input type="search" id="q" placeholder="Search suburbs" value="'+st.q.replace(/"/g,'&quot;')+'" style="width:100%;margin-bottom:8px" aria-label="Search suburbs"><div class="scroll"><table class="avg"><thead><tr><th class="rk">#</th>'+th('n','Suburb')+th('day','Trips a day')+th('sh','Share %')+th('jobs','Jobs')+th('res','Residents')+'</tr></thead><tbody>';
+    shown.forEach((r,n)=>{h+='<tr data-i="'+r.i+'"'+(r.i===st.sel?' class="on"':'')+'><td class="rk">'+(n+1)+'</td><td>'+r.n+'</td><td>'+fmt(r.day)+'</td><td>'+r.sh.toFixed(2)+'</td><td>'+nf.format(Math.round(r.jobs))+'</td><td>'+nf.format(Math.round(r.res))+'</td></tr>'});
+    const keep=document.activeElement&&document.activeElement.id==='q';c.innerHTML=h+'</tbody></table></div>'+(shown.length?'':'<p class="cap">No suburb matches.</p>');
+    const qi=$('q');qi.addEventListener('input',()=>{st.q=qi.value;renderList(current())});if(keep){qi.focus();qi.setSelectionRange(qi.value.length,qi.value.length)}
+  }
+}
+// events
+$('days').innerHTML=DS.map((d,k)=>'<button type="button" data-w="'+k+'" aria-pressed="'+(k===st.w)+'" aria-label="'+DAYS[k]+'">'+d+'</button>').join('');
+$('days').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;st.w=+b.dataset.w;[...$('days').children].forEach(x=>x.setAttribute('aria-pressed',x===b));render()});
+$('slot').value=st.s;$('slot').addEventListener('input',e=>{st.s=+e.target.value;render()});
+$('play').addEventListener('click',()=>{if(st.play){clearInterval(st.play);st.play=null;$('play').textContent='Play';$('play').setAttribute('aria-pressed','false')}else{$('play').textContent='Pause';$('play').setAttribute('aria-pressed','true');st.play=setInterval(()=>{st.s=(st.s+1)%48;$('slot').value=st.s;render()},450)}});
+$('total').value=nf.format(st.total);
+const setTotal=()=>{const x=parseFloat($('total').value.replace(/[^0-9.]/g,''));if(x>0){st.total=x;render()}};
+$('total').addEventListener('change',()=>{setTotal();$('total').value=nf.format(st.total)});$('total').addEventListener('input',setTotal);
+$('scaleMode').addEventListener('change',e=>{st.scale=e.target.value;render()});
+function setTab(t){st.tab=t;$('tabTime').setAttribute('aria-pressed',t==='time');$('tabAvg').setAttribute('aria-pressed',t==='avg');
+  ['ctlDay','ctlTime','scaleBox'].forEach(id=>$(id).hidden=t==='avg');if(t==='avg'&&st.play)$('play').click();render()}
+$('tabTime').addEventListener('click',()=>setTab('time'));$('tabAvg').addEventListener('click',()=>setTab('avg'));
+$('hint').textContent='The default of '+nf.format(STRICT)+' trips a day for all '+R+' suburbs is what the strict rule gives and is probably too low. Type your own total and every number scales with it; the pattern across suburbs and times does not change.';
+document.addEventListener('click',e=>{const tr=e.target.closest('tr[data-i]');if(tr){st.sel=+tr.dataset.i;render()}});
+svg.addEventListener('click',e=>{const p=e.target.closest('path.sub');if(p){st.sel=+p.dataset.i;render()}});
+const tip=$('tip');
+svg.addEventListener('pointermove',e=>{const p=e.target.closest('path.sub');if(!p){tip.hidden=true;return}const v=current(),i=+p.dataset.i;tip.hidden=false;tip.textContent=D.names[i]+'  '+fmt(v[i])+(st.tab==='avg'?' a day':' per half-hour');tip.style.left=Math.min(innerWidth-190,e.clientX+14)+'px';tip.style.top=(e.clientY+14)+'px'});
+svg.addEventListener('pointerleave',()=>{tip.hidden=true});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{readRamp();render()});
+new MutationObserver(()=>{readRamp();render()}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+document.addEventListener('click',e=>{const h=e.target.closest('th[data-k]');if(!h)return;const k=h.dataset.k;if(st.sortKey===k)st.sortDir*=-1;else{st.sortKey=k;st.sortDir=k==='n'?1:-1}renderList(current())});
+readRamp();render();
+})();
+</script>
