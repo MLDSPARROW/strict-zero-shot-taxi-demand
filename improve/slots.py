@@ -2,7 +2,7 @@
 Chicago, New York City and San Francisco record local clock time, so 02:00 and 02:30 on the spring daylight-saving day
 (second Sunday of March) do not exist. The Washington, DC data are hourly counts without that gap, so all slots are kept."""
 from datetime import date, timedelta
-LOCAL_CLOCK = {"chicago": True, "nyc": True, "sf": True, "dc": False, "sf_zcta": True, "dc_cluster": False, "austin": True}
+LOCAL_CLOCK = {"chicago": True, "nyc": True, "sf": True, "dc": False, "sf_zcta": True, "dc_cluster": False, "austin": True, "sydney": False}   # sydney: all 48 slots every day (PROTOCOL_SYDNEY.md)
 END = {"austin": date(2017, 2, 6)}           # PROTOCOL_MORE_CITIES.md: full days only, data end 2017-02-07 10:09
 
 

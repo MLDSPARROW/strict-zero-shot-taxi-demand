@@ -1,0 +1,9 @@
+chicago: rebuilt trips 3,639,126 vs Table 1 3,639,126 -> OK
+nyc: rebuilt trips 30,533,607 vs Table 1 30,533,607 -> OK
+sf: rebuilt trips 1,703,882 vs Table 1 1,703,882 -> OK
+dc: rebuilt trips 1,195,111 vs Table 1 1,195,111 -> OK
+target: Sydney, 401 suburbs, median area 1.830 km2
+chicago for sydney: already >= target size, left native
+nyc for sydney: already >= target size, left native
+sf for sydney: 243 regions -> K=67 blocks, median block area 1.85 km2 over 10 partitions (target 1.83)
+done

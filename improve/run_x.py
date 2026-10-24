@@ -130,6 +130,7 @@ CITY = {"nyc": (f"{B77}/nyc_2021_zone_30min.npy", f"{B77}/region_static_nyc.npz"
         "sf_zcta": (f"{MC}/sf_zcta_30min.npy", f"{MC}/region_static_sf_zcta.npz", date(2023, 1, 1), "US"),        # PROTOCOL_COARSE_TARGETS.md
         "dc_cluster": (f"{MC}/dc_cluster_30min.npy", f"{MC}/region_static_dc_cluster.npz", date(2021, 1, 1), "US"),
         "porto30": (f"{MC}/porto30_region_30min.npy", f"{MC}/region_static_porto.npz", date(2013, 7, 1), "PT"),
+        "sydney": (f"{MC}/sydney_has_no_demand_file.npy", f"{MC}/region_static_sydney.npz", date(2023, 1, 1), "AU"),      # PROTOCOL_SYDNEY.md: target only, calendar mode (--calendar), no demand file exists
         # controlled degradations of SF (same regions/features, degraded demand labels) -- diagnostic only
         "sf_time": (f"{MC}/sf_time_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US"),
         "sf_space": (f"{MC}/sf_space_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US"),
@@ -145,13 +146,18 @@ FEAT = list(range(18))
 def cal_fn(start, country):
     if country == "US":
         hol = set(USFederalHolidayCalendar().holidays(start=str(start), end=str(start + timedelta(days=400))).date)
+    elif country == "AU":                        # PROTOCOL_SYDNEY.md: New South Wales public holidays of 2023 (the bank-only holiday of 7 August left out)
+        assert start.year == 2023, "the New South Wales holiday list is written for 2023 only"
+        hol = {date(2023, 1, 1), date(2023, 1, 2), date(2023, 1, 26), date(2023, 4, 7), date(2023, 4, 8), date(2023, 4, 9), date(2023, 4, 10),
+               date(2023, 4, 25), date(2023, 6, 12), date(2023, 10, 2), date(2023, 12, 25), date(2023, 12, 26)}
     else:
         import holidays as _h
         hol = set(_h.Portugal(years=range(start.year, start.year + 2)).keys())
     def cal(day, slot):
         d = start + timedelta(days=int(day)); dow = d.weekday()
+        mo = ((d.month + 5) % 12) + 1 if country == "AU" else d.month      # southern hemisphere: the month is shifted by six months so that the season matches the helpers'
         return np.array([np.sin(2*np.pi*slot/48), np.cos(2*np.pi*slot/48), np.sin(2*np.pi*dow/7), np.cos(2*np.pi*dow/7),
-                         float(dow >= 5), float(d in hol), np.sin(2*np.pi*d.month/12), np.cos(2*np.pi*d.month/12),
+                         float(dow >= 5), float(d in hol), np.sin(2*np.pi*mo/12), np.cos(2*np.pi*mo/12),
                          float(slot // 2 in (7, 8, 9, 16, 17, 18))], dtype=np.float32)
     return cal
 
