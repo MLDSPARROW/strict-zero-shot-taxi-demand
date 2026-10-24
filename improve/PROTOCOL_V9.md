@@ -74,3 +74,16 @@ and the grid cover of every tract is 1.00. Reproduction check: `run_x.py` withou
 For reference, the comparator v1 has MAE_share 0.00937 (Chicago) and 0.00460 (NYC) for runs r = 1..3 (`python v9_eval.py`).
 The Way 2 held-out test (PROTOCOL_V4, addendum 2) was still running when this was written; the runs of this protocol start after it has finished, so that the two do not compete
 for the laptop. Compute: the screen is 12 runs of about 5 to 8 minutes, on two workers.
+
+## Addendum 1 (2026-10-24, variant dk: Way 2 together with the bike-share cities; written before any run of dk)
+
+Request of the first author, made while the screen above was running: combine Way 2 (masked demand modelling on the helper cities, switch d of PROTOCOL_V4) with the bike-share
+cities, and test again. Way 2 alone, on the taxi helpers only, gave a gain of 1% or less at the held-out targets in both directions (PROTOCOL_V4, to be recorded in its
+addendum 3), so the question is whether the extra cities change that.
+- Variant dk: the switches d and k together (heads ehdk and eodk), with the helpers, partitions, seeds, bike-share data and all other rules of this protocol. It is screened with
+  the same screen rule against v1 (`runner_v9.py <worker> <n> screen dk`, then `python v9_eval.py`), and confirmed with the same rules (a), (b), (c) if it passes. k and dk are
+  judged separately against v1; if both are adopted, the one with the lower mean MAE_share is selected. d alone (the existing PROTOCOL_V4 runs) is printed for reference only.
+- Code: `runner_v9.py` takes the variant as a fourth argument (default k, unchanged); `v9_eval.py` prints d, k and dk. Smoke tests of ehdk and eodk (1 epoch of 5 steps, outputs deleted)
+  ran on both targets.
+- Disclosure: this addendum was written after worker 0 of the screen of k had finished its six runs of head ehk (their single-run log lines were visible, none was scored) and before any
+  run of dk. The request itself was made before those lines were seen.

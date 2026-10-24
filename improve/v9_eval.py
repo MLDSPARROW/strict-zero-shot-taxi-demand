@@ -15,7 +15,8 @@ exec(src[src.index("def boot"):src.index("norm = lambda")], {"np": np}, ns); boo
 CONF = "--confirm" in sys.argv; N = 10 if CONF else 3
 V1 = {"chicago": lambda r: f"nyc_for_chicago_p{r}+sf_for_chicago_p{r}", "nyc": lambda r: f"chicago+sf_for_nyc_p{r}"}
 YF = {"chicago": f"{B}/chicago_2021_ca_30min.npy", "nyc": f"{B}/nyc_2021_zone_30min.npy"}
-VAR = {"v1": ("", lambda T, r: V1[T](r)), "k": ("k", lambda T, r: "+".join(srcs(T, r)))}
+KS = lambda T, r: "+".join(srcs(T, r))
+VAR = {"v1": ("", lambda T, r: V1[T](r)), "d": ("d", lambda T, r: V1[T](r)), "k": ("k", KS), "dk": ("dk", KS)}      # d: Way 2 alone, for reference only (PROTOCOL_V4 runs)
 norm = lambda p: p / p.sum(1, keepdims=True)
 res = {}
 for T in ("chicago", "nyc"):
@@ -36,21 +37,21 @@ for T in ("chicago", "nyc"):
         print(f"   {name:3s} MAE_share {a.mean():.5f} (single runs {np.mean(single):.5f} +- {np.std(single, ddof=1):.5f}; heads eh {np.abs(H['eh'] - Sh).mean():.5f}, "
               f"eo {np.abs(H['eo'] - Sh).mean():.5f}) | allocation-only MAE {np.abs(e).mean():.3f} RMSE {np.sqrt((e ** 2).mean()):.3f} | "
               f"peak ratio {P.max(1).mean() / Sh.max(1).mean():.2f} | top-10 recall {top:.1f}")
-rng = np.random.default_rng(0); TS = ("chicago", "nyc")
+rng = np.random.default_rng(0); TS = ("chicago", "nyc"); adopted = []
 print(f"\n===== {'confirmation rule (a)-(c)' if CONF else 'screen rule: >= 3% better in one development target, not > 3% worse in the other'} =====")
-name = "k"
-if all((T, x) in res for T in TS for x in ("v1", name)):
+for name in ("k", "dk"):                                  # candidates; d alone is printed above for reference only
+    if not all((T, x) in res for T in TS for x in ("v1", name)): print(f"   {name}: missing runs"); continue
     g, ci = {}, {}
     for T in TS:
         g[T] = 100 * (res[(T, "v1")][0] - res[(T, name)][0]) / res[(T, "v1")][0]
         d = res[(T, "v1")][1] - res[(T, name)][1]; b = boot(d, rng); ci[T] = (np.percentile(b, 2.5), np.percentile(b, 97.5))
-        print(f"   {name} {T:8s} change {g[T]:+.1f}% | v1 - {name} daily MAE_share {d.mean():+.6f} [{ci[T][0]:+.6f}, {ci[T][1]:+.6f}], {name} better on {100 * np.mean(d > 0):.0f}% of days")
-    if not CONF: print(f"   {name} -> {'PASS' if max(g.values()) >= 3 and min(g.values()) >= -3 else 'fail'}")
-    else:
-        a_ = np.mean([res[(T, name)][0] for T in TS]) < np.mean([res[(T, "v1")][0] for T in TS])
-        b_ = [T for T in TS if ci[T][0] > 0]
-        c_ = any(all(g[o] >= -3 and ci[o][1] >= 0 for o in TS if o != T) for T in b_)
-        ok = a_ and bool(b_) and c_
-        print(f"   {name} (a) lower mean MAE_share: {a_} | (b) interval above zero in: {b_ or 'none'} | (c) other target acceptable: {c_} -> {'ADOPT' if ok else 'not adopted'}")
-        print(f"   DECISION: {'adopt k' if ok else 'nothing adopted, v1 stays'}")
-else: print("   missing runs")
+        print(f"   {name:2s} {T:8s} change {g[T]:+.1f}% | v1 - {name} daily MAE_share {d.mean():+.6f} [{ci[T][0]:+.6f}, {ci[T][1]:+.6f}], {name} better on {100 * np.mean(d > 0):.0f}% of days")
+    if not CONF: print(f"   {name:2s} -> {'PASS' if max(g.values()) >= 3 and min(g.values()) >= -3 else 'fail'}"); continue
+    a_ = np.mean([res[(T, name)][0] for T in TS]) < np.mean([res[(T, "v1")][0] for T in TS])
+    b_ = [T for T in TS if ci[T][0] > 0]
+    c_ = any(all(g[o] >= -3 and ci[o][1] >= 0 for o in TS if o != T) for T in b_)
+    ok = a_ and bool(b_) and c_; adopted += [name] if ok else []
+    print(f"   {name:2s} (a) lower mean MAE_share: {a_} | (b) interval above zero in: {b_ or 'none'} | (c) other target acceptable: {c_} -> {'ADOPT' if ok else 'not adopted'}")
+if CONF:
+    best = min(adopted, key=lambda n: np.mean([res[(T, n)][0] for T in TS])) if adopted else None
+    print(f"   DECISION: {'select ' + best if best else 'nothing adopted, v1 stays'}")

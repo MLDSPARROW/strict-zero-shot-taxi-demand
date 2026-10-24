@@ -6,10 +6,11 @@ import subprocess, sys
 from v9_common import srcs
 PY = sys.executable
 w, nw = int(sys.argv[1]), int(sys.argv[2]); stage = sys.argv[3] if len(sys.argv) > 3 else "screen"
+VAR = sys.argv[4] if len(sys.argv) > 4 else "k"                  # k, or dk = Way 2 (switch d of PROTOCOL_V4) together with the bike-share cities (addendum 1)
 RUNS = range(1, 4) if stage == "screen" else range(4, 11)
 ALL = [(T, r, h) for r in RUNS for T in ("chicago", "nyc") for h in ("eh", "eo")]
 MINE = [j for k, j in enumerate(ALL) if k % nw == w]
 for k, (T, r, h) in enumerate(MINE, 1):
-    print(f"[worker {w}: {k}/{len(MINE)}] {T} r={r} {h}k", flush=True)
-    subprocess.run([PY, "run_x.py", T, ",".join(srcs(T, r)), str(r - 1), h + "k"], check=True)
+    print(f"[worker {w}: {k}/{len(MINE)}] {T} r={r} {h}{VAR}", flush=True)
+    subprocess.run([PY, "run_x.py", T, ",".join(srcs(T, r)), str(r - 1), h + VAR], check=True)
 print(f"worker {w} done", flush=True)
