@@ -87,3 +87,19 @@ rideshare or trip data of any kind was used or looked at. The earlier negative r
   ten partitions. Sources of run r: `chicago, nyc, sf_for_sydney_p<r>`. The rebuilt trip totals of the helper cities reproduce Table 1 of the paper exactly.
 - Range check of the 18 map columns of Sydney against the pooled helpers (median and interquartile range of the helper regions, as the allocator scales them): no Sydney value lies outside the helpers' minimum and maximum
   except 0.2% of the "mix" column; the place-density columns sit about half an interquartile range below the helper median (fewer mapped places per km2), the other columns around the median. Nothing was changed after this check.
+
+## Result (2026-10-24, after the 20 runs; descriptive only)
+
+All 20 allocator runs (10 per head) finished on the laptop. The final share of a suburb is the equal average of the two ten-run ensembles; rhythm and level as above (`improve/sydney_results.py`; outputs
+`results/sydney_suburbs.csv`, `results/sydney_week.json`, `results/sydney_checks.txt`; the interactive page `results/sydney_page.html`, built by `improve/build_sydney_page.py`). Nothing here is an accuracy result:
+there are no Sydney data to check against.
+- Concentration: the ten suburbs with the largest predicted share hold 40.7% of the demand (jobs-proportional: 34.6%). The rank correlation of the predicted yearly share with the share of jobs is 0.67, with the share of residents 0.60.
+- Largest predicted shares: Mascot 10.19% (the airport suburb; its share of the jobs is 1.79%), Sydney 8.68%, Haymarket 4.29%, Surry Hills 3.30%, North Sydney 3.02%, Chippendale 2.70%, Darlinghurst 2.52%,
+  Ultimo 2.42%, Mosman 2.11%, Woolloomooloo 1.42%. The six central-business-district suburbs hold 16.6% of the demand against 19.9% of the jobs.
+- Time pattern: Tuesday 09:00 Mascot 7.5%, Sydney 7.3%, Haymarket 4.3%; Tuesday 22:00 Mascot 17.9%, Sydney 9.4%, Haymarket 4.4%; Saturday 22:00 Mascot 14.6%, Sydney 10.1%, Surry Hills 4.6%. The airport share is
+  largest at night.
+- The airport share follows the learned airport behaviour of the helper cities (O'Hare and Midway, JFK and LaGuardia): the hub head puts its learned airport mass on the one airport suburb whatever the size of the
+  airport. It cannot be checked for Sydney.
+- Run-to-run variation: the standard deviation of a suburb's share between single runs (average of the two heads) is 0.0695 percentage points, 28% of the mean share of 0.249%; for the ten-run average it is about
+  0.022 points (9%) if the runs were independent.
+- Strict yearly level: 2,311,782 trips, 6,334 a day, unreliable (census day, 10 August 2021, was in the lockdown). The page lets the user type a total; the shares and the rhythm do not depend on it.

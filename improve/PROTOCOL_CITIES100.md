@@ -98,4 +98,6 @@ per row). The agent writes the exact attribution string per country into `cities
 
 ## Addenda (dated; each committed before the runs that use it)
 
-(none yet)
+**Addendum 1 (2026-10-24, after the final Sydney result, before any download, code or run for the 99 cities).** Check 5 gave Sydney "about 0.16". That figure came from a preview with two runs. With all ten runs
+per head the Sydney value is 0.28 (standard deviation of a suburb's single-run share 0.0695 percentage points, mean share 0.249%; see PROTOCOL_SYDNEY.md, Result). Check 5 now reads: the mean standard deviation
+of a region's share between single runs (average of the two heads), divided by the mean share, is at most 0.56, twice the Sydney value. No other rule changes.

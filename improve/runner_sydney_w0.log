@@ -1,0 +1,72 @@
+[worker 0: 1/10] sydney r=1 eh <- chicago,nyc,sf_for_sydney_p1
+target sydney <- sources ['chicago', 'nyc', 'sf_for_sydney_p1']: chicago 77 regions 17518 slots, nyc 263 regions 17518 slots, sf_for_sydney_p1 67 regions 17516 slots, sydney 401 regions 17520 slots
+    source chicago held-out: MAE_share 0.00698 peak ratio 0.93 hub a=0.046 b=1.25
+    source nyc held-out: MAE_share 0.00137 peak ratio 0.80 hub a=0.046 b=1.25
+    source sf_for_sydney_p1 held-out: MAE_share 0.00903 peak ratio 0.84 hub a=0.046 b=1.25
+  seed 0: prediction saved, 17520 calendar slots (619s, 25 ep)
+done
+[worker 0: 2/10] sydney r=2 eh <- chicago,nyc,sf_for_sydney_p2
+target sydney <- sources ['chicago', 'nyc', 'sf_for_sydney_p2']: chicago 77 regions 17518 slots, nyc 263 regions 17518 slots, sf_for_sydney_p2 67 regions 17516 slots, sydney 401 regions 17520 slots
+    source chicago held-out: MAE_share 0.00708 peak ratio 0.99 hub a=0.063 b=1.30
+    source nyc held-out: MAE_share 0.00146 peak ratio 0.80 hub a=0.063 b=1.30
+    source sf_for_sydney_p2 held-out: MAE_share 0.00882 peak ratio 0.93 hub a=0.063 b=1.30
+  seed 1: prediction saved, 17520 calendar slots (398s, 17 ep)
+done
+[worker 0: 3/10] sydney r=3 eh <- chicago,nyc,sf_for_sydney_p3
+target sydney <- sources ['chicago', 'nyc', 'sf_for_sydney_p3']: chicago 77 regions 17518 slots, nyc 263 regions 17518 slots, sf_for_sydney_p3 67 regions 17516 slots, sydney 401 regions 17520 slots
+    source chicago held-out: MAE_share 0.00692 peak ratio 1.02 hub a=0.048 b=1.23
+    source nyc held-out: MAE_share 0.00138 peak ratio 0.86 hub a=0.048 b=1.23
+    source sf_for_sydney_p3 held-out: MAE_share 0.00887 peak ratio 0.95 hub a=0.048 b=1.23
+  seed 2: prediction saved, 17520 calendar slots (559s, 24 ep)
+done
+[worker 0: 4/10] sydney r=4 eh <- chicago,nyc,sf_for_sydney_p4
+target sydney <- sources ['chicago', 'nyc', 'sf_for_sydney_p4']: chicago 77 regions 17518 slots, nyc 263 regions 17518 slots, sf_for_sydney_p4 67 regions 17516 slots, sydney 401 regions 17520 slots
+    source chicago held-out: MAE_share 0.00690 peak ratio 0.93 hub a=0.038 b=1.43
+    source nyc held-out: MAE_share 0.00135 peak ratio 0.86 hub a=0.038 b=1.43
+    source sf_for_sydney_p4 held-out: MAE_share 0.00892 peak ratio 0.83 hub a=0.038 b=1.43
+  seed 3: prediction saved, 17520 calendar slots (577s, 25 ep)
+done
+[worker 0: 5/10] sydney r=5 eh <- chicago,nyc,sf_for_sydney_p5
+target sydney <- sources ['chicago', 'nyc', 'sf_for_sydney_p5']: chicago 77 regions 17518 slots, nyc 263 regions 17518 slots, sf_for_sydney_p5 67 regions 17516 slots, sydney 401 regions 17520 slots
+    source chicago held-out: MAE_share 0.00694 peak ratio 0.94 hub a=0.040 b=1.22
+    source nyc held-out: MAE_share 0.00137 peak ratio 0.77 hub a=0.040 b=1.22
+    source sf_for_sydney_p5 held-out: MAE_share 0.00886 peak ratio 0.88 hub a=0.040 b=1.22
+  seed 4: prediction saved, 17520 calendar slots (583s, 25 ep)
+done
+[worker 0: 6/10] sydney r=6 eh <- chicago,nyc,sf_for_sydney_p6
+target sydney <- sources ['chicago', 'nyc', 'sf_for_sydney_p6']: chicago 77 regions 17518 slots, nyc 263 regions 17518 slots, sf_for_sydney_p6 67 regions 17516 slots, sydney 401 regions 17520 slots
+    source chicago held-out: MAE_share 0.00695 peak ratio 0.92 hub a=0.051 b=1.31
+    source nyc held-out: MAE_share 0.00141 peak ratio 0.80 hub a=0.051 b=1.31
+    source sf_for_sydney_p6 held-out: MAE_share 0.00900 peak ratio 0.89 hub a=0.051 b=1.31
+  seed 5: prediction saved, 17520 calendar slots (525s, 21 ep)
+done
+[worker 0: 7/10] sydney r=7 eh <- chicago,nyc,sf_for_sydney_p7
+target sydney <- sources ['chicago', 'nyc', 'sf_for_sydney_p7']: chicago 77 regions 17518 slots, nyc 263 regions 17518 slots, sf_for_sydney_p7 67 regions 17516 slots, sydney 401 regions 17520 slots
+    source chicago held-out: MAE_share 0.00702 peak ratio 1.00 hub a=0.064 b=1.35
+    source nyc held-out: MAE_share 0.00144 peak ratio 0.77 hub a=0.064 b=1.35
+    source sf_for_sydney_p7 held-out: MAE_share 0.00899 peak ratio 0.86 hub a=0.064 b=1.35
+  seed 6: prediction saved, 17520 calendar slots (402s, 17 ep)
+done
+[worker 0: 8/10] sydney r=8 eh <- chicago,nyc,sf_for_sydney_p8
+target sydney <- sources ['chicago', 'nyc', 'sf_for_sydney_p8']: chicago 77 regions 17518 slots, nyc 263 regions 17518 slots, sf_for_sydney_p8 67 regions 17516 slots, sydney 401 regions 17520 slots
+    source chicago held-out: MAE_share 0.00687 peak ratio 0.95 hub a=0.041 b=1.29
+    source nyc held-out: MAE_share 0.00134 peak ratio 0.92 hub a=0.041 b=1.29
+    source sf_for_sydney_p8 held-out: MAE_share 0.00876 peak ratio 0.90 hub a=0.041 b=1.29
+  seed 7: prediction saved, 17520 calendar slots (720s, 25 ep)
+done
+[worker 0: 9/10] sydney r=9 eh <- chicago,nyc,sf_for_sydney_p9
+target sydney <- sources ['chicago', 'nyc', 'sf_for_sydney_p9']: chicago 77 regions 17518 slots, nyc 263 regions 17518 slots, sf_for_sydney_p9 67 regions 17516 slots, sydney 401 regions 17520 slots
+    source chicago held-out: MAE_share 0.00698 peak ratio 0.95 hub a=0.055 b=1.23
+    source nyc held-out: MAE_share 0.00143 peak ratio 0.81 hub a=0.055 b=1.23
+    source sf_for_sydney_p9 held-out: MAE_share 0.00873 peak ratio 0.91 hub a=0.055 b=1.23
+  seed 8: prediction saved, 17520 calendar slots (664s, 22 ep)
+done
+[worker 0: 10/10] sydney r=10 eh <- chicago,nyc,sf_for_sydney_p10
+target sydney <- sources ['chicago', 'nyc', 'sf_for_sydney_p10']: chicago 77 regions 17518 slots, nyc 263 regions 17518 slots, sf_for_sydney_p10 67 regions 17516 slots, sydney 401 regions 17520 slots
+    source chicago held-out: MAE_share 0.00697 peak ratio 0.95 hub a=0.042 b=1.25
+    source nyc held-out: MAE_share 0.00137 peak ratio 0.80 hub a=0.042 b=1.25
+    source sf_for_sydney_p10 held-out: MAE_share 0.00898 peak ratio 0.92 hub a=0.042 b=1.25
+  seed 9: prediction saved, 17520 calendar slots (431s, 25 ep)
+done
+worker 0 done
+worker 0 exit 0

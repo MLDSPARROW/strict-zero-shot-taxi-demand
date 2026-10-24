@@ -1,0 +1,12 @@
+shares: 17520 calendar slots of 2023, 401 suburbs, heads eh and eo, ten runs each
+level: unit 'transit commuters' (leave-one-helper-out error 12.3%), trips per commuter 16.92 (log-pooled over chicago, nyc, sf, dc), Greater Sydney value 136,614 -> strict yearly total 2,311,782 = 6,334 per day (UNRELIABLE: census day 10 August 2021 was in the Sydney lockdown)
+checks: Spearman of the predicted yearly share with the share of jobs 0.67, of residents 0.60; top-10 suburbs hold 40.7% of the demand (jobs-proportional: 34.6%)
+top 15 suburbs by predicted share: Mascot 10.19%; Sydney 8.68%; Haymarket 4.29%; Surry Hills 3.30%; North Sydney 3.02%; Chippendale 2.70%; Darlinghurst 2.52%; Ultimo 2.42%; Mosman 2.11%; Woolloomooloo 1.42%; Barangaroo 1.39%; Neutral Bay 1.29%; Burwood 1.26%; Redfern 1.26%; Waterloo 1.05%
+top 10 suburbs by jobs: Sydney 16.28%; Parramatta 3.13%; North Sydney 3.06%; Macquarie Park 2.99%; Mascot 1.79%; Surry Hills 1.74%; Barangaroo 1.52%; Chatswood 1.47%; Alexandria 1.32%; St Leonards 1.29%
+airport suburb Mascot: predicted share 10.19% (rank 1), jobs share 1.79%
+CBD suburbs (Sydney, Millers Point, The Rocks, Barangaroo, Dawes Point, Haymarket): 16.6% of the demand against 19.9% of the jobs
+Tuesday 09:00 top suburbs: Mascot 7.52%; Sydney 7.28%; Haymarket 4.26%; Surry Hills 2.75%; North Sydney 2.69%
+Tuesday 22:00 top suburbs: Mascot 17.86%; Sydney 9.37%; Haymarket 4.38%; Surry Hills 3.59%; Darlinghurst 2.62%
+Saturday 09:00 top suburbs: Mascot 7.69%; Sydney 6.69%; Haymarket 3.73%; North Sydney 2.88%; Surry Hills 2.85%
+Saturday 22:00 top suburbs: Mascot 14.57%; Sydney 10.07%; Surry Hills 4.64%; Haymarket 4.48%; Darlinghurst 3.39%
+run-to-run: mean sd of a suburb's yearly share across the ten runs 0.0695 percentage points per slot-average share (mean share 0.249%)
