@@ -135,6 +135,16 @@ CITY = {"nyc": (f"{B77}/nyc_2021_zone_30min.npy", f"{B77}/region_static_nyc.npz"
         "sf_time": (f"{MC}/sf_time_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US"),
         "sf_space": (f"{MC}/sf_space_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US"),
         "sf_both": (f"{MC}/sf_both_2023_tract_30min.npy", f"{MC}/region_static_sf.npz", date(2023, 1, 1), "US")}
+def _register_cities100():                       # PROTOCOL_CITIES100.md (inert addition): the 99 cities without taxi data, target only, calendar mode (--calendar)
+    import csv
+    try: rows = list(csv.DictReader(open(f"{HERE}/../multicity/cities100.csv", encoding="utf-8")))
+    except OSError: return
+    UKN = {"England": "GB-ENG", "Scotland": "GB-SCT", "Wales": "GB-WLS", "Northern Ireland": "GB-NIR"}
+    for r in rows:
+        if r["slug"] == "sydney-nsw": continue
+        cc = "US" if r["country"] == "United States" else UKN[r["region"]] if r["country"] == "United Kingdom" else f"{'CA' if r['country'] == 'Canada' else 'AU'}-{r['region']}"
+        CITY[r["slug"]] = (f"{MC}/{r['slug']}_has_no_demand_file.npy", f"{MC}/region_static_{r['slug']}.npz", date(2023, 1, 1), cc)
+_register_cities100()
 for _c in SRCS + [TGT]:                           # any other re-aggregated helper in data/agg (e.g. aggregation controls); a pseudo-target may be one
     if _c not in CITY and os.path.exists(f"{HERE}/data/agg/{_c}_Y.npy"):
         CITY[_c] = (f"{HERE}/data/agg/{_c}_Y.npy", f"{HERE}/data/agg/{_c}_static.npz", date(2023 if _c.startswith("sf_") else 2021, 1, 1), "US")
@@ -150,12 +160,19 @@ def cal_fn(start, country):
         assert start.year == 2023, "the New South Wales holiday list is written for 2023 only"
         hol = {date(2023, 1, 1), date(2023, 1, 2), date(2023, 1, 26), date(2023, 4, 7), date(2023, 4, 8), date(2023, 4, 9), date(2023, 4, 10),
                date(2023, 4, 25), date(2023, 6, 12), date(2023, 10, 2), date(2023, 12, 25), date(2023, 12, 26)}
+    elif country.startswith(("GB-", "CA-", "AU-")):  # PROTOCOL_CITIES100.md: public holidays of the nation, province or state (package `holidays`, version in the logs)
+        import holidays as _h
+        assert start.year == 2023, "the holiday lists of the new cities are written for 2023"
+        kind, sub = country.split("-")
+        cal_ = {"GB": _h.UnitedKingdom, "CA": _h.Canada, "AU": _h.Australia}[kind](subdiv=sub, years=2023)
+        hol = {d for d, name in cal_.items() if "Bank Holiday" not in name or kind != "AU"}   # as Sydney: the bank-only holiday of the first Monday of August is left out
+        print(f"holidays {_h.__version__} {country}: {len(hol)} days", flush=True)
     else:
         import holidays as _h
         hol = set(_h.Portugal(years=range(start.year, start.year + 2)).keys())
     def cal(day, slot):
         d = start + timedelta(days=int(day)); dow = d.weekday()
-        mo = ((d.month + 5) % 12) + 1 if country == "AU" else d.month      # southern hemisphere: the month is shifted by six months so that the season matches the helpers'
+        mo = ((d.month + 5) % 12) + 1 if country == "AU" or country.startswith("AU-") else d.month      # southern hemisphere: the month is shifted by six months so that the season matches the helpers'
         return np.array([np.sin(2*np.pi*slot/48), np.cos(2*np.pi*slot/48), np.sin(2*np.pi*dow/7), np.cos(2*np.pi*dow/7),
                          float(dow >= 5), float(d in hol), np.sin(2*np.pi*mo/12), np.cos(2*np.pi*mo/12),
                          float(slot // 2 in (7, 8, 9, 16, 17, 18))], dtype=np.float32)

@@ -3,6 +3,12 @@ Chicago, New York City and San Francisco record local clock time, so 02:00 and 0
 (second Sunday of March) do not exist. The Washington, DC data are hourly counts without that gap, so all slots are kept."""
 from datetime import date, timedelta
 LOCAL_CLOCK = {"chicago": True, "nyc": True, "sf": True, "dc": False, "sf_zcta": True, "dc_cluster": False, "austin": True, "sydney": False}   # sydney: all 48 slots every day (PROTOCOL_SYDNEY.md)
+try:                                          # PROTOCOL_CITIES100.md (inert addition): the 99 new cities, all 48 slots every day
+    import csv, os
+    for _r in csv.DictReader(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "multicity", "cities100.csv"), encoding="utf-8")):
+        LOCAL_CLOCK.setdefault(_r["slug"], False)
+except OSError:
+    pass
 END = {"austin": date(2017, 2, 6)}           # PROTOCOL_MORE_CITIES.md: full days only, data end 2017-02-07 10:09
 
 

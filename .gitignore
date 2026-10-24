@@ -7,3 +7,7 @@ raw/
 out/
 !features/*.npz
 !features/*.npy
+miliroute/export/
+miliroute/status/
+multicity/data/*/
+improve/out_cal/

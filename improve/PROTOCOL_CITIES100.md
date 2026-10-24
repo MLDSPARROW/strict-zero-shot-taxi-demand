@@ -121,3 +121,19 @@ Engineering details that the text above leaves open or states inconsistently. No
    cartographic (Statistics Canada). GDA2020 is used as WGS84 (difference about 1.5 m), as for Sydney.
 7. Jobs, residents and rail stations of the new cities are not built (the final method, heads eh and eo, does not use them); `extra_<slug>.npz` holds
    zeros, as the rail column of Sydney.
+
+**Addendum 3 (2026-10-24, on the server, before any allocator run for the 99 cities; no output of any of them exists).**
+1. Threshold T computed (`miliroute/keep_rule.md`, `multicity/keep_rule_sydney.py`): **T = 5.395 places per km2** (first percentile over the 401 Sydney suburbs;
+   Sydney's minimum is 1.2, median 55.7). Of the seven localities that PROTOCOL_SYDNEY.md dropped, 1 lies below T (descriptive).
+2. Airports (`multicity/airports_cities100.csv`, made by `multicity/make_airports_cities100.py`): US value = FAA calendar-year 2019 enplanements (public file). Other
+   countries: half of the 2019 passengers of the airport authority or national regulator: UK Civil Aviation Authority annual 2019 Table 01; Toronto, Vancouver, Calgary,
+   Melbourne, Brisbane, Perth from the airports' own reports (Melbourne, Brisbane and Perth publish financial year 2018-19, July to June, which is used as the typical year);
+   Montreal 20.3 million from secondary reports (the authority's own full-year release was not located; the row says so). An airport listed for a city is one whose reference
+   point (OurAirports) lies within 45 km of the city centre; the keep rule then decides by containment in a kept region. Airports far below the threshold that are not
+   looked up have value 0 and a note, as the protocol allows.
+3. Holidays: the package `holidays` 0.107; for Australia the bank-only holiday of the first Monday of August is left out in every state, as for Sydney.
+4. Centre of Kitchener-Waterloo: the first Nominatim answer to "Kitchener-Waterloo, ON, Canada" was a factory (a building of Colt Canada). The centre is the place centre of
+   "Kitchener, Ontario, Canada" instead (a defect of the geocoding, found before any use of it; the rejected answer is kept in `centre_rejected_building.json`).
+5. A city whose boundary file, Overpass download or code fails for a reason that is not about the city (for example the Statistics Canada file, which blocks this server) is not
+   written as draft: it waits and is tried again. A city is a draft only when a check of the protocol fails or an allocator run fails twice.
+6. The jobs and residents columns of the exported files are null (display only, not available quickly from the boundary sources; the method does not use them).
