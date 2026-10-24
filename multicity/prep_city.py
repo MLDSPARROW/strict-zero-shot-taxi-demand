@@ -245,6 +245,10 @@ def stage_features(slug):
     R, C = (50, 40) if tall else (40, 50)                  # rows along latitude, columns along longitude; 50 cells along the longer side
     lat_e, lon_e = np.linspace(miny, maxy, R + 1), np.linspace(minx, maxx, C + 1)
     fine_path = f"{out}/{slug}_fine_static.npz"
+    if os.path.exists(fine_path):                          # a cached grid is only valid for the same box and grid shape
+        old = np.load(fine_path)
+        if old["static"].shape[:2] != (R, C) or not (np.allclose(old["lat_edges"], lat_e) and np.allclose(old["lon_edges"], lon_e)):
+            os.remove(fine_path)
     if not os.path.exists(fine_path):
         ns = notebook_ns(R, C)
         cache = all_layers(slug, None)                     # the layers fetched by stage regions (their box contains this one)
