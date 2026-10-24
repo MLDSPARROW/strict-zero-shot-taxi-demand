@@ -87,3 +87,13 @@ addendum 3), so the question is whether the extra cities change that.
   ran on both targets.
 - Disclosure: this addendum was written after worker 0 of the screen of k had finished its six runs of head ehk (their single-run log lines were visible, none was scored) and before any
   run of dk. The request itself was made before those lines were seen.
+
+## Result of the screen of k (2026-10-24, `results/v9_screen_k.txt`; recorded here as obtained)
+
+Runs r = 1..3, heads ehk and eok, ensembles of 3, scored on the observed slots (MAE_share of the equal average of the two heads; allocation-only trip errors use the true slot totals).
+Chicago: v1 0.00937, k 0.01128 (20.3% worse); daily difference v1 - k -0.001906 [-0.002169, -0.001651], k better on 2% of days; allocation-only MAE 1.494 -> 2.128 and RMSE 4.035 -> 6.762;
+peak ratio 1.01 -> 0.64 (the predicted shares are flatter than the observed ones). NYC: v1 0.00460, k 0.00423 (8.2% better); difference +0.000378 [+0.000372, +0.000383], k better on 100% of days;
+allocation-only MAE 7.735 -> 7.151 and RMSE 17.643 -> 17.105; peak ratio 0.54 -> 0.64. For reference, Way 2 alone (d, PROTOCOL_V4 runs): Chicago 0.00931, NYC 0.00447.
+DECISION by the rule fixed above: k FAILS the screen, because it is more than 3% worse in Chicago although it is more than 3% better in NYC. No confirmation and no held-out run of k are made.
+Reading: the bike-share cities carry information for the allocation in NYC (the largest single gain in the allocation of any variant so far) and spoil it in Chicago, where the true shares are far
+more concentrated than the bike-share shares. The screen of dk (Way 2 together with the bike-share cities, addendum 1) is still running and is judged separately.

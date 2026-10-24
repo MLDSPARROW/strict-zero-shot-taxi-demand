@@ -1,0 +1,18 @@
+
+===== chicago: 77 regions, 17518 observed slots, ensembles of runs 1..3 =====
+   v1  MAE_share 0.00937 (single runs 0.01004 +- 0.00040; heads eh 0.00960, eo 0.00960) | allocation-only MAE 1.494 RMSE 4.035 | peak ratio 1.01 | top-10 recall 0.8
+   d   MAE_share 0.00931 (single runs 0.00988 +- 0.00028; heads eh 0.00935, eo 0.00957) | allocation-only MAE 1.487 RMSE 4.063 | peak ratio 1.04 | top-10 recall 0.8
+   k   MAE_share 0.01128 (single runs 0.01145 +- 0.00030; heads eh 0.01127, eo 0.01160) | allocation-only MAE 2.128 RMSE 6.762 | peak ratio 0.64 | top-10 recall 0.8
+   dk  missing runs
+
+===== nyc: 263 regions, 17518 observed slots, ensembles of runs 1..3 =====
+   v1  MAE_share 0.00460 (single runs 0.00462 +- 0.00017; heads eh 0.00423, eo 0.00509) | allocation-only MAE 7.735 RMSE 17.643 | peak ratio 0.54 | top-10 recall 0.2
+   d   MAE_share 0.00447 (single runs 0.00450 +- 0.00018; heads eh 0.00408, eo 0.00499) | allocation-only MAE 7.517 RMSE 17.260 | peak ratio 0.57 | top-10 recall 0.2
+   k   MAE_share 0.00423 (single runs 0.00425 +- 0.00009; heads eh 0.00400, eo 0.00453) | allocation-only MAE 7.151 RMSE 17.105 | peak ratio 0.64 | top-10 recall 0.2
+   dk  missing runs
+
+===== screen rule: >= 3% better in one development target, not > 3% worse in the other =====
+   k  chicago  change -20.3% | v1 - k daily MAE_share -0.001906 [-0.002169, -0.001651], k better on 2% of days
+   k  nyc      change +8.2% | v1 - k daily MAE_share +0.000378 [+0.000372, +0.000383], k better on 100% of days
+   k  -> fail
+   dk: missing runs
