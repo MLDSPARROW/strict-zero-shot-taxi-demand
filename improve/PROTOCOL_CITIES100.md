@@ -101,3 +101,23 @@ per row). The agent writes the exact attribution string per country into `cities
 **Addendum 1 (2026-10-24, after the final Sydney result, before any download, code or run for the 99 cities).** Check 5 gave Sydney "about 0.16". That figure came from a preview with two runs. With all ten runs
 per head the Sydney value is 0.28 (standard deviation of a suburb's single-run share 0.0695 percentage points, mean share 0.249%; see PROTOCOL_SYDNEY.md, Result). Check 5 now reads: the mean standard deviation
 of a region's share between single runs (average of the two heads), divided by the mean share, is at most 0.56, twice the Sydney value. No other rule changes.
+
+**Addendum 2 (2026-10-24, on the server, before any Overpass download, region selection or allocator run for the 99 cities; no output of any of them exists).**
+Engineering details that the text above leaves open or states inconsistently. None depends on a result.
+1. Box limit. 1,950 km2 contradicts check 1 (grid cells of at most 0.95 km2): 1,950 km2 / 2,000 cells = 0.975 km2. The purpose stated above is cells of
+   at most 0.95 km2, so the radius is reduced while the box is larger than **1,900 km2** (= 0.95 x 2,000). The box is measured as the notebook measures
+   its grid (`grid_geometry`: haversine height x width of the latitude/longitude box of the kept regions). Measured this way the box of the 401 Sydney
+   suburbs is about 1,861 km2 (the text above says 1,924; descriptive only).
+2. Grid orientation: 50 cells along the longer side of the box measured in metres (UTM), 40 along the shorter side (Sydney: 50 rows along latitude).
+3. Keep rule counting: a place is an element of one of the eight notebook layers (Overpass, `out center`) whose point lies inside the region polygon;
+   each layer is counted separately (as the features count them). T = numpy's default (linear) first percentile over the 401 Sydney suburbs.
+   The Overpass layers of a city are downloaded once for the box of its candidate regions (centroid within 25 km); the grid features use the
+   elements inside the grid box from the same download.
+4. Downtown point of the distance feature: the city centre of the protocol (Nominatim place centre of "<city>, <region>, <country>"), as Sydney used
+   Sydney Town Hall.
+5. Region names that occur twice within a city: UK ward name + " (" + local authority name + ")"; Australian locality name + " (" + LOC_PID + ")".
+6. Boundary versions: US ZCTA 2020 cartographic 1:500k (cb_2020_us_zcta520_500k); UK Wards (December 2024) Boundaries UK BGC (ONS); Australia
+   Geoscape localities GDA2020, release August 2026 (all states, the neighbouring state's file added when the box crosses a border); Canada FSA 2021
+   cartographic (Statistics Canada). GDA2020 is used as WGS84 (difference about 1.5 m), as for Sydney.
+7. Jobs, residents and rail stations of the new cities are not built (the final method, heads eh and eo, does not use them); `extra_<slug>.npz` holds
+   zeros, as the rail column of Sydney.
