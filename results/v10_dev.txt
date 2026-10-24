@@ -1,0 +1,12 @@
+
+===== chicago: 77 regions, 2 airport regions, 17518 slots =====
+   final method v1          strict MAE 1.829  RMSE 5.207
+   XGBoost scale-matched    strict MAE 2.451  RMSE 6.991
+   HC (this protocol)       strict MAE 1.865  RMSE 4.837
+   v1 - HC: mean daily MAE difference -0.0360 [-0.0569, -0.0172], HC better on 54% of days; MAE change -1.97%, RMSE change +7.10% (positive = HC better)
+
+===== nyc: 263 regions, 2 airport regions, 17518 slots =====
+   final method v1          strict MAE 7.454  RMSE 17.590
+   XGBoost scale-matched    strict MAE 6.286  RMSE 16.950
+   HC (this protocol)       strict MAE 6.557  RMSE 16.464
+   v1 - HC: mean daily MAE difference +0.8970 [+0.8217, +0.9823], HC better on 100% of days; MAE change +12.03%, RMSE change +6.40% (positive = HC better)

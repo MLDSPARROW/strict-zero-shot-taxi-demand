@@ -1,0 +1,54 @@
+
+======== chicago: 77 regions, 17518 slots, strict level 4,248,506 vs observed 3,639,126 (+16.7%) ========
+   combination                              strict MAE  RMSE | alloc-only MAE  RMSE | yearly TV  top-10 share (true 0.79)  peak ratio
+   v1 = (eh + eo)/2 [arithmetic]             1.829   5.207 |  1.507   4.117 | 0.189     0.83                    1.08
+   geometric mean of the two heads           1.842   5.286 |  1.522   4.208 | 0.194     0.82                    1.09
+   geometric mean of all 20 members          1.891   5.615 |  1.579   4.514 | 0.212     0.83                    1.14
+   eh alone                                  2.012   6.325 |  1.703   5.261 | 0.244     0.83                    1.18
+   eo alone                                  1.800   4.830 |  1.481   3.818 | 0.159     0.82                    0.99
+   ep alone (people head, V2)                2.475   9.299 |  2.191   8.158 | 0.357     0.91                    1.40
+   (eh + eo + ep)/3 arithmetic               1.882   5.597 |  1.557   4.470 | 0.205     0.85                    1.02
+   geometric mean of eh, eo, ep              1.883   5.659 |  1.557   4.536 | 0.199     0.85                    1.03
+   yearly log ratio pred/true of v1 vs log area: corr +0.09; vs log job density: corr +0.18
+   most under-predicted regions (rid, true %, v1 %, eh %, eo %, area km2, jobs/km2):
+        76  14.61 11.63  7.59 15.67   34.52      1722
+         6   3.91  1.74  1.73  1.74    8.10      3056
+         3   1.99  0.46  0.45  0.47    6.04      2044
+        77   1.73  0.22  0.22  0.23    4.50      1556
+        28   9.25  7.83  8.27  7.39   14.71      9457
+         2   1.11  0.26  0.29  0.24    9.14      1229
+   most over-predicted regions:
+        32  14.29 19.76 22.93 16.60    4.30    101935
+         8  24.55 27.09 29.90 24.29    7.12     24942
+         7   2.44  4.45  4.79  4.11    8.20      2668
+        24   1.36  3.30  3.35  3.25   11.84      3608
+        60   0.14  0.98  0.95  1.01    5.41       954
+        34   0.34  1.18  0.90  1.46    2.58      1454
+   member spread of the yearly log share: share-weighted mean sd 0.421; share-weighted mean |log error| 0.424; rank corr(sd, |error|) -0.06
+
+======== nyc: 263 regions, 17518 slots, strict level 28,825,232 vs observed 30,533,607 (-5.6%) ========
+   combination                              strict MAE  RMSE | alloc-only MAE  RMSE | yearly TV  top-10 share (true 0.36)  peak ratio
+   v1 = (eh + eo)/2 [arithmetic]             7.454  17.590 |  7.445  17.266 | 0.534     0.21                    0.64
+   geometric mean of the two heads           7.467  17.591 |  7.454  17.261 | 0.535     0.20                    0.57
+   geometric mean of all 20 members          7.396  17.537 |  7.380  17.209 | 0.529     0.21                    0.59
+   eh alone                                  6.958  17.276 |  6.935  16.992 | 0.494     0.27                    0.93
+   eo alone                                  8.168  18.715 |  8.194  18.452 | 0.601     0.17                    0.43
+   ep alone (people head, V2)                6.816  16.654 |  6.731  16.248 | 0.487     0.26                    0.56
+   (eh + eo + ep)/3 arithmetic               7.124  16.927 |  7.072  16.503 | 0.502     0.21                    0.47
+   geometric mean of eh, eo, ep              7.186  17.067 |  7.133  16.643 | 0.512     0.21                    0.45
+   yearly log ratio pred/true of v1 vs log area: corr +0.31; vs log job density: corr -0.61
+   most under-predicted regions (rid, true %, v1 %, eh %, eo %, area km2, jobs/km2):
+       237   5.09  0.51  0.57  0.46    0.90     35151
+       236   4.67  0.38  0.45  0.30    0.96     20730
+       142   3.24  0.47  0.56  0.38    0.71     37239
+       141   2.98  0.56  0.66  0.46    0.72     19557
+       186   3.34  0.93  1.18  0.69    0.35    231911
+       170   3.17  1.05  1.18  0.92    0.70    126982
+   most over-predicted regions:
+       231   1.29  2.83  2.88  2.79    1.11     77996
+        25   0.06  1.48  1.37  1.59    1.16     22767
+       181   0.05  1.18  0.99  1.37    2.88      6901
+       198   0.01  1.12  0.85  1.39    4.69      2485
+        37   0.03  1.14  0.86  1.42    4.24      3764
+       255   0.04  1.15  1.11  1.18    1.37      7442
+   member spread of the yearly log share: share-weighted mean sd 0.389; share-weighted mean |log error| 1.128; rank corr(sd, |error|) +0.34

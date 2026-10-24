@@ -1,0 +1,22 @@
+===== true yearly taxi shares against people shares, airports left out (beta = slope, weighted R2, regions used) =====
+   -- native
+      chicago          beta 1.66  R2 0.72  regions 75
+      nyc              beta 1.70  R2 0.14  regions 258
+      sf               beta 1.04  R2 0.59  regions 242
+   -- for Chicago (scale of the Chicago target)
+      nyc_for_chicago  beta 3.03 (range 2.86 to 3.18 over 10 partitions)  R2 0.80  regions 98
+      sf_for_chicago   beta 1.53 (range 1.44 to 1.57 over 10 partitions)  R2 0.90  regions 20
+   -- for NYC (scale of the NYC target)
+      sf_for_nyc       beta 1.42 (range 1.37 to 1.46 over 10 partitions)  R2 0.82  regions 59
+
+===== predicted yearly shares of the development targets against the same law =====
+   chicago: TRUE beta 1.66 (R2 0.72)
+      predicted by v1 : beta 1.78 (R2 0.84); airport share predicted 15.2% vs true 18.0%
+      predicted by eh : beta 1.83 (R2 0.85); airport share predicted 9.6% vs true 18.0%
+      predicted by eo : beta 1.72 (R2 0.83); airport share predicted 20.8% vs true 18.0%
+      predicted by ep : beta 2.01 (R2 0.89); airport share predicted 37.7% vs true 18.0%
+   nyc: TRUE beta 1.70 (R2 0.14)
+      predicted by v1 : beta 1.12 (R2 0.33); airport share predicted 6.0% vs true 5.6%
+      predicted by eh : beta 1.06 (R2 0.25); airport share predicted 9.4% vs true 5.6%
+      predicted by eo : beta 1.15 (R2 0.37); airport share predicted 2.6% vs true 5.6%
+      predicted by ep : beta 1.37 (R2 0.44); airport share predicted 1.2% vs true 5.6%

@@ -1,0 +1,16 @@
+
+===== EXTENSIVE: log share on log covariate share =====
+   covariate             | helpers at Chicago scale (NYC, SF)  spread | helpers at NYC scale (Chicago, SF)  spread || Chicago true / v1 | NYC true / v1
+   jobs                  |  2.00  0.94                       1.06 |  1.01  0.82                        0.19 ||  1.01 /  1.07    |  1.80 /  0.79
+   population            |  2.91  1.93                       0.98 |  1.40  1.86                        0.46 ||  1.40 /  1.51    |  0.16 /  0.53
+   jobs+population       |  3.03  1.53                       1.50 |  1.66  1.42                        0.24 ||  1.66 /  1.78    |  1.70 /  1.12
+   car-free households   |  2.36  1.19                       1.17 |  1.49  1.11                        0.38 ||  1.49 /  1.35    |  1.07 /  0.68
+   rail stations + 1     |  2.72  1.21                       1.50 |  1.68  0.95                        0.73 ||  1.68 /  1.70    |  1.21 /  0.93
+
+===== INTENSIVE: log(share/area) on log(covariate/area) =====
+   covariate             | helpers at Chicago scale (NYC, SF)  spread | helpers at NYC scale (Chicago, SF)  spread || Chicago true / v1 | NYC true / v1
+   jobs                  |  2.01  0.95                       1.06 |  0.99  0.83                        0.17 ||  0.99 /  1.05    |  1.73 /  0.96
+   population            |  3.22  1.80                       1.42 |  1.96  1.61                        0.35 ||  1.96 /  1.78    |  2.78 /  1.71
+   jobs+population       |  3.16  1.51                       1.64 |  1.66  1.35                        0.31 ||  1.66 /  1.72    |  2.76 /  1.58
+   car-free households   |  2.49  1.19                       1.30 |  1.55  1.10                        0.45 ||  1.55 /  1.29    |  2.18 /  1.10
+   rail stations + 1     |  2.77  1.15                       1.62 |  1.56  1.04                        0.53 ||  1.56 /  1.53    |  2.22 /  1.34

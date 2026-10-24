@@ -1,0 +1,2 @@
+chicago  XGBoost scale-matched  MAE 2.45 RMSE 6.99 | single runs MAE 2.89 +- 0.21
+nyc      XGBoost scale-matched  MAE 6.29 RMSE 16.95 | single runs MAE 6.41 +- 0.32

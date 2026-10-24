@@ -1,0 +1,12 @@
+
+===== chicago: helper betas at the target's scale nyc_for_chicago 3.03, sf_for_chicago 1.53 -> range [1.53, 3.03], mean 2.28; predicted beta of v1 1.76; true beta 1.66 =====
+   v1 unchanged                                   delta +0.00 | strict MAE 1.829 RMSE 5.207 | alloc-only MAE 1.507 RMSE 4.117 | yearly TV 0.189
+   RULE: to the nearest end of the helper range   delta +0.00 | strict MAE 1.829 RMSE 5.207 | alloc-only MAE 1.507 RMSE 4.117 | yearly TV 0.189
+   to the helper mean                             delta +0.52 | strict MAE 2.087 RMSE 7.446 | alloc-only MAE 1.744 RMSE 5.981 | yearly TV 0.255
+   to the TRUE beta (oracle, not allowed)         delta -0.10 | strict MAE 1.810 RMSE 4.914 | alloc-only MAE 1.500 RMSE 3.946 | yearly TV 0.176
+
+===== nyc: helper betas at the target's scale chicago 1.66, sf_for_nyc 1.42 -> range [1.42, 1.66], mean 1.54; predicted beta of v1 1.12; true beta 1.70 =====
+   v1 unchanged                                   delta +0.00 | strict MAE 7.454 RMSE 17.590 | alloc-only MAE 7.445 RMSE 17.266 | yearly TV 0.534
+   RULE: to the nearest end of the helper range   delta +0.30 | strict MAE 7.376 RMSE 17.621 | alloc-only MAE 7.370 RMSE 17.338 | yearly TV 0.525
+   to the helper mean                             delta +0.42 | strict MAE 7.366 RMSE 17.683 | alloc-only MAE 7.364 RMSE 17.427 | yearly TV 0.524
+   to the TRUE beta (oracle, not allowed)         delta +0.58 | strict MAE 7.369 RMSE 17.815 | alloc-only MAE 7.375 RMSE 17.606 | yearly TV 0.529
