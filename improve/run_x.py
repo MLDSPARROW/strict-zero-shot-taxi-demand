@@ -69,6 +69,7 @@ BETA = "b" in FL
 JOBS = "j" in FL
 EXPO, ACSF = "p" in FL, "a" in FL
 MAPM, DMASK = "m" in FL, "d" in FL
+BIKE, MINB = "k" in FL, 10                     # flag k (PROTOCOL_V9.md): bike-share cities (names bike_*) as extra teachers
 assert TGT not in SRCS
 assert not MAPM or len(SEEDS) == 1, "flag m: the map latents depend on the seed, so one seed per call"
 CITY = {"nyc": (f"{B77}/nyc_2021_zone_30min.npy", f"{B77}/region_static_nyc.npz", date(2021, 1, 1), "US"),
@@ -134,6 +135,8 @@ CITY = {"nyc": (f"{B77}/nyc_2021_zone_30min.npy", f"{B77}/region_static_nyc.npz"
 for _c in SRCS + [TGT]:                           # any other re-aggregated helper in data/agg (e.g. aggregation controls); a pseudo-target may be one
     if _c not in CITY and os.path.exists(f"{HERE}/data/agg/{_c}_Y.npy"):
         CITY[_c] = (f"{HERE}/data/agg/{_c}_Y.npy", f"{HERE}/data/agg/{_c}_static.npz", date(2023 if _c.startswith("sf_") else 2021, 1, 1), "US")
+for _b in ("boston", "philadelphia", "la", "minneapolis", "columbus"):       # native bike-share cities (prep_bike.py); merged ones are found in data/agg
+    CITY[f"bike_{_b}"] = (f"{MC}/bike/{_b}/bike_{_b}_2021_tract_30min.npy", f"{MC}/bike/{_b}/region_static_bike_{_b}.npz", date(2021, 1, 1), "US")
 FEAT = list(range(18))
 
 
@@ -158,7 +161,8 @@ def load(city):
     else:
         Y = np.load(yp).astype(np.float64); S = np.load(sp)
         tot = Y.sum(axis=2); cal = cal_fn(start, country)
-        idx = [(d, s) for d in range(Y.shape[0]) for s in range(48) if tot[d, s] > 0]
+        bk = BIKE and city.startswith("bike_")           # bike-share slots with fewer than MINB trips are not used (their shares are almost pure noise)
+        idx = [(d, s) for d in range(Y.shape[0]) for s in range(48) if (tot[d, s] >= MINB if bk else tot[d, s] > 0)]
     raw = S["X"][:, [f for f in FEAT if not ((OFFSET or EXPO) and f == 16)]].astype(np.float64)
     if EXTRA: raw = np.concatenate([raw, np.load(f"{HERE}/data/extra_{city}.npz")["E"].astype(np.float64)], 1)
     enpl = np.load(f"{HERE}/data/enpl_{city}.npy").astype(np.float64)
@@ -187,6 +191,8 @@ for c in data:
     if WITHIN:
         q25, med, q75 = np.percentile(data[c]["raw"], [25, 50, 75], axis=0); scale = np.where(q75 - q25 < 1e-5, 1.0, q75 - q25)
     data[c]["X"] = np.clip((data[c]["raw"] - med) / scale, -8, 8).astype(np.float32)
+    if BIKE: data[c]["X"] = np.concatenate([data[c]["X"], np.full((len(data[c]["X"]), 1), 1.0 if c.startswith("bike_") else 0.0, np.float32)], 1)   # type switch
+TAXI_S, BIKE_S = [c for c in SRCS if not c.startswith("bike_")], [c for c in SRCS if c.startswith("bike_")]
 for c in SRCS:
     rng = np.random.default_rng(0); nd = data[c]["Y"].shape[0]
     vd = set(rng.choice(nd, size=int(nd * 0.15), replace=False).tolist())
@@ -274,7 +280,8 @@ def train(seed, epochs=25, bs=64, steps=233):
     for ep in range(epochs):
         mdl.train()
         for _ in range(steps):
-            c = SRCS[rng.integers(len(SRCS))]
+            if BIKE and TAXI_S and BIKE_S: grp = TAXI_S if rng.integers(2) == 0 else BIKE_S; c = grp[rng.integers(len(grp))]    # data type first, then a helper of it
+            else: c = SRCS[rng.integers(len(SRCS))]
             b = rng.choice(data[c]["tr"], size=bs, replace=False)
             if DMASK:                            # rows 0..half-1: all hidden (the usual task); rows half..bs-1: contiguous random subset hidden
                 sh = T_[c]["Sh"][b]; R = sh.shape[1]
@@ -290,7 +297,7 @@ def train(seed, epochs=25, bs=64, steps=233):
             if RANK: loss = loss + 0.1 * rank_loss(lp, T_[c]["Sh"][b])
             opt.zero_grad(); loss.backward(); opt.step()
         mdl.eval()
-        v = float(np.mean([(predict(mdl, c, data[c]["va"]) - T_[c]["Sh"][data[c]["va"]]).abs().mean().item() for c in SRCS]))
+        v = float(np.mean([(predict(mdl, c, data[c]["va"]) - T_[c]["Sh"][data[c]["va"]]).abs().mean().item() for c in (TAXI_S if BIKE and TAXI_S else SRCS)]))   # k: stop on the taxi helpers
         if v < best - 1e-7: best, state, bad = v, {k: t.clone() for k, t in mdl.state_dict().items()}, 0
         else:
             bad += 1

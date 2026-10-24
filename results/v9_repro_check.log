@@ -1,0 +1,7 @@
+target chicago <- sources ['nyc_for_chicago_p1', 'sf_for_chicago_p1']: nyc_for_chicago_p1 101 regions 17518 slots, sf_for_chicago_p1 21 regions 17516 slots, chicago 77 regions 17518 slots
+    source nyc_for_chicago_p1 held-out: MAE_share 0.00199 peak ratio 0.95 hub a=0.056 b=1.02
+    source sf_for_chicago_p1 held-out: MAE_share 0.01485 peak ratio 1.01 hub a=0.056 b=1.02
+  seed 0: MAE=1.776 RMSE=5.735 MAPE>=5=75.2% MAE_share=0.01046 peak=0.93 (364s, 19 ep)
+  ENSEMBLE of 1: MAE=1.776 RMSE=5.735 MAPE>=5=75.2% MAE_share=0.01046 peak=0.93
+done
+reproduction of the stored v1 run (Chicago, r = 1, head eh): largest absolute share difference 0.0 | shapes (17518, 77) (17518, 77)
