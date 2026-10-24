@@ -1,0 +1,5 @@
+# Everything in miliroute/ (instructions for the server) is encrypted on GitHub with git-crypt.
+# To read it on another computer: install git-crypt, then run "git-crypt unlock <key file>".
+miliroute/** filter=git-crypt diff=git-crypt
+miliroute/export/** !filter !diff
+.gitattributes !filter !diff
