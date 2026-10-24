@@ -1,0 +1,51 @@
+
+===== sf (sf, 243 regions, 0 airport regions, 17518 calendar slots) =====
+   Jobs-proportional        MAE 0.484  RMSE 1.150
+   Jobs + residents         MAE 0.488  RMSE 1.010
+   XGBoost, scale-matched   MAE 0.505  RMSE 1.170
+   final method v1          MAE 0.485  RMSE 1.082
+   HC (this protocol)       MAE 0.490  RMSE 1.108
+   v1 - HC: mean daily MAE difference -0.0049 [-0.0054, -0.0046], HC better on 2% of days; MAE change -1.01%, RMSE change -2.35% (positive = HC better)
+
+===== dc (dc, 206 regions, 0 airport regions, 17520 calendar slots, hourly) =====
+   Jobs-proportional        MAE 0.835  RMSE 2.690
+   Jobs + residents         MAE 0.804  RMSE 2.404
+   XGBoost, scale-matched   MAE 0.923  RMSE 2.780
+   final method v1          MAE 0.856  RMSE 2.658
+   HC (this protocol)       MAE 0.871  RMSE 2.650
+   v1 - HC: mean daily MAE difference -0.0154 [-0.0183, -0.0129], HC better on 4% of days; MAE change -1.80%, RMSE change +0.30% (positive = HC better)
+
+===== sf_zcta (sf, 26 regions, 0 airport regions, 17518 calendar slots) =====
+   Jobs-proportional        MAE 2.638  RMSE 4.424
+   Jobs + residents         MAE 2.487  RMSE 4.049
+   XGBoost, scale-matched   MAE 3.113  RMSE 5.199
+   final method v1          MAE 3.443  RMSE 6.262
+   HC (this protocol)       MAE 3.221  RMSE 5.547
+   v1 - HC: mean daily MAE difference +0.2220 [+0.2124, +0.2352], HC better on 100% of days; MAE change +6.45%, RMSE change +11.42% (positive = HC better)
+
+===== dc_cluster (dc, 44 regions, 0 airport regions, 17520 calendar slots, hourly) =====
+   Jobs-proportional        MAE 3.006  RMSE 7.180
+   Jobs + residents         MAE 2.637  RMSE 6.001
+   XGBoost, scale-matched   MAE 4.162  RMSE 11.619
+   final method v1          MAE 3.181  RMSE 7.998
+   HC (this protocol)       MAE 3.580  RMSE 9.688
+   v1 - HC: mean daily MAE difference -0.3989 [-0.4401, -0.3634], HC better on 0% of days; MAE change -12.54%, RMSE change -21.13% (positive = HC better)
+C:\Users\user\Desktop\TAXI DEMAND\UrbanMind_paper_v2\code\improve\v10_heldout.py:33: RuntimeWarning: Mean of empty slice
+  E = E.reshape(nd, -1); ok = ~np.isnan(E); d_ = np.nanmean(np.abs(E), 1)
+
+===== austin (austin, 684 regions, 1 airport regions, 11904 calendar slots) =====
+   Jobs-proportional        MAE 0.121  RMSE 1.097
+   Jobs + residents         MAE 0.123  RMSE 1.099
+   XGBoost, scale-matched   MAE 0.120  RMSE 1.095
+   final method v1          MAE 0.121  RMSE 1.096
+   HC (this protocol)       MAE 0.120  RMSE 1.096
+   v1 - HC: mean daily MAE difference +0.0006 [+0.0005, +0.0007], HC better on 100% of days; MAE change +0.48%, RMSE change +0.08% (positive = HC better)
+
+===== summary (positive = HC better than v1) =====
+   sf          MAE change  -1.01%  RMSE change  -2.35%  interval of the daily MAE difference [-0.0054, -0.0046]
+   dc          MAE change  -1.80%  RMSE change  +0.30%  interval of the daily MAE difference [-0.0183, -0.0129]
+   sf_zcta     MAE change  +6.45%  RMSE change +11.42%  interval of the daily MAE difference [+0.2124, +0.2352]
+   dc_cluster  MAE change -12.54%  RMSE change -21.13%  interval of the daily MAE difference [-0.4401, -0.3634]
+   austin      MAE change  +0.48%  RMSE change  +0.08%  interval of the daily MAE difference [+0.0005, +0.0007]
+   (a) mean MAE change -1.68% > 0: False | (b) mean RMSE change -2.34% > 0: False | (c) better in MAE in 2 of 5 and in RMSE in 3 of 5 (need 3 each): False
+   DECISION by the rule of PROTOCOL_V10: HC is NOT adopted; v1 stays the final method

@@ -66,3 +66,26 @@ baseline that saves its predictions; it reproduces 2.45 / 6.99 and 6.29 / 16.95 
 of the level step worsens both cities, so the level step is unchanged. No SF, DC, sf_zcta, dc_cluster or Austin number was read for any of
 these, and XGBoost has never been run on a held-out target. Since PROTOCOL_V4, eight allocation variants have been tried on the same two
 development targets (m, d, md, k, dk, q, t and HC); the held-out evaluation decides.
+
+## Result of the held-out evaluation (2026-10-24, `results/v10_heldout.txt` and `results/xgb_heldout.txt`; recorded here as obtained)
+
+`xgb_heldout.py` trained the ten XGBoost runs per held-out target on the helpers of the final method (helper data only; the target demand was not read), and `v10_heldout.py` scored the rows below on the
+calendar slots. MAE / RMSE in trips per region per slot (DC and dc_cluster hourly, Austin 248 days):
+
+| target | jobs-proportional | jobs + residents | XGBoost, scale-matched | v1 (final method) | HC |
+|---|---|---|---|---|---|
+| SF | 0.484 / 1.150 | 0.488 / 1.010 | 0.505 / 1.170 | 0.485 / 1.082 | 0.490 / 1.108 |
+| DC (hourly) | 0.835 / 2.690 | 0.804 / 2.404 | 0.923 / 2.780 | 0.856 / 2.658 | 0.871 / 2.650 |
+| sf_zcta | 2.638 / 4.424 | 2.487 / 4.049 | 3.113 / 5.199 | 3.443 / 6.262 | 3.221 / 5.547 |
+| dc_cluster (hourly) | 3.006 / 7.180 | 2.637 / 6.001 | 4.162 / 11.619 | 3.181 / 7.998 | 3.580 / 9.688 |
+| Austin | 0.121 / 1.097 | 0.123 / 1.099 | 0.120 / 1.095 | 0.121 / 1.096 | 0.120 / 1.096 |
+
+Change of HC against v1 (positive = HC better), MAE / RMSE: SF -1.01% / -2.35%; DC -1.80% / +0.30%; sf_zcta +6.45% / +11.42%; dc_cluster -12.54% / -21.13%; Austin +0.48% / +0.08%. Intervals of the 7-day block
+bootstrap of the daily MAE difference v1 - HC: SF [-0.0054, -0.0046], DC [-0.0183, -0.0129], sf_zcta [+0.2124, +0.2352], dc_cluster [-0.4401, -0.3634], Austin [+0.0005, +0.0007].
+DECISION by the rule fixed above: (a) the mean MAE change is -1.68%, not above zero; (b) the mean RMSE change is -2.34%, not above zero; (c) HC is better than v1 in MAE in 2 of the 5 targets and in RMSE in 3 of
+the 5, and three are needed in each. HC is NOT adopted and v1 stays the final method. No HC number goes into the paper.
+Reading: the gain of the development targets (NYC MAE 12.0% better) did not carry over. HC helps clearly only in sf_zcta, a coarse target on which both public-data baselines beat every learned model, it is
+neutral in Austin, and it hurts in SF, in DC and above all in dc_cluster, where XGBoost alone is 31% worse than v1 (4.162 against 3.181) and the mix inherits part of that loss. The scale-matched XGBoost model
+alone is more accurate than v1 in MAE in NYC (6.29 against 7.45), in sf_zcta (3.113 against 3.443) and, by 0.001, in Austin, and less accurate in Chicago (2.45 against 1.83), SF, DC and dc_cluster. A rule
+designed on the errors of two cities (the airport factorisation was chosen after looking at them; the weights 1/2 and 1/2 were not tuned) therefore did not generalise, which is why the adoption rule was
+fixed on the held-out cities.
