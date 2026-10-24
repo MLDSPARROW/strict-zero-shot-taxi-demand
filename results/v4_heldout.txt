@@ -1,0 +1,44 @@
+C:\Users\user\Desktop\TAXI DEMAND\UrbanMind_paper_v2\code\improve\v4h_eval.py:31: RuntimeWarning: Mean of empty slice
+  E = E.reshape(nd, -1); ok = ~np.isnan(E); d_ = np.nanmean(np.abs(E), 1)
+
+===== sf (sf, 243 regions, 17518 calendar slots) =====
+   Jobs-proportional    MAE 0.484  RMSE 1.150
+   Jobs + residents     MAE 0.488  RMSE 1.010
+   final method, v1     MAE 0.485  RMSE 1.082 | single runs MAE 0.489 +- 0.006
+   with Way 2 (d)       MAE 0.483  RMSE 1.075 | single runs MAE 0.487 +- 0.006
+   v1 minus d: mean daily MAE difference +0.0015 [+0.0013, +0.0017], d better on 94% of days; MAE change +0.31%, RMSE change +0.65%
+
+===== dc (dc, 206 regions, 17520 calendar slots, hourly) =====
+   Jobs-proportional    MAE 0.835  RMSE 2.690
+   Jobs + residents     MAE 0.804  RMSE 2.404
+   final method, v1     MAE 0.856  RMSE 2.658 | single runs MAE 0.864 +- 0.009
+   with Way 2 (d)       MAE 0.860  RMSE 2.698 | single runs MAE 0.868 +- 0.011
+   v1 minus d: mean daily MAE difference -0.0040 [-0.0046, -0.0035], d better on 4% of days; MAE change -0.47%, RMSE change -1.50%
+
+===== sf_zcta (sf, 26 regions, 17518 calendar slots) =====
+   Jobs-proportional    MAE 2.638  RMSE 4.424
+   Jobs + residents     MAE 2.487  RMSE 4.049
+   final method, v1     MAE 3.443  RMSE 6.262 | single runs MAE 3.568 +- 0.221
+   with Way 2 (d)       MAE 3.451  RMSE 6.336 | single runs MAE 3.578 +- 0.275
+   v1 minus d: mean daily MAE difference -0.0085 [-0.0120, -0.0060], d better on 34% of days; MAE change -0.25%, RMSE change -1.18%
+
+===== dc_cluster (dc, 44 regions, 17520 calendar slots, hourly) =====
+   Jobs-proportional    MAE 3.006  RMSE 7.180
+   Jobs + residents     MAE 2.637  RMSE 6.001
+   final method, v1     MAE 3.181  RMSE 7.998 | single runs MAE 3.231 +- 0.153
+   with Way 2 (d)       MAE 3.155  RMSE 7.854 | single runs MAE 3.210 +- 0.137
+   v1 minus d: mean daily MAE difference +0.0265 [+0.0250, +0.0281], d better on 98% of days; MAE change +0.83%, RMSE change +1.80%
+
+===== austin (austin, 684 regions, 11904 calendar slots) =====
+   Jobs-proportional    MAE 0.121  RMSE 1.097
+   Jobs + residents     MAE 0.123  RMSE 1.099
+   final method, v1     MAE 0.121  RMSE 1.096 | single runs MAE 0.121 +- 0.001
+   with Way 2 (d)       MAE 0.121  RMSE 1.097 | single runs MAE 0.121 +- 0.001
+   v1 minus d: mean daily MAE difference -0.0004 [-0.0005, -0.0003], d better on 0% of days; MAE change -0.34%, RMSE change -0.04%
+
+===== summary (positive = Way 2 better) =====
+   sf          MAE change +0.31%  interval of the daily difference [+0.0013, +0.0017] -> above zero
+   dc          MAE change -0.47%  interval of the daily difference [-0.0046, -0.0035] -> below zero
+   sf_zcta     MAE change -0.25%  interval of the daily difference [-0.0120, -0.0060] -> below zero
+   dc_cluster  MAE change +0.83%  interval of the daily difference [+0.0250, +0.0281] -> above zero
+   austin      MAE change -0.34%  interval of the daily difference [-0.0005, -0.0003] -> below zero

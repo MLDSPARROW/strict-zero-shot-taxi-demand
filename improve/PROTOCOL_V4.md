@@ -157,3 +157,13 @@ target, v1 (the existing ten runs per head) and d are reported side by side with
 bootstrap interval (2,000 draws) and the RMSE, and the result is reported as obtained, whether d is better or worse. SF and DC are a
 second look, because their v1 results were known when d was chosen. The paper is changed only after these results are in. Cities that
 the author may add from other sources are not part of this evaluation; if they are used later, a new time-stamped protocol is needed.
+
+## Addendum 3 (2026-10-24, result of the held-out evaluation of Way 2, `results/v4_heldout.txt`; recorded here as obtained)
+
+All 100 runs of the frozen plan of addendum 2 finished (heads ehd and eod, runs r = 1..10, for San Francisco, Washington, DC, the two coarse versions and Austin; the workers were suspended for
+a hibernation of the laptop and resumed without a restart). Fully strict MAE / RMSE of the final method (v1) and of Way 2 (d), with the same city totals: San Francisco 0.485 / 1.082 and 0.483 / 1.075;
+Washington, DC (hourly) 0.856 / 2.658 and 0.860 / 2.698; SF ZIP-code areas 3.443 / 6.262 and 3.451 / 6.336; DC clusters (hourly) 3.181 / 7.998 and 3.155 / 7.854; Austin 0.121 / 1.096 and
+0.121 / 1.097. Change of the MAE (positive = Way 2 better): +0.31%, -0.47%, -0.25%, +0.83% and -0.34%; the intervals of the mean daily MAE difference (7-day block bootstrap) lie above zero for
+San Francisco and the DC clusters and below zero for the other three, and every difference is below 1%. The scoring script reproduces the v1 values of the paper.
+Reading: Way 2 gives no consistent gain at the held-out targets (two better, three worse, mean change +0.02%); the development gain (about 1% in strict MAE) does not carry over. By the frozen plan, v1
+remains the final method and Way 2 is not put into the paper.
