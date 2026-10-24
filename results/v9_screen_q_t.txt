@@ -1,0 +1,20 @@
+
+===== chicago: 77 regions, 17518 observed slots, ensembles of runs 1..3 =====
+   v1  MAE_share 0.00937 (single runs 0.01004 +- 0.00040; heads eh 0.00960, eo 0.00960) | allocation-only MAE 1.494 RMSE 4.035 | peak ratio 1.01 | top-10 recall 0.8
+   d   MAE_share 0.00931 (single runs 0.00988 +- 0.00028; heads eh 0.00935, eo 0.00957) | allocation-only MAE 1.487 RMSE 4.063 | peak ratio 1.04 | top-10 recall 0.8
+   q   MAE_share 0.01036 (single runs 0.01096 +- 0.00132; heads eh 0.01020, eo 0.01084) | allocation-only MAE 1.817 RMSE 5.359 | peak ratio 0.74 | top-10 recall 0.8
+   t   MAE_share 0.01044 (single runs 0.01089 +- 0.00030; heads eh 0.01124, eo 0.01024) | allocation-only MAE 1.842 RMSE 5.453 | peak ratio 0.75 | top-10 recall 0.8
+
+===== nyc: 263 regions, 17518 observed slots, ensembles of runs 1..3 =====
+   v1  MAE_share 0.00460 (single runs 0.00462 +- 0.00017; heads eh 0.00423, eo 0.00509) | allocation-only MAE 7.735 RMSE 17.643 | peak ratio 0.54 | top-10 recall 0.2
+   d   MAE_share 0.00447 (single runs 0.00450 +- 0.00018; heads eh 0.00408, eo 0.00499) | allocation-only MAE 7.517 RMSE 17.260 | peak ratio 0.57 | top-10 recall 0.2
+   q   MAE_share 0.00445 (single runs 0.00447 +- 0.00016; heads eh 0.00417, eo 0.00485) | allocation-only MAE 7.570 RMSE 17.669 | peak ratio 0.52 | top-10 recall 0.2
+   t   MAE_share 0.00438 (single runs 0.00440 +- 0.00031; heads eh 0.00407, eo 0.00480) | allocation-only MAE 7.438 RMSE 17.450 | peak ratio 0.68 | top-10 recall 0.2
+
+===== screen rule: >= 3% better in one development target, not > 3% worse in the other =====
+   q  chicago  change -10.5% | v1 - q daily MAE_share -0.000985 [-0.001157, -0.000826], q better on 7% of days
+   q  nyc      change +3.4% | v1 - q daily MAE_share +0.000157 [+0.000154, +0.000160], q better on 100% of days
+   q  -> fail
+   t  chicago  change -11.4% | v1 - t daily MAE_share -0.001070 [-0.001246, -0.000900], t better on 7% of days
+   t  nyc      change +4.8% | v1 - t daily MAE_share +0.000221 [+0.000215, +0.000225], t better on 100% of days
+   t  -> fail

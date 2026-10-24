@@ -120,3 +120,24 @@ confirmation, the one with the lower mean MAE_share is selected; the held-out ev
 smoke tests ran on both targets (1 epoch of 5 steps, outputs deleted); the reproduction check of the unchanged path is repeated after the start of the screen and recorded here.
 Disclosure: the two variants are a reaction to the screens of k and dk on the development targets, so a pass on them is a development result and not a held-out one. Since PROTOCOL_V4, seven variants (m, d, md, k, dk, q, t)
 have been screened on the same two development targets; the held-out evaluation decides.
+
+## Result of the screen of q and t (2026-10-24, `results/v9_screen_q_t.txt`; recorded here as obtained)
+
+Runs r = 1..3, heads ehq, eoq, eht, eot, ensembles of 3, scored on the observed slots. Stage 1 of q stopped after 6 to 12 epochs (the cap is 12).
+q: Chicago v1 0.00937, q 0.01036 (10.5% worse; difference v1 - q -0.000985 [-0.001157, -0.000826], q better on 7% of days; allocation-only MAE 1.494 -> 1.817, RMSE 4.035 -> 5.359; peak ratio 1.01 -> 0.74).
+NYC v1 0.00460, q 0.00445 (3.4% better; +0.000157 [+0.000154, +0.000160], q better on 100% of days; allocation-only MAE 7.735 -> 7.570, RMSE 17.643 -> 17.669; peak ratio 0.54 -> 0.52).
+t: Chicago t 0.01044 (11.4% worse; -0.001070 [-0.001246, -0.000900], t better on 7% of days; allocation-only MAE 1.842, RMSE 5.453; peak ratio 0.75). NYC t 0.00438 (4.8% better; +0.000221 [+0.000215, +0.000225],
+t better on 100% of days; allocation-only MAE 7.438, RMSE 17.450; peak ratio 0.68).
+DECISION by the rule fixed above: q and t both FAIL the screen (more than 3% worse in Chicago). No confirmation and no held-out run of q or t are made, and no bike-share variant (k, dk, q, t) is adopted.
+Reading: separating the two types does not keep the bike-share shares out of the Chicago allocation (peak ratio 0.74 and 0.75 against 1.01 for v1). q and t are less bad than k in Chicago (-10.5% and -11.4% against
+-20.3%) but gain less in NYC than k (+3.4% and +4.8% against +8.2%). The extra data help NYC and hurt Chicago in all four variants.
+Fully strict trip errors, MAE / RMSE in trips per region per 30 minutes, 3-run ensembles (descriptive, `results/v10_curve_q_t.txt`): Chicago v1 1.828 / 5.186, q 2.070 / 5.912, t 2.102 / 5.985; NYC v1 7.723 / 17.930,
+q 7.604 / 18.016, t 7.470 / 17.764.
+Reproduction check 2 (`results/v9_repro_check2.log`): after the code of addendum 2 and during the screen, the stored v1 run of Chicago (r = 1, head eh) was repeated with unchanged flags; largest absolute
+difference of the shares 0.0.
+
+Descriptive note on weights (2026-10-24, after the four screens; `v10_curve.py`, `results/v10_curve_k_dk.txt`, `results/v10_curve_q_t.txt`). The first author suggested that the weight of the bike-share model should
+depend on the target. From the existing runs (no new run) the mix P = (1 - w) v1 + w V was computed for V = k, dk, q, t. The weight that is best for each development target, read off that target's own demand, is 0.2 to 0.3
+in Chicago and 1.0 in NYC for all four variants. This is an oracle: a weight chosen on the demand of the target uses target data and is never reported as a method. Any rule for the weight must be computable for a city
+without its taxi demand and is fixed in a new addendum before any run. For orientation, the equal mix (w = 1/2) gives MAE / RMSE in trips (Chicago; NYC): k 1.908 / 5.288; 7.444 / 17.598, dk 1.859 / 5.098; 7.512 / 17.710,
+q 1.851 / 5.050; 7.647 / 17.911, t 1.864 / 5.023; 7.566 / 17.755, against v1 1.828 / 5.186; 7.723 / 17.930. Nothing is adopted from these curves.
