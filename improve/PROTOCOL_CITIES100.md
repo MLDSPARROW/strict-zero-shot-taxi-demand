@@ -137,3 +137,8 @@ Engineering details that the text above leaves open or states inconsistently. No
 5. A city whose boundary file, Overpass download or code fails for a reason that is not about the city (for example the Statistics Canada file, which blocks this server) is not
    written as draft: it waits and is tried again. A city is a draft only when a check of the protocol fails or an allocator run fails twice.
 6. The jobs and residents columns of the exported files are null (display only, not available quickly from the boundary sources; the method does not use them).
+
+**Addendum 4 (2026-10-24, before any allocator run; found when the first city, Los Angeles, was prepared).** "A region that contains the reference point of an airport is always kept"
+is applied literally: such a region is kept whatever the radius, so that the reduction of the radius (which only limits the box) cannot cut an airport out of the study area (Los Angeles:
+the radius is reduced to 18 km by the box limit, LAX lies 22 km from the centre). It applies to airports with a value above 0 (at least 5 million enplanements); a smaller airport, whose value is 0,
+does not pin its region. The candidates are still the regions with centroid within 25 km of the centre; the box limit still applies to all kept regions. No output of any city was used.

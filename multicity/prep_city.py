@@ -89,29 +89,40 @@ def fetch_layer(slug, name, tags, bbox):
     raw_path = f"{folder}/{name}.json"
     meta_path = f"{folder}/{name}.meta.json"
     if not os.path.exists(raw_path):
-        query = overpass_query(tags, bbox)
         for attempt in range(12):
             url = OVERPASS[0] if attempt < 8 else OVERPASS[1 + (attempt % 2)]
-            wait = 10 - (time.time() - _last_query[0])
-            if wait > 0:
-                time.sleep(wait)
+            tile = 1 if attempt < 4 else 2                   # attempts 0-3: one query; later: the box in four tiles (as prep_sydney.py), merged
             try:
-                _last_query[0] = time.time()
-                r = requests.post(url, data={"data": query}, headers=UA, timeout=420)
-                if r.status_code in (429, 504):
-                    raise RuntimeError(f"HTTP {r.status_code}")
-                r.raise_for_status()
-                body = r.content
-                json.loads(body)["elements"]
+                south, west, north, east = bbox
+                lat_e, lon_e = np.linspace(south, north, tile + 1), np.linspace(west, east, tile + 1)
+                elements, seen, nbytes = [], set(), 0
+                for ti in range(tile):
+                    for tj in range(tile):
+                        wait = 10 - (time.time() - _last_query[0])
+                        if wait > 0:
+                            time.sleep(wait)
+                        _last_query[0] = time.time()
+                        sub = (float(lat_e[ti]), float(lon_e[tj]), float(lat_e[ti + 1]), float(lon_e[tj + 1]))
+                        r = requests.post(url, data={"data": overpass_query(tags, sub)}, headers=UA, timeout=420)
+                        if r.status_code in (429, 504):
+                            raise RuntimeError(f"HTTP {r.status_code}")
+                        r.raise_for_status()
+                        nbytes += len(r.content)
+                        for el in r.json()["elements"]:
+                            key = (el.get("type"), el.get("id"))
+                            if key not in seen:
+                                seen.add(key)
+                                elements.append(el)
+                body = json.dumps({"elements": elements}).encode()
                 open(raw_path + ".part", "wb").write(body)
                 os.replace(raw_path + ".part", raw_path)
-                json.dump({"url": url, "query": query, "bbox": bbox, "bytes": len(body),
+                json.dump({"url": url, "tile": tile, "query_layer": name, "bbox": bbox, "bytes": nbytes, "elements": len(elements),
                            "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}, open(meta_path, "w"))
                 with open(f"{RAW}/sources.jsonl", "a") as f:
-                    f.write(json.dumps({"source": f"overpass/{slug}", "url": url, "file": raw_path, "bytes": len(body),
+                    f.write(json.dumps({"source": f"overpass/{slug}", "url": url, "file": raw_path, "bytes": nbytes,
                                         "downloaded_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                                         "licence": "OpenStreetMap contributors, ODbL 1.0", "query_layer": name}) + "\n")
-                print(f"  {slug}/{name}: {len(body) / 1e6:.1f} MB from {url}", flush=True)
+                print(f"  {slug}/{name}: {len(elements)} elements, {nbytes / 1e6:.1f} MB from {url} (tile={tile})", flush=True)
                 break
             except Exception as e:
                 pause = 60 * min(attempt + 1, 5)
@@ -194,12 +205,14 @@ def stage_regions(slug):
     cand["area_km2"] = cm.geometry.area.values / 1e6
     ap = airports(slug)
     cand["airport"] = False
-    for _, a in ap.iterrows():
+    for _, a in ap.iterrows():                       # addendum 4: only an airport with a value above 0 (at least 5 million enplanements) pins its region
+        if float(a["enplanements_m"]) < 5.0:
+            continue
         p = gpd.GeoSeries(gpd.points_from_xy([a["lon"]], [a["lat"]]), crs=4326).iloc[0]
         cand.loc[cand.geometry.contains(p), "airport"] = True
     R = R0_KM
     while True:
-        kept = cand[(cand["d_km"] <= R) & ((cand["density"] >= T) | cand["airport"])]
+        kept = cand[((cand["d_km"] <= R) & (cand["density"] >= T)) | cand["airport"]]     # an airport region is always kept (addendum 4), whatever the radius
         if box_km2(kept) <= box_max or R <= 5:
             break
         R -= 1.0

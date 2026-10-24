@@ -198,7 +198,12 @@ def main():
             st = get_status(slug)
             status(slug, state="running", runs_done=i, runs_total=len(jobs), run_seconds=round(st.get("run_seconds", 0) + sec))
         if fail:
-            draft(slug, f"allocator run failed twice: {fail}")
+            n = get_status(slug).get("run_failures", 0) + 1
+            status(slug, run_failures=n)
+            if n >= 3:                                   # failed twice in each of three rounds, six hours apart
+                draft(slug, f"allocator run failed in {n} rounds (twice each): {fail}")
+            else:
+                wait(slug, f"allocator run failed (round {n} of 3): {fail}", hours=6)
             continue
         status(slug, state="exporting")
         try:
