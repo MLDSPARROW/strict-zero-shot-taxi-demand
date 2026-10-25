@@ -55,3 +55,12 @@ Helper folds (fit on one share helper, apply to the pseudo-prediction of the oth
 By the protocol the development targets are not scored when the check triggers for a target, so no Chicago or NYC trip number of the tilt exists, and v1 stays the final method.
 Reading: the tilt that is useful when NYC is the target (the helpers Chicago and SF show a stable positive effect of jobs, residents and busyness) is harmful when Chicago is the target (the pseudo-targets NYC and SF
 disagree). This is the pattern of PROTOCOL_V10 again, now found with helper data only, before any target label was used. The explicit airport experiment was not run (see above).
+
+## Addendum 1 (2026-10-26): scoring of the target whose kill check did not trigger
+
+The first script version stopped both targets when one check triggered, while the protocol text says "stop for T". The script was changed so that a target with a triggered check is skipped and the other is scored (`v13_tilt.py`; no number
+had been computed for either target before). Result, recorded as obtained (`results/v13_tilt.txt`):
+- Chicago: kill check triggered, not scored, v1 stays at 1.829 / 5.207.
+- NYC (lambda = 1, fitted on the pseudo-predictions of Chicago and SF only): v1 7.454 / 17.590, tilt 6.733 / 17.186; mean daily MAE difference v1 - tilt +0.7214 [+0.6580, +0.7917]; MAE change +9.68%, RMSE change +2.29%.
+Development rule (both cities scored, mean MAE change at least +3%): not passed, because Chicago is not scored. The NYC gain is a result obtained from helper data only, but NYC was one of the two cities that guided every
+design since PROTOCOL_V4, so it is a development result. Whether a helper-gated tilt carries over to the held-out targets is a separate protocol (PROTOCOL_V14); v1 stays the final method until then.

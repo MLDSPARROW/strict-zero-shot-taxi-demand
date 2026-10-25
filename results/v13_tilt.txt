@@ -19,4 +19,8 @@
    fold 1 coefficients (jobs, residents, busyness) at lambda 1.0: [0.402 0.46  0.221]
    kill check: sign reversal of jobs or residents between folds: False; held-out-helper MAE not better than v1 in both folds: False -> go on
 
-KILL CHECK TRIGGERED: by the protocol the development targets are not scored and v1 stays.
+===== development targets, strict trips (the city totals of the paper); a target whose kill check triggered is not scored =====
+   chicago: kill check triggered, not scored, v1 stays
+   nyc: v1 7.454 / 17.590; tilt 6.733 / 17.186; daily MAE difference v1 - tilt +0.7214 [+0.6580, +0.7917]; MAE change +9.68%, RMSE change +2.29%
+
+   development rule: mean MAE change +9.68% (need >= +3), no city MAE change below -2%, no city RMSE change below -5% -> does not pass

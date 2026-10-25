@@ -79,11 +79,10 @@ for T in ("chicago", "nyc"):
     killed[T] = rev or worse_both
     print(f"   kill check: sign reversal of jobs or residents between folds: {rev}; held-out-helper MAE not better than v1 in both folds: {worse_both} -> {'STOP' if killed[T] else 'go on'}")
     summ[T] = dict(best=best, P=P)
-if any(killed.values()):
-    print("\nKILL CHECK TRIGGERED: by the protocol the development targets are not scored and v1 stays."); sys.exit(0)
-print("\n===== development targets, strict trips (the city totals of the paper) =====")
+print("\n===== development targets, strict trips (the city totals of the paper); a target whose kill check triggered is not scored =====")
 res = {}
 for T in ("chicago", "nyc"):
+    if killed[T]: print(f"   {T}: kill check triggered, not scored, v1 stays"); continue
     P = summ[T]["P"]; beta, mu, sd = fit(P, summ[T]["best"])
     Y = np.load(YP[T]).astype(np.float64); nd = Y.shape[0]; di, si, Tt, unit, lev = totals(T, T); y = Y[di, si]
     H = {h: np.mean([norm(np.load(f"{OUT}/multi_{T}_from_{SRC[T](r)}_v{h}_seed{r - 1}.npy")) for r in range(1, 11)], 0) for h in ("eh", "eo")}; v1 = 0.5 * H["eh"] + 0.5 * H["eo"]
@@ -92,5 +91,5 @@ for T in ("chicago", "nyc"):
         e = S * Tt[:, None] - y; a = np.abs(e); o[k] = (a.mean(), np.sqrt((e ** 2).mean())); d[k] = np.bincount(di, weights=a.mean(1), minlength=nd) / np.maximum(np.bincount(di, minlength=nd), 1)
     df = d["v1"] - d["tilt"]; bb = boot(df, rng); gm = 100 * (o["v1"][0] - o["tilt"][0]) / o["v1"][0]; gr = 100 * (o["v1"][1] - o["tilt"][1]) / o["v1"][1]; res[T] = (gm, gr)
     print(f"   {T}: v1 {o['v1'][0]:.3f} / {o['v1'][1]:.3f}; tilt {o['tilt'][0]:.3f} / {o['tilt'][1]:.3f}; daily MAE difference v1 - tilt {df.mean():+.4f} [{np.percentile(bb, 2.5):+.4f}, {np.percentile(bb, 97.5):+.4f}]; MAE change {gm:+.2f}%, RMSE change {gr:+.2f}%")
-mean = np.mean([res[t][0] for t in res]); ok = mean >= 3 and all(res[t][0] >= -2 for t in res) and all(res[t][1] >= -5 for t in res)
+mean = np.mean([res[t][0] for t in res]); ok = len(res) == 2 and mean >= 3 and all(res[t][0] >= -2 for t in res) and all(res[t][1] >= -5 for t in res)
 print(f"\n   development rule: mean MAE change {mean:+.2f}% (need >= +3), no city MAE change below -2%, no city RMSE change below -5% -> {'PASSES' if ok else 'does not pass'}")
