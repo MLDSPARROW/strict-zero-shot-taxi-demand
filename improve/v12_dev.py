@@ -5,6 +5,7 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 from v12_rules import rules, norm
 src = open(f"{HERE}/coarse_eval.py").read(); ns = {"__file__": f"{HERE}/coarse_eval.py"}
 exec(src[:src.index("norm = lambda")], ns); totals, YP, SHARE, boot = ns["totals"], ns["YP"], ns["SHARE"], ns["boot"]
+SHARE.update({"chicago": ["nyc", "sf"], "nyc": ["chicago", "sf"]})
 SRC = {"chicago": lambda r: f"nyc_for_chicago_p{r}+sf_for_chicago_p{r}", "nyc": lambda r: f"chicago+sf_for_nyc_p{r}"}
 rng = np.random.default_rng(0); summ = {}
 for T in ("chicago", "nyc"):

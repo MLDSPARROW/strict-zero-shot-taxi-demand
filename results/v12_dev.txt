@@ -1,0 +1,21 @@
+
+===== chicago: 77 regions, 17518 slots =====
+   final method v1                                MAE 1.829 RMSE 5.207
+   XGBoost scale-matched                          MAE 2.451 RMSE 6.991
+   Jobs + residents                               MAE 2.595 RMSE 7.413
+   R1 arithmetic v1 + jobs-residents              MAE 1.952 RMSE 5.312 | v1 - rule -0.1228 [-0.1904, -0.0667] | MAE change -6.71% RMSE change -2.03%
+   R2 arithmetic v1 + XGBoost + jobs-residents    MAE 1.997 RMSE 5.238 | v1 - rule -0.1677 [-0.2229, -0.1188] | MAE change -9.17% RMSE change -0.60%
+   R3 geometric v1 x jobs-residents               MAE 1.996 RMSE 5.731 | v1 - rule -0.1672 [-0.2300, -0.1095] | MAE change -9.14% RMSE change -10.08%
+
+===== nyc: 263 regions, 17518 slots =====
+   final method v1                                MAE 7.454 RMSE 17.590
+   XGBoost scale-matched                          MAE 6.286 RMSE 16.950
+   Jobs + residents                               MAE 8.645 RMSE 18.572
+   R1 arithmetic v1 + jobs-residents              MAE 7.920 RMSE 17.646 | v1 - rule -0.4659 [-0.5263, -0.4100] | MAE change -6.25% RMSE change -0.32%
+   R2 arithmetic v1 + XGBoost + jobs-residents    MAE 7.151 RMSE 16.811 | v1 - rule +0.3033 [+0.2872, +0.3245] | MAE change +4.07% RMSE change +4.43%
+   R3 geometric v1 x jobs-residents               MAE 7.928 RMSE 17.745 | v1 - rule -0.4740 [-0.5328, -0.4130] | MAE change -6.36% RMSE change -0.88%
+
+===== development rule of PROTOCOL_V12 (comparator v1; mean MAE change >= +3%, no city MAE change below -2%, no city RMSE change below -5%) =====
+   R1 arithmetic v1 + jobs-residents              mean MAE change -6.48% | Chicago -6.71% / -2.03%, NYC -6.25% / -0.32% | does not pass
+   R2 arithmetic v1 + XGBoost + jobs-residents    mean MAE change -2.55% | Chicago -9.17% / -0.60%, NYC +4.07% / +4.43% | does not pass
+   R3 geometric v1 x jobs-residents               mean MAE change -7.75% | Chicago -9.14% / -10.08%, NYC -6.36% / -0.88% | does not pass

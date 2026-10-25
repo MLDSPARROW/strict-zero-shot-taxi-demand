@@ -37,3 +37,15 @@ change is below -2%, and neither city's RMSE change is below -5%.
 Adopted only if the mean MAE change and the mean RMSE change over the five held-out targets are both above zero and the rule is better than v1 in MAE
 in at least three of the five and in RMSE in at least three of the five (the rule of PROTOCOL_V10). Every number is reported whether or not the rule holds.
 If a rule is adopted, the paper reports it as a second look, with v1 and the prior beside it on every target.
+
+## Correction recorded before any result
+
+`v12_dev.py` crashed on its first run (KeyError: the helper lists of Chicago and NYC, which `v10_dev.py` sets with `SHARE.update`, were missing). The line was added. No number of any rule had been computed or seen. The hash of `v12_dev.py` in `PROTOCOL_V12.timestamp` is that of the first version.
+
+## Result of the development screen (2026-10-25, `results/v12_dev.txt`; recorded as obtained)
+
+MAE / RMSE of the final method v1: Chicago 1.829 / 5.207, NYC 7.454 / 17.590. Change against v1 (positive = rule better), MAE / RMSE:
+R1: Chicago -6.71% / -2.03%, NYC -6.25% / -0.32%. R2: Chicago -9.17% / -0.60%, NYC +4.07% / +4.43%. R3: Chicago -9.14% / -10.08%, NYC -6.36% / -0.88%.
+No rule passes the development rule (mean MAE change at least +3% and no city below -2%): mean MAE changes -6.48%, -2.55% and -7.75%. By the protocol the rules are not run on the held-out
+targets, and v1 stays the final method. Reading: the jobs-plus-residents prior is clearly worse than v1 in Chicago (2.595 against 1.829) and in NYC (8.645 against 7.454), so a fixed equal mix
+with it loses in both development cities. Only R2 helps NYC, through the XGBoost share, and it hurts Chicago, as in PROTOCOL_V10.
