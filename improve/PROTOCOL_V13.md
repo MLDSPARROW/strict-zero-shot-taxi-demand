@@ -41,3 +41,17 @@ leave-one-out") cannot be computed.
 
 The v1 numbers of Chicago and NYC, the jobs-and-residents numbers and the failure of PROTOCOL_V12 and of PROTOCOL_V2 addendum 6 (shrinkage towards a prior fitted on pseudo-targets) were known when
 this protocol was written. No number of the tilt was known.
+
+## Correction recorded before any result
+
+`v13_tilt.py` crashed twice before it printed any number: first on a shape error in `tilt` (the feature vector covered all regions while the shares of the non-airport regions were indexed), which was fixed by indexing it the same way. No number of the tilt had been computed or seen before the fix; the hash in `PROTOCOL_V13.timestamp` is that of the first version.
+
+## Result (2026-10-25, `results/v13_tilt.txt`; recorded as obtained)
+
+Helper folds (fit on one share helper, apply to the pseudo-prediction of the other, relative gain of the allocation MAE; two folds):
+- Chicago (helpers NYC, SF at Chicago scale): lambda 0.1: -18.0% / -14.9%; 1: -22.6% / -4.0%; 10: -6.3% / -0.5%; 100: -0.7% / -0.05%. Selected lambda = 100 (the least bad). Coefficients of jobs and residents change sign between the folds
+  (fold 0: +0.013, +0.005; fold 1: -0.001, 0.000). The tilt does not lower the held-out-helper MAE in either fold. KILL CHECK TRIGGERED for Chicago.
+- NYC (helpers Chicago, SF at NYC scale): lambda 0.1: +17.5% / +5.3%; 1: +16.3% / +10.4%; 10: +8.2% / +9.0%; 100: +1.3% / +2.0%. Selected lambda = 1 (mean +13.3%), all coefficients positive in both folds. The kill check does not trigger for NYC.
+By the protocol the development targets are not scored when the check triggers for a target, so no Chicago or NYC trip number of the tilt exists, and v1 stays the final method.
+Reading: the tilt that is useful when NYC is the target (the helpers Chicago and SF show a stable positive effect of jobs, residents and busyness) is harmful when Chicago is the target (the pseudo-targets NYC and SF
+disagree). This is the pattern of PROTOCOL_V10 again, now found with helper data only, before any target label was used. The explicit airport experiment was not run (see above).

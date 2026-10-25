@@ -56,7 +56,7 @@ def fit(cities, lam):                                              # ridge on lo
 
 def tilt(share, Z, air, beta, mu, sd):                              # tilt non-airport regions, keep the mass of the airport regions
     z = np.clip(((Z - mu) / sd) @ beta[:-1], -CLIP, CLIP); out = share.copy(); na = ~air
-    t = share[:, na] * np.exp(z)[None]; mass = 1.0 - share[:, air].sum(1, keepdims=True) if air.any() else 1.0
+    t = share[:, na] * np.exp(z[na])[None]; mass = 1.0 - share[:, air].sum(1, keepdims=True) if air.any() else 1.0
     out[:, na] = t / t.sum(1, keepdims=True) * mass; return out
 
 

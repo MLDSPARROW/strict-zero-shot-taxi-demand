@@ -1,0 +1,22 @@
+
+===== chicago: share helpers ['nyc_for_chicago_p1', 'sf_for_chicago_p1'] =====
+   lambda    0.1: gain of the held-out helper MAE (fit on one helper, validate on the other) -18.03% / -14.85%; mean -16.44%
+   lambda    1.0: gain of the held-out helper MAE (fit on one helper, validate on the other) -22.57% / -4.02%; mean -13.30%
+   lambda   10.0: gain of the held-out helper MAE (fit on one helper, validate on the other) -6.32% / -0.51%; mean -3.42%
+   lambda  100.0: gain of the held-out helper MAE (fit on one helper, validate on the other) -0.72% / -0.05%; mean -0.39%
+   selected lambda = 100.0 (the largest of the ties goes first)
+   fold 0 coefficients (jobs, residents, busyness) at lambda 100.0: [0.013 0.005 0.012]
+   fold 1 coefficients (jobs, residents, busyness) at lambda 100.0: [-0.001  0.    -0.001]
+   kill check: sign reversal of jobs or residents between folds: True; held-out-helper MAE not better than v1 in both folds: True -> STOP
+
+===== nyc: share helpers ['chicago', 'sf_for_nyc_p1'] =====
+   lambda    0.1: gain of the held-out helper MAE (fit on one helper, validate on the other) +17.50% / +5.28%; mean +11.39%
+   lambda    1.0: gain of the held-out helper MAE (fit on one helper, validate on the other) +16.32% / +10.35%; mean +13.34%
+   lambda   10.0: gain of the held-out helper MAE (fit on one helper, validate on the other) +8.22% / +8.97%; mean +8.59%
+   lambda  100.0: gain of the held-out helper MAE (fit on one helper, validate on the other) +1.28% / +2.01%; mean +1.65%
+   selected lambda = 1.0 (the largest of the ties goes first)
+   fold 0 coefficients (jobs, residents, busyness) at lambda 1.0: [0.094 0.04  0.159]
+   fold 1 coefficients (jobs, residents, busyness) at lambda 1.0: [0.402 0.46  0.221]
+   kill check: sign reversal of jobs or residents between folds: False; held-out-helper MAE not better than v1 in both folds: False -> go on
+
+KILL CHECK TRIGGERED: by the protocol the development targets are not scored and v1 stays.
