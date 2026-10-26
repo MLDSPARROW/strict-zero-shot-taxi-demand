@@ -37,3 +37,10 @@ and the candidate with the lowest MAE on the target (to show when the selector i
 ## Disclosure
 
 All development and held-out numbers of v1, XGBoost and jr were known. No pseudo-target XGBoost prediction and no selector decision existed when this was written.
+
+## Result of the development screen (2026-10-26, `results/v15_dev.txt`; recorded as obtained)
+
+Chicago (pseudo-targets NYC and SF at Chicago scale): mean gain over v1 of g -0.3%, jr -7.1%, tilt -7.2%; no challenger eligible; SELECTED v1 (1.829 / 5.207; v1 is also the lowest-MAE candidate on the real Chicago).
+NYC (pseudo-targets Chicago and SF at NYC scale): mean gain over v1 of g -10.4%, jr +0.6%, tilt +12.9% (every-helper minimum +10.3%); the tilt is the only eligible challenger; SELECTED tilt: MAE 7.454 -> 6.733 (+9.68%), RMSE 17.590 -> 17.186 (+2.29%),
+daily MAE difference +0.7214 [+0.6580, +0.7917]. The lowest-MAE candidate on the real NYC is g (6.286 / 16.950), which the selector did not choose: on the pseudo-targets g looks worse than v1, because there it is trained on one helper only.
+This is the training-size bias named in the Honest limits. Mean change over the two development cities: MAE +4.84%, RMSE +1.15%. Development result only; the rule was fixed before these numbers.

@@ -1,0 +1,29 @@
+
+===== chicago: pseudo-targets ['nyc_for_chicago_p1', 'sf_for_chicago_p1'] =====
+   pseudo-target allocation MAE (columns v1, g, jr, tilt):
+      nyc_for_chicago_p1       18.34175  18.22747  21.37040  19.07871
+      sf_for_chicago_p1        3.72628  3.89797  2.26896  4.56740
+   mean gain over v1: v1 +0.0%  g -0.3%  jr -7.1%  tilt -7.2% | worst helper gain: v1 +0.0%  g -4.6%  jr -16.5%  tilt -22.6%
+   eligible challengers (mean >= 5%, every helper >= 2%): [] -> SELECTED v1
+   v1    MAE 1.829  RMSE 5.207   <- selected
+   g     MAE 2.451  RMSE 6.991
+   jr    MAE 2.595  RMSE 7.413
+   tilt  MAE 2.051  RMSE 7.146
+   selected vs v1: MAE change +0.00%, RMSE change +0.00% | lowest MAE among the four on the target: v1
+
+===== nyc: pseudo-targets ['chicago', 'sf_for_nyc_p1'] =====
+   pseudo-target allocation MAE (columns v1, g, jr, tilt):
+      chicago                  2.07366  2.49824  2.35864  1.85907
+      sf_for_nyc_p1            1.52426  1.47540  1.21934  1.27544
+   mean gain over v1: v1 +0.0%  g -10.4%  jr +0.6%  tilt +12.9% | worst helper gain: v1 +0.0%  g -20.5%  jr -13.7%  tilt +10.3%
+   eligible challengers (mean >= 5%, every helper >= 2%): ['tilt'] -> SELECTED tilt
+   v1    MAE 7.454  RMSE 17.590
+   g     MAE 6.286  RMSE 16.950
+   jr    MAE 8.645  RMSE 18.572
+   tilt  MAE 6.733  RMSE 17.186   <- selected
+   selected vs v1: MAE change +9.68%, RMSE change +2.29%, daily MAE difference +0.7214 [+0.6580, +0.7917] | lowest MAE among the four on the target: g
+
+===== summary (positive = selector better than v1) =====
+   chicago     selected v1    MAE change  +0.00%  RMSE change  +0.00%  (lowest-MAE candidate on the target: v1)
+   nyc         selected tilt  MAE change  +9.68%  RMSE change  +2.29%  (lowest-MAE candidate on the target: g)
+   selections {'v1': 1, 'g': 0, 'jr': 0, 'tilt': 1}; mean MAE change +4.84%, mean RMSE change +1.15%, better in MAE in 1 of 2 and in RMSE in 1; worst MAE change +0.00%
