@@ -29,3 +29,11 @@ forecasters. If H1 fails, the paper keeps version D alone, as now.
 ## Disclosure
 
 The December forecasts of Chronos-Bolt and the development results of C1 to C4 were known. No average of the two families had been computed. The weights 1/2, 2/3 and 1/5 were not chosen from any number.
+
+## Result of the development screen (2026-10-26, `results/v16_dev.txt`; recorded as obtained)
+
+October and November 2021, 244 origins, MAE / RMSE of the mean forecast. Chicago: Chronos-Bolt 1.157 / 3.209; C2 alone 1.226 / 3.503; S1 1.151 / 3.167 (daily MAE difference to Chronos -0.0057 [-0.0192, +0.0017]);
+S2 1.143 / 3.137 (-0.0135 [-0.0214, -0.0082], better on 69% of days); S3 1.197 / 3.400 (+0.0398 [+0.0103, +0.0491]). NYC: Chronos-Bolt 1.577 / 4.958; C2 alone 1.738 / 5.511; S1 1.570 / 4.904 (-0.0069 [-0.0268, +0.0112]);
+S2 1.552 / 4.844 (-0.0249 [-0.0380, -0.0133], better on 72% of days); S3 1.673 / 5.262 (+0.0954 [+0.0618, +0.1243]).
+Only S2 passes (mean MAE ratio to Chronos 0.986; S1 0.995 misses the interval rule, S3 1.047 is worse). By the rule fixed beforehand, S2 is run once for December 2021 (`v16_dec.py`). The gain on the development period is about 1.2% (Chicago)
+and 1.6% (NYC), small but with intervals below zero in both cities.
