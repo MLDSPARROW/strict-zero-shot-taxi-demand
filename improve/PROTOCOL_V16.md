@@ -37,3 +37,9 @@ S2 1.143 / 3.137 (-0.0135 [-0.0214, -0.0082], better on 69% of days); S3 1.197 /
 S2 1.552 / 4.844 (-0.0249 [-0.0380, -0.0133], better on 72% of days); S3 1.673 / 5.262 (+0.0954 [+0.0618, +0.1243]).
 Only S2 passes (mean MAE ratio to Chronos 0.986; S1 0.995 misses the interval rule, S3 1.047 is worse). By the rule fixed beforehand, S2 is run once for December 2021 (`v16_dec.py`). The gain on the development period is about 1.2% (Chicago)
 and 1.6% (NYC), small but with intervals below zero in both cities.
+
+## Status of the December test (2026-10-26)
+
+The December run was started once and stopped with an IndexError in `xc7d.py` (`features`, the 3-slot smooth reads one slot past the end of the year when an origin lies in the last day of December), before any December
+forecast of the new forecaster or any average was computed. By decision of the first author the same day, averages that contain Chronos-Bolt are not wanted: the aim is a forecaster of our own that is better than
+Chronos-Bolt alone (PROTOCOL_V17). The December test of S2 is therefore NOT run, S2 is not used anywhere in the paper, and the development result above stays as recorded.
