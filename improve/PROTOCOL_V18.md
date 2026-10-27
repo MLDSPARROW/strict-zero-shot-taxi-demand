@@ -16,3 +16,8 @@ Kill check: after epoch 1 the helper validation MAE must be below that of the we
 N1 alone; B1 = equal average of N1 and C5 (our own models, fixed now, no fitted weights).
 Screen (against C2): mean MAE ratio <= 0.97, no city above 1.01, no RMSE ratio above 1.02. Goal rule (real goal 4): MAE and RMSE below Chronos-Bolt-small in both cities.
 December 2021 only for a candidate that reaches the goal rule; ten partitions then; once.
+
+## Result on October and November 2021 (recorded 2026-10-28; `../results/v18_dev.txt`)
+Chicago: N1 1.182 / 3.335, B1 1.174 / 3.309 (Chronos-Bolt 1.157 / 3.209, C2 1.226 / 3.503). NYC: N1 1.773 / 5.778, B1 1.642 / 5.190 (Chronos 1.577 / 4.958, C2 1.738 / 5.511).
+Screen against C2: N1 NOT passed (NYC worse than C2), B1 PASSED (MAE ratios 0.958 and 0.945). Goal rule (below Chronos in both cities): NOT reached; B1 is 1.5% (Chicago) and 4.1% (NYC) above Chronos in MAE,
+1.15 / 1.04 in RMSE ratio terms 3.1% and 4.7%. Chicago daily MAE difference B1 minus Chronos +0.0173 [-0.0096, +0.0325] (not different from zero). December is NOT run.

@@ -1,0 +1,56 @@
+   chicago r=1 epoch 1: helper validation MAE 2.0827 (weekly average 3.3531) 31s
+   chicago r=1 epoch 2: helper validation MAE 1.9317 (weekly average 3.3531) 63s
+   chicago r=1 epoch 3: helper validation MAE 1.9523 (weekly average 3.3531) 91s
+   chicago r=1 epoch 4: helper validation MAE 1.8981 (weekly average 3.3531) 123s
+   chicago r=1 epoch 5: helper validation MAE 2.0260 (weekly average 3.3531) 163s
+   chicago r=1 epoch 6: helper validation MAE 1.9218 (weekly average 3.3531) 199s
+   chicago r=1 epoch 7: helper validation MAE 1.8988 (weekly average 3.3531) 236s
+   chicago r=2 epoch 1: helper validation MAE 1.9736 (weekly average 3.1946) 37s
+   chicago r=2 epoch 2: helper validation MAE 1.9003 (weekly average 3.1946) 72s
+   chicago r=2 epoch 3: helper validation MAE 1.8977 (weekly average 3.1946) 100s
+   chicago r=2 epoch 4: helper validation MAE 1.8286 (weekly average 3.1946) 128s
+   chicago r=2 epoch 5: helper validation MAE 1.8338 (weekly average 3.1946) 157s
+   chicago r=2 epoch 6: helper validation MAE 1.8215 (weekly average 3.1946) 185s
+   chicago r=2 epoch 7: helper validation MAE 1.7950 (weekly average 3.1946) 214s
+   chicago r=2 epoch 8: helper validation MAE 1.7943 (weekly average 3.1946) 243s
+   chicago r=2 epoch 9: helper validation MAE 1.7701 (weekly average 3.1946) 270s
+   chicago r=2 epoch 10: helper validation MAE 1.7814 (weekly average 3.1946) 300s
+   chicago r=2 epoch 11: helper validation MAE 1.7782 (weekly average 3.1946) 330s
+   chicago r=2 epoch 12: helper validation MAE 1.7532 (weekly average 3.1946) 360s
+   chicago r=2 epoch 13: helper validation MAE 1.7659 (weekly average 3.1946) 387s
+   chicago r=2 epoch 14: helper validation MAE 1.8371 (weekly average 3.1946) 422s
+   chicago r=2 epoch 15: helper validation MAE 1.7588 (weekly average 3.1946) 449s
+   nyc r=1 epoch 1: helper validation MAE 0.8529 (weekly average 0.9944) 29s
+   nyc r=1 epoch 2: helper validation MAE 0.8312 (weekly average 0.9944) 58s
+   nyc r=1 epoch 3: helper validation MAE 0.8253 (weekly average 0.9944) 90s
+   nyc r=1 epoch 4: helper validation MAE 0.8115 (weekly average 0.9944) 120s
+   nyc r=1 epoch 5: helper validation MAE 0.8140 (weekly average 0.9944) 150s
+   nyc r=1 epoch 6: helper validation MAE 0.8069 (weekly average 0.9944) 176s
+   nyc r=1 epoch 7: helper validation MAE 0.8084 (weekly average 0.9944) 202s
+   nyc r=1 epoch 8: helper validation MAE 0.8045 (weekly average 0.9944) 238s
+   nyc r=1 epoch 9: helper validation MAE 0.8049 (weekly average 0.9944) 274s
+   nyc r=1 epoch 10: helper validation MAE 0.7999 (weekly average 0.9944) 307s
+   nyc r=1 epoch 11: helper validation MAE 0.8027 (weekly average 0.9944) 336s
+   nyc r=1 epoch 12: helper validation MAE 0.8073 (weekly average 0.9944) 367s
+   nyc r=1 epoch 13: helper validation MAE 0.7976 (weekly average 0.9944) 396s
+   nyc r=1 epoch 14: helper validation MAE 0.8001 (weekly average 0.9944) 425s
+   nyc r=1 epoch 15: helper validation MAE 0.7999 (weekly average 0.9944) 456s
+   nyc r=2 epoch 1: helper validation MAE 0.8629 (weekly average 1.0127) 32s
+   nyc r=2 epoch 2: helper validation MAE 0.8410 (weekly average 1.0127) 59s
+   nyc r=2 epoch 3: helper validation MAE 0.8431 (weekly average 1.0127) 92s
+   nyc r=2 epoch 4: helper validation MAE 0.8355 (weekly average 1.0127) 121s
+   nyc r=2 epoch 5: helper validation MAE 0.8267 (weekly average 1.0127) 149s
+   nyc r=2 epoch 6: helper validation MAE 0.8241 (weekly average 1.0127) 175s
+   nyc r=2 epoch 7: helper validation MAE 0.8203 (weekly average 1.0127) 201s
+   nyc r=2 epoch 8: helper validation MAE 0.8372 (weekly average 1.0127) 231s
+   nyc r=2 epoch 9: helper validation MAE 0.8238 (weekly average 1.0127) 258s
+   nyc r=2 epoch 10: helper validation MAE 0.8333 (weekly average 1.0127) 290s
+
+===== N1 and B1 (N1 + C5 equal average) on October and November 2021, MAE / RMSE =====
+chicago N1: 1.182 / 3.335 | C2 1.226 / 3.503 | Chronos 1.157 / 3.209 | ratio to C2 MAE 0.965 RMSE 0.952 | ratio to Chronos MAE 1.022 RMSE 1.039 | daily diff +0.0255 [+0.0042, +0.0414]
+chicago B1: 1.174 / 3.309 | C2 1.226 / 3.503 | Chronos 1.157 / 3.209 | ratio to C2 MAE 0.958 RMSE 0.945 | ratio to Chronos MAE 1.015 RMSE 1.031 | daily diff +0.0173 [-0.0096, +0.0325]
+nyc N1: 1.773 / 5.778 | C2 1.738 / 5.511 | Chronos 1.577 / 4.958 | ratio to C2 MAE 1.020 RMSE 1.048 | ratio to Chronos MAE 1.124 RMSE 1.165 | daily diff +0.1957 [+0.1401, +0.2611]
+nyc B1: 1.642 / 5.190 | C2 1.738 / 5.511 | Chronos 1.577 / 4.958 | ratio to C2 MAE 0.945 RMSE 0.942 | ratio to Chronos MAE 1.041 RMSE 1.047 | daily diff +0.0647 [+0.0206, +0.1101]
+screen of PROTOCOL_V18 for N1: NOT passed
+screen of PROTOCOL_V18 for B1: PASSED
+screen done
