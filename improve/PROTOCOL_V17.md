@@ -32,3 +32,8 @@ helper cities only), and an own-model blend (weights fitted on helper validation
 December 2021 once, only for a candidate that reaches the goal rule on October and November. TimesFM and Moirai small may be run as extra baselines under the same input
 (a separate protocol); OpenCity, UrbanGPT and UniST are quoted from their papers, not compared as a win.
 Wording in the paper (honest): cross-city transfer with target-region history, not zero-shot.
+
+## Result of step 2 (recorded 2026-10-28; `../results/v17_dev.txt`)
+Chicago: C5 1.218 / 3.481 (C2 1.226 / 3.503, Chronos-Bolt 1.157 / 3.209). NYC: C5 1.685 / 5.264 (C2 1.738 / 5.511, Chronos 1.577 / 4.958).
+MAE ratio to C2: 0.993 and 0.969 (mean 0.981, needed <= 0.98); RMSE ratios 0.994 and 0.955. Screen NOT passed (by 0.001); C5 is still 5.2% (Chicago) and 6.8% (NYC) above Chronos in MAE.
+C5 is not carried forward alone. The next candidates are written in PROTOCOL_V18.

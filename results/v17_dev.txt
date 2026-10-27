@@ -1,0 +1,9 @@
+   dev C5 chicago matched r=1: 754344 train rows, 600 trees, 265s
+   dev C5 chicago matched r=2: 754344 train rows, 600 trees, 262s
+   dev C5 nyc matched r=1: 921384 train rows, 600 trees, 337s
+   dev C5 nyc matched r=2: 921384 train rows, 600 trees, 81108s
+
+===== C5 on October and November 2021 (MAE / RMSE of the mean forecast) =====
+chicago: C5 1.218 / 3.481 | C2 1.226 / 3.503 | Chronos-Bolt 1.157 / 3.209 | C5/C2 MAE 0.993, RMSE 0.994 | C5/Chronos MAE 1.052, RMSE 1.085 | daily diff to Chronos +0.0607 [+0.0243, +0.0774]
+nyc: C5 1.685 / 5.264 | C2 1.738 / 5.511 | Chronos-Bolt 1.577 / 4.958 | C5/C2 MAE 0.969, RMSE 0.955 | C5/Chronos MAE 1.068, RMSE 1.062 | daily diff to Chronos +0.1076 [+0.0736, +0.1405]
+screen of PROTOCOL_V17 (mean MAE ratio to C2 <= 0.98, no city above 1.01, no RMSE ratio above 1.02): NOT passed
