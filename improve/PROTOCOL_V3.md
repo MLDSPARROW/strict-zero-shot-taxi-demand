@@ -4,7 +4,7 @@ Written: 2026-10-21, before the helper blocks of the conditions below were built
 
 ## Questions
 
-1. A reviewer-style request (Dr Hasan, 2026-10): extend the block-size sweep of the development cities to a held-out city. Washington, DC
+1. A reviewer-style request (2026-10): extend the block-size sweep of the development cities to a held-out city. Washington, DC
    (tracts, median 0.519 km2) is the only held-out city with a helper that can be merged (San Francisco, 0.353 km2).
 2. Is the median region area the best summary of the target's scale? An external suggestion to match the whole distribution of areas was
    checked with development-only diagnostics (`results/explore_b1.txt`: the mismatch between the area quantiles of a partition and those of the
